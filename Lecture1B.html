@@ -1,0 +1,543 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    
+    <title>Information Geometry</title>
+    
+    <link rel="stylesheet" href="css/reveal.css">
+    <link rel="stylesheet" href="css/theme/white.css">
+    
+    <!-- Theme used for syntax highlighting of code -->
+    <link rel="stylesheet" href="lib/css/zenburn.css">
+    
+    <!-- Printing and PDF exports -->
+    <script>
+      var link = document.createElement( 'link' );
+      link.rel = 'stylesheet';
+      link.type = 'text/css';
+      link.href = window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css' : 'css/print/paper.css';
+      document.getElementsByTagName( 'head' )[0].appendChild( link );
+    </script>
+  </head>
+  <body>
+    <div class="reveal">
+      <div class="slides">
+	<style>
+	  ol.clickerquiz {list-style-type: upper-alpha;}
+	</style>
+	<section>
+	  <H1>Information Geoemtry</H1>
+	  <br>
+	  <H2></H2>
+	</section>
+
+	<!------------------------------------------------------------------------------------------------>
+	<section>
+	  <h2 style="position:absolute; top:0px">Definitions</h2>
+	  <div>
+	    <ul>
+	      <li>Two important and related concepts have emerged</li>
+	      <ol>
+		<li><b>Practical Identifiability</b></li>
+		<li><b>Sloppiness</b></li>
+	      </ol>
+	      <li>The eigenvalues of the Fisher Information Matrix seem relevant to each.</li>
+	      <li>Can we now give a more rigorous definition?</li>
+	      <ul>
+		<li>How small does an eigenvalue need to be to be practically unidentifiable?</li>
+		<li>How much do the eigenvalues need to spread to be sloppy?</li>
+	      </ul>
+	      <li>Eigenvalues of FIM are problematic.</li>
+	    </ul>
+	  </div>
+	</section>
+
+	<!------------------------------------------------------------------------------------------------>
+	<section>
+	  <h2 style="position:absolute; top:0px">Fitting Polynomials</h2>
+	  <div align=left>
+	    <b>Example:</b> Fitting polynomials by least squares on [0,1].
+	    <br /><br />
+	    <b>Approach 1</b>: $y = \sum_n \theta_n t^n $
+	    <br />
+	    <div>
+	      $I_{\mu\nu} = 2/(1 + \mu + \nu)$ is the Hilbert Matrix
+	    </div>
+	    <br />
+	    <b>Approach 2</b>: $y = \sum_n \phi_n L_n(t)$ where $L_n(t)$ is the appropriately shifted Legendre polynomial.
+	    <div>
+	      $I_{\mu\nu} = \delta_{\mu\nu}$ is the identity matrix
+	    </div>
+	    <br />
+	    <div class="fragment" data-fragment-index="1"><b>Poll:</b> Are these the same model?</div>
+	  </div>
+	</section>
+
+	<!------------------------------------------------------------------------------------------------>
+	<section>
+	  <section>
+	    <h2 style="position:absolute; top:0px">Parameterization Dependence</h2>
+	    <div align=left>
+	      Given two parameterizations of a model, $\theta$ and $\phi$, the FIM for the two parameterizations are related by:
+	      $$ \mathcal{I}_\theta = \left( \frac{\partial \phi}{\partial \theta} \right)^T \mathcal{I}_\phi \left( \frac{\partial \phi}{\partial \theta} \right) $$
+	      <br />
+	      $\mathcal{I}$ transforms like a covariant rank-2 tensor under reparameterization.
+	      <br /><br />
+	      With an appropriate reparameterization, $\mathcal{I}$, can be transformed into any positive (semi-)definite matrix.
+	    </div>
+	  </section>
+
+	  <!------------------------------------------------------------------------------------------------>
+	  <section>
+	    <h2 style="position:absolute; top:0px">Parameterization Dependence</h2>
+	    <div align=left>
+	      Possibilities:
+	      <ol>
+		<div>
+		  <li class="fragment" data-fragment-index="1">Practical Unidentifiability/Sloppines are consequences of poorly chosen parameters.<br />They are not properties intrinsic to the model.</li>
+		  
+		  <ul>
+		    <li class="fragment" data-fragment-index="2">Why does sloppiness appear to be so ubiquitous?</li>
+		    <li class="fragment" data-fragment-index="2">Are we really that bad at modeling?</li>
+		  </ul>
+		  <li class="fragment" data-fragment-index="3">There is some other parameterization-invariant characterization.</li>
+		  <ul>
+		    <li class="fragment" data-fragment-index="4">Invariance to reparameterization sounds like a geometry problem.</li>
+		  </ul>
+	      </ol>
+	    </div>
+	  </section>
+
+	</section>
+
+
+	<!------------------------------------------------------------------------------------------------>
+	<section>
+	  <h2 style="position:absolute; top:0px">Information Geometry</h2>
+	  <div align=left>
+	    The Fisher Information has all the properties of a Riemannian metric:
+	    <br />
+	    <ul>
+	      <li>Positive semi-definite</li>
+	      <li>Transforms like a covariant rank-2 tensor</li>	      
+	    </ul>
+	    <br /><br />
+	    Let's take this interpretation literally.  Perhaps there is a geometric insight (i.e., parameterization invariant) into why some models are unidentifiable and sloppy.
+	    <br /><br />
+	    Our approach: Computational differential geometry using the FIM as the metric.
+	  </div>
+	</section>
+
+	<!------------------------------------------------------------------------------------------------>
+	<section>
+	  <section>
+	    <h2 style="position:absolute; top:0px">Two Exponential Example:</h2>
+	    <div align=left style="position:absolute; top:10%; left:0; width:; height:;">
+	      $y(t, \theta) = e^{-\theta_1 t} + e^{-\theta_2 t}$
+	    </div>
+	    <img src="Figures/LSExample/yvst.png" alt="" style="position:absolute; top:20%; left:0; width:%; height:40%;"/>
+	    <img src="Figures/LSExample/Ccontours.png" alt="" style="position:absolute; top:10%; left:60%; width:; height:50%;"/>
+	  </section>
+	  
+	  <!------------------------------------------------------------------------------------------------>
+	  <section>
+	    <h2 style="position:absolute; top:0px">Data Space:</h2>
+	    <div align=left style="position:absolute; top:10%; left:0; width:50%; height:; font-size:90%">
+	      <ul>
+		<li>One axis for each data point.</li>
+		<li>Observed data becomes a vector</li>
+		$ d_i \rightarrow \vec{\mathbf{d}} $
+		<li>Model Predictions become a vector</li>
+		$ y_i(\theta) \rightarrow \vec{\mathbf{y}}(\theta) $
+		<li>Varying the parameters, sweeps out a surface: the <i>Model Manifold</i> $\mathcal{M}$</li>		
+	      </ul>	      
+	    </div>
+	    <img src="Figures/LSExample/MM.png" alt="" style="position:absolute; top:0%; left:50%; width:50%; height:;"/>
+	    <div class="fragment" data-fragment-index="1" style="position:absolute; top:63%; left:0; width:; height:; font-size:90%" align=left>
+	      <b>Quiz:</b>
+	      <br />
+	      <span class="fragment" data-fragment-index="2">The dimensionality of the embedding space? (3 in this case?)</span>
+	      <br />
+	      <span class="fragment" data-fragment-index="3">The number of data points</span>
+	      <br /><br />
+	      <span class="fragment" data-fragment-index="4">The dimensionality of the model manifold? (2 in this case?)</span>
+	      <br />
+	      <span class="fragment" data-fragment-index="5">The number of locally structurally identifiable parameters</span>
+	    </div>
+	  </section>
+	  <section>
+	    <img src="Figures/LSExample/Animation.gif" alt="" style="position:absolute; top:0; left:0; width:; height:100%;"/>
+	  </section>
+	  
+
+	</section>
+	<!------------------------------------------------------------------------------------------------>
+	<section>
+	  <h2 style="position:absolute; top:0px">Review of Important Geometric Concepts</h2>
+	  <div>
+	    <ol>
+	      <li>Embedding Space</li>
+	      <li>Intrinsic vs. Extrinsic Properties</li>
+	      <li>Geodesics</li>
+	      <li>Curvature</li>
+	    </ol>
+	    
+	  </div>
+	</section>
+
+	<!------------------------------------------------------------------------------------------------>
+	<section>
+	  <section>
+	    <h2 style="position:absolute; top:0px">Embedding Space</h2>
+	    <div>
+	      <ul>
+		<li>We can imagine the manifold living in (i.e., embedded in) a higher dimensional Euclidean space.</li>
+		<li>The Euclidean inner product of the embedding space <i>induces</i> a metric on the manifold. </li>
+	      \begin{align}
+	      \mathbf{y}(\theta) & \in \mathbb{R}^M, \theta \in \mathbb{R}^N \\
+	      \mathbf{y}(\theta + d \theta) & = \mathbf{y}(\theta) + d \mathbf{y} = \mathbf{y} + \frac{\partial \mathbf{y}}{\partial \theta} d \theta = \mathbf{y}(\theta) + J d \theta \\
+	      dy^2 & = d \mathbf{y} \cdot d \mathbf{y} = d \theta^T \left( J^T J  \right) d \theta	      
+	      \end{align}
+		<li>$J^T J = \mathcal{I} \equiv g$ is the metric on the tangent space. </li>
+		<li>We refer to the embedding space as "data space" and denote it by $\mathcal{D}$.</li>
+
+	      </ul>
+	    </div>
+	  </section>
+
+	  <!------------------------------------------------------------------------------------------------>
+	  <section>
+	    <h2>Least Squares Embedding</h2>
+	    <div align=left>
+	      We have already seen in the toy example:
+	      <ul>
+		<li>One Euclidean embedding dimension for each residual.</li>
+		<li>Distance is in units of standard deviations of the data. </li>
+		(Each data-space axis is $y_i(\theta)/\sigma_i$)
+	      </ul>	      
+	    </div>
+	    <br />
+	    <h2>General Emedding</h2>
+	    <div align=left>
+	      <ul>
+		<li>For a general probability distribution, let $P_i(\theta)$ be the probability of the i$^{th}$ outcome.</li>
+		($i$ is a continuous index for probability densities)
+		<li>Let $z_i(\theta) = \sqrt{P_i}$, so that $\mathcal{M}$ is a subset of the hyper-sphere.</li>
+		<li><b>Exercise:</b> Show that a Euclidean distance in-$z$ space induces the FIM as the metric on the tangent space.</li>
+	      </ul>
+	    </div>
+	  </section>
+
+	  <!------------------------------------------------------------------------------------------------>
+	  <section>
+	    <h2 style="position:absolute; top:0px">Intrinsic vs. Extrinsic</h2>
+	    <div>
+	      <ul>
+		<li>In general, there many ways of isometrically embedding a particular manifold.  </li>
+		<li>Properties that depend on the embedding are called <i>extrinsic</i>.</li>
+		<li>Properties independent of the embedding are called <i>intrinsic</i>.</li>
+		<li>The metric, $\mathcal{I}$, is by definition intrinsic.</li>
+		<li>Much of the foundational work in Information Geometry by Amari and others focuses on intrinsic properties.*</li>
+		<li>Extrinsic properties are useful for statistics and pioneered by Bates and Watts.**</li>
+		<ul>
+		  <li>Observed data is off the manifold.</li>
+		  <li>Cost = distance through embedding space to the data.</li>
+		  <li>Extrinsic curvature $\implies$ local minima in cost surface.</li>
+		</ul>
+	      </ul>
+	    </div>
+	    <div style="position:absolute; top:90%; left:0; width:; height:; font-size:50%" align=left>
+	      *Amari, Shun-ichi, and Hiroshi Nagaoka. Methods of information geometry. Vol. 191. American Mathematical Soc., 2007.
+	      <br />
+	      **Bates, Douglas M. Watts, Donald G. Douglas M. Bates, and Donald G. Watts. Nonlinear regression analysis and lts applications. No. 519.536 B3. 1988.
+	    </div>
+	    
+	  </section>
+
+	</section>
+
+	<!------------------------------------------------------------------------------------------------>
+	<section>
+	  <h2 style="position:absolute; top:0px">Visualizations</h2>
+	  <div align=left>
+	    The high dimensionality of $\mathcal{D}$ and $\mathcal{M}$ make visualizations difficult.
+	    <br />
+	    One approach:
+	    <ul>
+	      <li>Generate a sampling of points in parameter space.</li>
+	      <ul>
+		<li>Grid in parameter space</li>
+		<li>Sample geometrically motivated distributions (Ben Machta)</li>
+	      </ul>
+	      <li>Find the model predictions (vector) for each point and arrange them in a matrix</li>
+	      $$ M = \left[ \mathbf{y}_1 \mathbf{y}_2 \dots \mathbf{y}_P \right] $$
+	      <li>Perform a PCA of these points:</li>
+	      $$ M = U \Sigma V^T$$
+	      <li>Plot the first several PCA directions:</li>
+	      $$ U \Sigma = M V $$
+	    </ul>
+	  </div>
+	</section>
+
+	<!------------------------------------------------------------------------------------------------>
+	<section>
+	  <section>
+	    <h2 style="position:absolute; top:0px">Gallery of Model Manifolds</h2>
+	  </section>
+
+	  <!------------------------------------------------------------------------------------------------>
+	  <section>
+	    <div align=left>
+	      $y = e^{-\theta_1 t} + e^{-\theta_2 t}$
+	      <br />
+	      $N = 2$ Parameters
+	      <br />
+	      $M = 3$ Data points
+	    </div>
+	    <img src="Figures/Gallery/2Exp.png" alt="" />
+	  </section>
+
+	  <!------------------------------------------------------------------------------------------------>
+	  <section>
+	    <div align=left>
+	      $y = e^{-\theta_1 t} + e^{-\theta_2 t} + e^{-\theta_3 t}$
+	      <br />
+	      $N = 3$ Parameters
+	      <br />
+	      $M = 5$ Data points
+	    </div>
+	    <img src="Figures/Gallery/3Exp.png" alt="" />
+	  </section>
+
+	  <section>
+	    <div align=left>
+	      Enzyme Catalyzed Reaction (Minpack-2)
+	      <br />
+	      $N = 4$ (2 Dimensional Cross Section) Parameters
+	      <br />
+	      $M = 11$ Data points
+	    </div>
+	    <img src="Figures/Gallery/AER.png" alt="" />
+	  </section>
+
+	  <section>
+	    <div align=left>
+	      Chebychev Quadrature (Minpack-2)
+	      <br />
+	      $N = 3$ Parameters
+	      <br />
+	      $M = 5$ Data points
+	    </div>
+	    <img src="Figures/Gallery/CHQ.png" alt="" />
+	  </section>
+
+	  <section>
+	    <div align=left>
+	      Isomerization of &alpha;-pinene (Minpack-2)
+	      <br />
+	      $N = 5$ Parameters
+	      <br />
+	      $M = 40$ Data points
+	    </div>
+	    <img src="Figures/Gallery/IAD.png" alt="" />
+	  </section>
+	  
+	  <section>
+	    <div align=left>
+	      2D Ising Model (2x2 Unit cell)
+	      <br />
+	      $N = 2$ Parameters (couplings only)
+	      <br />
+	      $M = 16$ "Data points" (16 distinct states)
+	    </div>
+	    <img src="Figures/Gallery/Ising.png" alt="" />
+	  </section>
+
+	</section>
+
+
+	<!------------------------------------------------------------------------------------------------>
+	<section>
+	  <h2 style="position:absolute; top:0px">Geodesics</h2>
+	  <div align=left>
+	    <ul>
+	      <li>Special paths on the model manifold.</li>
+	      <li>Satisfies a differential equation.</li>
+	      <li>Parallel transport of tangent vector.</li>
+	      <ul>
+		<li>Initial Value Problem</li>
+	      </ul>
+	      <li>Distance minimizing curves</li>
+	      <ul>
+		<li>(When using the metric connection)</li>
+		<li>Boundary Balue Problem</li>
+	      </ul>
+	    </ul>
+	  </div>
+	</section>
+
+	<!------------------------------------------------------------------------------------------------>
+	<section>
+	  <section>
+	    <h2 style="position:absolute; top:0px">Curvature</h2>
+	    <div align=left>
+	      Three types of curvature:
+	      <br />
+	      <ul>
+		<li>Intrinsic (Riemann) Curvature</li>
+		<li>Extrinsic Curvature</li>
+		<li>Parameter-Effects Curvature</li>
+	      </ul>
+	    </div>
+	  </section>
+
+	  <!------------------------------------------------------------------------------------------------>
+	  <section>
+	    <h2 style="position:absolute; top:0px">Intrinsic vs. Extrinsic</h2>
+	    <div>
+	      <ul>
+		<li>Intrinsic Curvature $\implies$ Extrinsic Curvature</li>
+		<ul>
+		  <li>Converse not true</li>		  
+		</ul>
+		<li>Ruled surfaces</li>
+		<ul>		  
+		  <li>Zero intrinsic curvature but nonzero extrinsic curvature</li>
+		  <li>Example: Cylinder</li>		  
+		</ul>
+		<li>Large Extrinsic curvature associated with local minima of the cost</li>
+
+	      </ul>
+	    </div>
+	  </section>
+
+	  <!------------------------------------------------------------------------------------------------>
+	  <section>
+	    <h2 style="position:absolute; top:0px">Measure of Extrinsic Curvature</h2>
+	    
+	    <div class="fragment" data-fragment-index="1">
+	      <h3 style="position:absolute; top:20%; left:0; width:50%; height:;" align=center>Geodesic Curvature</h3>
+	      <img src="Figures/Transtrum2011/GeodesicCurvature.jpg" alt="" style="position:absolute; top:25%; left:0; width:50%; height:;"/>
+	      <div style="position:absolute; top:60%; left:0; width:50$; height:;">
+		\begin{align}
+		J & = \partial \mathbf{y} = U\Sigma V^T, P^N = \mathbb{1} - UU^T \\
+		\mathbf{v} & = J \dot{\theta}, \mathbf{a} = P^N \partial_\mu \partial_\nu \mathbf{y} \dot{\theta}^\mu \dot{\theta}^\nu \\
+		K & = R^{-1} = \frac{|\mathbf{a}|}{|\mathbf{v}|^2}
+		\end{align}
+	      </div>
+	    </div>
+
+	    <div class="fragment" data-fragment-index="2">
+	      <h3 style="position:absolute; top:20%; left:50%; width:50%; height:;" align=center>Shape Operator</h3>
+	      <img src="Figures/Transtrum2011/ShapeOperator.jpg" alt="" style="position:absolute; top:25%; left:50%; width:50%; height:;"/>
+	      <div style="position:absolute; top:65%; left:50%; width:50%; height:;">
+		$$ S_{\mu\nu} = \hat{\mathbf{n}} \cdot \partial_\mu \partial_\nu \mathbf{y} $$
+	      </div>
+	    </div>
+	    <div style="position:absolute; top:90%; left:0; width:; height:; font-size:50%" align=left class="fragment" data-fragment-index="1">
+	      Transtrum, Mark K., Benjamin B. Machta, and James P. Sethna. "Geometry of nonlinear least squares with applications to sloppy models and optimization." Physical Review E 83.3 (2011): 036701.
+
+	    </div>
+
+	  </section>
+	  <!------------------------------------------------------------------------------------------------>
+	  <section>
+	    <h2 style="position:absolute; top:0px">Parameter-Effects Curvature</h2>
+	    <div align=left style="position:absolute; top:15%; left:0; width:50%; height:;">
+	      <ul>
+		<li>Non-standard</li>
+		<li>Introduced by Bates and Watts.*</li>
+		<li>Bending/Stretching of the coordinate grid on the model manifold</li>
+		<li>Same information as the connection coefficients</li>
+		<li>In most cases it is much larger than either extrinsic or intrinsic curvatures</li>
+	      </ul>
+	    </div>
+	    <img src="Figures/Transtrum2011/ParameterEffects.jpg" alt="" style="position:absolute; top:10%; left:50%; width:50%; height:;"/>
+	    <div style="position:absolute; top:80%; left:0; width:; height:; font-size:50%" align=left>
+	      *Bates, Douglas M., and Donald G. Watts. "Relative curvature measures of nonlinearity." Journal of the Royal Statistical Society. Series B (Methodological) (1980): 1-25.
+	      <br />
+	      Transtrum, Mark K., Benjamin B. Machta, and James P. Sethna. "Geometry of nonlinear least squares with applications to sloppy models and optimization." Physical Review E 83.3 (2011): 036701.
+
+	    </div>
+
+	  </section>
+	</section>
+	
+
+	<!------------------------------------------------------------------------------------------------>
+	<section>
+	  <section>
+	    <h2 style="position:absolute; top:0px">Geometric Sloppiness: Widths and Curvatures</h2>	  
+	    <div align=left style="position:absolute; top:20%; left:0; width:; height:;">
+	      <ul>
+		<li>Is there a parameterization-independent (geometric) characterization of sloppiness?</li>
+	      </ul>
+	    </div>
+	    <img src="Figures/Transtrum2010/Widths.jpg" alt="" style="position:absolute; top:35%; left:22.5%; width:55%; height:;"/>
+	    <div style="position:absolute; top:90%; left:0; width:; height:; font-size:50%" align=left>
+	      Transtrum, Mark K., Benjamin B. Machta, and James P. Sethna. "Why are nonlinear fits to data so challenging?." Physical review letters 104.6 (2010): 060201.
+	    </div>
+	    
+	  </section>
+
+	  <!------------------------------------------------------------------------------------------------>
+	  <section>
+	    <h2 style="position:absolute; top:0px">Interpolation (Preview)</h2>
+	    <div>
+	      Why is the model manifold so thin?
+	    </div>
+	    <img src="Figures/Transtrum2015/Interpolation.png" alt="" />
+	    <div style="position:absolute; top:90%; left:0; width:; height:; font-size:50%" align=left>
+	      Transtrum, Mark K., et al. "Perspective: Sloppiness and emergent theories in physics, biology, and beyond." The Journal of chemical physics 143.1 (2015): 010901.	      
+	    </div>
+	    
+	  </section>
+
+	  <!------------------------------------------------------------------------------------------------>
+	  <section>
+	    <h2 style="position:absolute; top:0px">Extended Geodesic Coordinates</h2>
+	    <img src="Figures/Transtrum2011/RNC.jpg" alt="" style="position:absolute; top:15%; left:0; width:48%; height:;"/>
+	    <div align=left style="position:absolute; top:20%; left:50%; width:50%; height:;">
+	      <ul>
+		<li>Use geodesics to construct new coordintes</li>
+		<li>By construction: minimal parameter effects curvature (why not zero?)</li>
+		<li>Nonlinear fitting problems are notoriously hard.  (Why?)</li>
+		<li>Fitting in geodesic coordinates would be easy!</li>
+		<li>Geodesic Accelerated Levenberg-Marquardt</li>
+	      </ul>
+	    </div>
+	  </section>
+	</section>
+      </div>
+    </div>
+    
+    <script src="lib/js/head.min.js"></script>
+    <script src="js/reveal.js"></script>
+    
+    <script>
+      // More info https://github.com/hakimel/reveal.js#configuration
+      Reveal.initialize({
+      center: false,  <!-- Center slide vertically -->
+      history: true,
+      progress: true,
+      width: 1024,
+      height: 768,
+      margin: 0.1,
+      minScale: 0.2,
+      maxScale: 1.5,
+      // More info https://github.com/hakimel/reveal.js#dependencies
+      dependencies: [
+      { src: 'plugin/markdown/marked.js' },
+      { src: 'plugin/markdown/markdown.js' },
+      { src: 'plugin/notes/notes.js', async: true },
+      { src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+      // MathJax
+      { src: 'plugin/math/math.js', async: true }
+      
+      ]
+      });
+    </script>
+  </body>
+</html>

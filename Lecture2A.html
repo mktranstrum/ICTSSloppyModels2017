@@ -1,0 +1,346 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    
+    <title>Computational Differential Geometry</title>
+    
+    <link rel="stylesheet" href="css/reveal.css">
+    <link rel="stylesheet" href="css/theme/white.css">
+    
+    <!-- Theme used for syntax highlighting of code -->
+    <link rel="stylesheet" href="lib/css/zenburn.css">
+    
+    <!-- Printing and PDF exports -->
+    <script>
+      var link = document.createElement( 'link' );
+      link.rel = 'stylesheet';
+      link.type = 'text/css';
+      link.href = window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css' : 'css/print/paper.css';
+      document.getElementsByTagName( 'head' )[0].appendChild( link );
+    </script>
+  </head>
+  <body>
+    <div class="reveal">
+      <div class="slides">
+	<style>
+	  ol.clickerquiz {list-style-type: upper-alpha;}
+	</style>
+	<section>
+	  <H1>Computational Differential Geometry</H1>
+	  <br>
+	  <H2></H2>
+	</section>
+
+	<!------------------------------------------------------------------------------------------------>
+	<section>
+	  <section>
+	    <h2 style="position:absolute; top:0px">Differential Geometry</h2>
+	    <div align=left>
+	      A <i>differential manifold</i> is a collection of points that are connected to each other in a smooth fashion such that the neighborhood of each point looks like the neighborhood of an $m$-dimensional Cartesian space.  $m$ is the dimensionality of the manifold.
+	      <br /><br />
+	      It is customary to use "manifold" to mean "differentiable manifold."
+	      <br /><br />
+	      <span class="fragment" data-fragment-index="1">But what is a point?</span> <span class="fragment" data-fragment-index="2">Any type of object you want.</span>
+	      <br /><br />
+	      <span class="fragment" data-fragment-index="3">In our case, points are probability distributions distinguished by their predictions.</span>
+	    </div>
+	  </section>
+
+	  <!------------------------------------------------------------------------------------------------>
+	  <section>
+	    <h2 style="position:absolute; top:0px">Tangent Space</h2>
+	    <div align=left style="position:absolute; top:10%; left:0; width:50%; height:;">
+	      <ul>
+		<li>At each point, $x$, on the manifold we attach a vector space $T_x$ called the tangent space.</li>
+		<li>Vectors live in a tangent space.</li>
+		<li>Comparing vectors in nearby tangent spaces (to do calculus, for example) requires a <i>Connection</i>.</li>
+
+	      </ul>
+	    </div>
+	    <img src="Figures/TangentSpace.png" alt="" style="position:absolute; top:25%; left:65%; width:25%; height:;"/>
+	  </section>
+	</section>
+
+	<!------------------------------------------------------------------------------------------------>
+	<section>
+	  <section>
+	    <h2 style="position:absolute; top:0px">Index Gymnastics</h2>
+	    <div>
+	      <ul>
+		<li>Vectors and Components: (Implied sum over repeated indices.)</li>
+		$$ \mathbf{v} = v^\alpha \mathbf{e}_\alpha = v_\alpha \mathbf{\epsilon}^\alpha$$
+
+		<ul>
+		  <li>Basis Vectors: $\mathbf{e}_\alpha$</li>
+		  <li>Contravariant Components: $v^\alpha$</li>
+		  <li>Dual Basis Vectors: $\mathbf{\epsilon}^\alpha$</li>
+		  <li>Covariant Components: $v_\alpha$</li>
+		  <li>$\mathbf{e}_\alpha (\mathbf{\epsilon}^\beta) = \delta^\beta_\alpha$</li>
+
+		</ul>
+		<li>Basis vectors are coordinate derivatives:</li>
+		<ul>
+		  <li>$\mathbf{e}_\alpha = \partial \mathbf{y} / \partial \theta_\alpha$</li>		
+		</ul>
+		<li>Metric is the inner product of basis vectors:</li>
+		<ul>
+		  <li>$g_{\alpha\beta} = \mathbf{e}_\alpha \cdot \mathbf{e}_\beta = (J^TJ)_{\alpha\beta}$</li>
+		</ul>
+	      </ul>
+	    </div>
+	  </section>
+
+	  <!------------------------------------------------------------------------------------------------>
+	  <section>
+	    <h2 style="position:absolute; top:0px">Index Gymanstics</h2>
+	    <div align=left>
+	      Raising/Lowering Indices:
+	      <br />
+	      <ul>
+		<li>$g^{\alpha\beta} \equiv (g^{-1})^{\alpha\beta}$</li>
+		<li>$g_{\alpha \gamma} g^{\gamma \beta} = \delta_\alpha^\beta$</li>
+		<li>$v_\alpha = g_{\alpha\beta}v^\beta$</li>
+		<li>$v^\alpha = g^{\alpha\beta}v_\alpha$</li>
+	      </ul>
+	      <br /><br />
+	      Transformations (Reparameterization):
+	      <br />
+	      Let $\theta$ and $\phi$ be two coordinate maps on the manifold: $\theta = \theta(\phi)$
+	      <ul>
+		<li>$\theta = \theta(\phi)$</li>
+		<li>Denote coordinates in $\phi$-basis with tick mark: '</li>
+		<li>$v^{\alpha} = \frac{\partial \theta^{\alpha}}{\partial \phi^{\alpha'}} v^{\alpha'} $</li>
+	      </ul>
+	    </div>
+	  </section>
+	</section>
+	
+	<!------------------------------------------------------------------------------------------------>
+	<section>
+	  <section>
+	    <h2 style="position:absolute; top:0px">Connection</h2>
+	    <div align=left>
+	      Goal: Tensor Calculus.
+	      <br />
+	      \begin{align}
+	      \frac{\partial}{\partial \theta^\alpha} \mathbf{v} & \equiv \partial_\alpha \mathbf{v} \\
+	      & = \partial_\alpha \left( v^\beta \mathbf{e}_\beta \right) \\
+	      & = \left(\partial_\alpha v^\beta\right) \mathbf{e}_\beta + v^\gamma \left( \partial_\alpha \mathbf{e}_\gamma \right) \\
+	      & = \left(\partial_\alpha v^\beta\right) \mathbf{e}_\beta + v^\gamma \Gamma_{\alpha\gamma}^\beta \mathbf{e}_\beta
+	      \end{align}
+	      <ul>
+		<li>$\Gamma$ are the connection coefficients that describe how nearby tangent spaces are connected.</li>
+		<li>$\Gamma$ is not a tensor. (Transforms differently) </li>	      
+	      </ul>
+	      $$ \Gamma^{\alpha}_{\beta\gamma} = \Gamma^{\alpha'}_{\beta'\gamma'} \frac{\partial \theta^\alpha}{\partial \phi^{\alpha'}} \frac{\partial \phi^{\beta'}}{\partial \theta^\beta} \frac{\partial \phi^{\gamma'}}{\partial \theta^\gamma} + \frac{\partial \theta^\alpha}{\partial \phi^{\mu'}} \frac{\partial^2 \phi^{\mu'} }{\partial \theta^\beta \partial \theta^\gamma}$$	    
+	    </div>
+	  </section>
+
+	  <!------------------------------------------------------------------------------------------------>
+	  <section>
+	    <h2 style="position:absolute; top:0px">Connection</h2>
+	    <div align=left>
+	      <ul>
+		<li>In general, there may be many possible connections.</li>
+		<li>An important result of Information Geometry is defining a family of connections known at the $\alpha$-connections</li>
+		<li>Fundamental Theorem of Riemannian Geometry</li>
+		<ul>
+		  <li>There is a unique, torsion-free connection that preserves the metric under parallel transport. </li>
+		  <li>$\Gamma^\alpha_{\beta\gamma} = \frac{1}{2} g^{\alpha \delta} \left(\partial_\beta g_{\gamma \delta} + \partial_\gamma g_{\beta \delta} - \partial_\delta g_{\beta \gamma}  \right)$</li>
+		</ul>
+	      </ul>
+	    </div>
+	  </section>
+
+	  <!------------------------------------------------------------------------------------------------>
+	  <section>
+	    <h2 style="position:absolute; top:0px">Tensor Calculus</h2>
+	    <div align=left>
+	      <b>Covariant Derivative:</b>
+	      $$ \nabla_\beta v^\alpha = \partial_\beta v^\alpha + \Gamma^\alpha_{\beta\gamma} v^\gamma $$
+	      <br /><br />
+	      <b>Parallel Transport:</b>
+	      <br />
+	      A vector field $v^\alpha$ is parallel transported along the direction $\mathbf{u}$ if it satisfies
+	      $$ u^\beta \nabla_\beta v^\alpha = 0 $$
+	    </div>
+	  </section>
+	</section>
+
+	<!------------------------------------------------------------------------------------------------>
+	<section>
+	  <h2 style="position:absolute; top:0px">Geodesics</h2>
+	  <div>
+	    <ul>
+	      <li>Geodesics are curves that parallel transport their own tangent vector.</li>
+	      $$ u^\beta \nabla_\beta u^\alpha = 0 $$
+	      <li>Let $\tau$ be a parameterization of the geodesic.</li>
+	      <li>Denote the geodesic by $\theta(\tau)$</li>
+	      <li>Tangent vector: $u^\alpha = \frac{d}{d \tau} \theta^\alpha$</li>
+	      <li>Geodesic Equation:</li>	      
+	    $$ \frac{d^2}{d \tau^2} \theta^\alpha = - \Gamma^\alpha_{\beta\gamma} \frac{d \theta^\beta}{d \tau} \frac{d \theta^\gamma}{d \tau} $$
+	      <li>Second order, nonlinear</li>
+	    </ul>
+	  </div>
+	</section>
+
+	<!------------------------------------------------------------------------------------------------>
+	<section>
+	  <h2 style="position:absolute; top:0px">Embedding Space</h2>
+	  <div align=left>
+	    <ul>
+	      <li>In general, calculating $\Gamma$ is tedious, but is not difficult.</li>
+	      <li>Calculating $\Gamma$ is necessary to find the geodesic equation on a given manifold.</li>
+	      <li>If we have expression for the manifold in an embedding space $\mathbf{y}(\theta)$, then the connection takes a nice form amenable to numerical methods:</li>
+	      $$ \Gamma^\alpha_{\beta\gamma} = g^{\alpha\delta} \partial_\delta \mathbf{y} \cdot \partial_\beta \partial_\gamma \mathbf{y} $$
+	      <li>The geodesic equation becomes:</li>
+	    $$ \frac{d^2}{d \tau^2} \theta^\alpha = - g^{\alpha\delta} \partial_\delta \mathbf{y} \cdot \partial_\beta \partial_\gamma \mathbf{y}  \frac{d \theta^\beta}{d \tau} \frac{d \theta^\gamma}{d \tau} $$
+	      <li>Notice the <i>directional second derivative</i></li>
+	      $$ \partial_\beta \partial_\gamma \mathbf{y}  \frac{d \theta^\beta}{d \tau} \frac{d \theta^\gamma}{d \tau} $$
+	    </ul>
+	    
+	  </div>
+	</section>
+
+	<!------------------------------------------------------------------------------------------------>
+	<section>
+	  <section>
+	    <h2 style="position:absolute; top:0px">Computational Methods</h2>
+	    <div align=left>
+	      Given sloppy model $\mathbf{y}(\theta)$, we would like to explore it numerically using computational differential geometry.
+	      <br />
+	      We will need:
+	      <ul>
+		<li>Derivatives: $\partial_\alpha \mathbf{y}$</li>
+		<li>Inverse Metric</li>
+		<ul>
+		  <li>Ill-conditioned</li>
+		  <li>Derivatives must be calculated as accurately as possible (no finite-differences)</li>
+		</ul>
+		<li>Directional Second Derivatives: $v^\alpha v^\beta \partial_\alpha \partial_\beta \mathbf{y} $ </li>
+	      </ul>
+	      <br />
+	      Also, we would like do this for models as large as possible, so computation time is a concern.
+	    </div>
+
+	  </section>
+
+	  <!------------------------------------------------------------------------------------------------>
+	  <section>
+	    <h2 style="position:absolute; top:0px">Sensitivity Equations</h2>
+	    <div align=left>
+	      Many of our models are ODEs:
+	      $\frac{d}{dt} \mathbf{x} = f(\mathbf{x}, \theta).$
+	      <br /><br />
+	      The <i>sensitivity</i> of $\mathbf{x}$ to a change in parameters $\mathbf{w} = \frac{\partial \mathbf{x}}{\partial \theta}$ satisfies the equation:
+	      $$ \frac{d}{dt} \mathbf{w} = \frac{\partial f}{\partial \mathbf{x}} \mathbf{w} + \frac{\partial f}{\partial \theta}$$
+	      which is linear, but is solved simultaneously with that for $\mathbf{x}$.
+	      <br /><br />
+	      These sensitivities can be derivatives along arbitrary directions of parameter space.
+	      <br /><br />
+	      A similar equation exists for the second order sensitivities.
+	    </div>
+	  </section>
+
+	  <!------------------------------------------------------------------------------------------------>
+	  <section>
+	    <h2 style="position:absolute; top:0px">Our (First) Approach</h2>
+	    <div align=left>
+	      We developed a modeling environment in Python/C.
+	      <br /><br />
+	      Key features included:
+	      <br />
+	      <ol>
+		<li>A python script to define the ODE with several lists of strings</li>
+		<ul>
+		  <li>List of Parameters, $\theta$</li>
+		  <li>Dynamical Variables, $\mathbf{x}$</li>
+		  <li>List of ODE equations, $f(\mathbf{x},\theta)$</li>
+		</ul>
+		<li>Sympy was used to calculate the directional derivative along an arbitrary direction $v$.</li>
+		<li>Automatically created and compiled $c$ code to evaluate the model and first and second order directional derivatives.</li>
+		<li>All scripting was done in Python.</li>
+	      </ol>
+	    </div>
+	  </section>
+
+	  <!------------------------------------------------------------------------------------------------>
+	  <section>
+	    <h2 style="position:absolute; top:0px">Our (First) Approach</h2>
+	    <div>
+	      <ul>
+		<li>Our first approach worked reasonably well.</li>
+
+		<li>The bottleneck ended up being compile time.</li>
+		<ul>
+		  <li>For models with ~50 Dynamical Variables and 100s of parameters, model generation/compile time could be about an hour.</li>
+		  <li>This was fine until we started doing model reduction (more on that to come).</li>		  
+		</ul>
+		<li>When doing model reduction, we create many models and do few calculations with each, so the large overhead in model generation/compiling became a problem.</li>
+	      </ul>
+	    </div>
+	  </section>
+
+	  <!------------------------------------------------------------------------------------------------>
+	  <section>
+	    <h2 style="position:absolute; top:0px">Our current approach</h2>
+	    <img src="Figures/Julia.png" alt="" style="position:absolute; top:0; left:75%; width:25%; height:;"/>
+	    <div align=left style="position:absolute; top:; left:0; width:75%; height:;">
+	      To overcome these problems, our new approach is based in Julia.
+	      <br /><br />
+	      Julia is a high-level scripting language designed for scientific computing. (<a target="_blank" href="http://www.julialang.org">www.julialang.org</a>)
+	      <br /><br />
+	      It was specifically motivated to remove the need for multiple-language approach that we had used.
+	      <br /><br />
+	      Downside of using Julia: Young and actively developed (current version 0.5) so language core and library APIs are subject to change.
+	    </div>
+	  </section>
+
+	  <!------------------------------------------------------------------------------------------------>
+	  <section>
+	    <h2 style="position:absolute; top:0px">Our current approach</h2>
+	    <div align=left>
+	      In our current environment we write one julia function that defines our model.
+	      <br /><br />
+	      Automatic differentiation (Dual numbers) is used to calculate directional derivatives (to arbitrary order).
+	      <br /><br />
+	      In our experience, this approach is fast, stable, and ideal for working with large, sloppy models.
+	      <br /><br />
+	      Downside: we are in the process of refactoring our code to take advantage of new librarie.s
+	    </div>
+	  </section>
+	</section>
+	
+      </div>
+    </div>
+    
+    <script src="lib/js/head.min.js"></script>
+    <script src="js/reveal.js"></script>
+    
+    <script>
+      // More info https://github.com/hakimel/reveal.js#configuration
+      Reveal.initialize({
+      center: false,  <!-- Center slide vertically -->
+      history: true,
+      progress: true,
+      width: 1024,
+      height: 768,
+      margin: 0.1,
+      minScale: 0.2,
+      maxScale: 1.5,
+      // More info https://github.com/hakimel/reveal.js#dependencies
+      dependencies: [
+      { src: 'plugin/markdown/marked.js' },
+      { src: 'plugin/markdown/markdown.js' },
+      { src: 'plugin/notes/notes.js', async: true },
+      { src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+      // MathJax
+      { src: 'plugin/math/math.js', async: true }
+      
+      ]
+      });
+    </script>
+  </body>
+</html>

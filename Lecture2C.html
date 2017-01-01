@@ -1,0 +1,417 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    
+    <title>Manifold Boundary Approximation Method</title>
+    
+    <link rel="stylesheet" href="css/reveal.css">
+    <link rel="stylesheet" href="css/theme/white.css">
+    
+    <!-- Theme used for syntax highlighting of code -->
+    <link rel="stylesheet" href="lib/css/zenburn.css">
+    
+    <!-- Printing and PDF exports -->
+    <script>
+      var link = document.createElement( 'link' );
+      link.rel = 'stylesheet';
+      link.type = 'text/css';
+      link.href = window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css' : 'css/print/paper.css';
+      document.getElementsByTagName( 'head' )[0].appendChild( link );
+    </script>
+  </head>
+  <body>
+    <div class="reveal">
+      <div class="slides">
+	<style>
+	  ol.clickerquiz {list-style-type: upper-alpha;}
+	</style>
+	<section>
+	  <H1>The Manifold Boundary Approximation Method (MBAM)</H1>
+	  <br>
+	  <H2></H2>
+	</section>
+
+	<!------------------------------------------------------------------------------------------------>
+	<section>
+	  <h2 style="position:absolute; top:0px">Summary</h2>
+	  <div align=left>
+	    To this point, we have discussed several ideas
+	    <br />
+	    <ul>
+	      <li>Practical Identifiability/Sloppiness <span>(How to define?)</span></li>
+	      <li>Low-effective dimensionality (Manifold widths)</li>
+	      <li>Manifold boundaries</li>
+	      <li>Geodesics systematically explore model behavior space</li>
+	    </ul>
+	    <br /><br />
+	    We are going to bring these ideas together to develop a method for constructing simpler models (fewer parameters) from complex ones.
+	  </div>
+	</section>
+
+	<!------------------------------------------------------------------------------------------------>
+	<section>
+	  <h2 style="position:absolute; top:0px">What are the boundaries?</h2>
+	  <div align=left>
+	    <b>Example:</b> $y = e^{-\theta_1 t} + e^{-\theta_2 t}$
+	    <br />
+	    Three boundaries:
+	    <br />
+	    <ul>
+	      <li>$\theta_\mu \rightarrow 0$</li>
+	      <li>$\theta_\mu \rightarrow \infty$</li>
+	      <li>$\theta_1 \rightarrow \theta_2$</li>
+	    </ul>
+	    <br /><br />
+	    The boundaries are physically interesting limiting approximations.
+	    <br /><br />
+	    By choosing the boundary oriented with the long axis, can we find a low-dimensional approximation to the complicated model?
+	  </div>
+	  <img src="Figures/MMold.png" alt="" style="position:absolute; top:10%; left:50%; width:50%; height:;"/>
+	</section>
+	
+	<!------------------------------------------------------------------------------------------------>
+	<section>
+	  <section>
+	    <h2 style="position:absolute; top:0px">Model Reduction</h2>
+	    <div align=left>
+	      Model reduction is a very old problem with many approaches:
+	      <br />
+	      <ul>
+		<li>Mean field theory</li>
+		<li>Renormalization Group</li>
+		<li>Singular Perturbation</li>
+		<li>Lots of methods for Dynamical Systems from Controls Community</li>
+	      </ul>
+	      <br /><br />
+	      Existing methods fall short for several reasons:
+	      <br />
+	      <ul>
+		<li>Limited to specific functional forms</li>
+		<li>Black box approximations</li>
+		<li>Need to know which parameters are small <i>a priori</i>.</li>
+
+	      </ul>
+	      
+	    </div>
+	  </section>
+
+	  <!------------------------------------------------------------------------------------------------>
+	  <section>
+	    <h2 style="position:absolute; top:0px">Model Reduction</h2>
+	    <div align=left>
+	      There are several challenges to doing parameter reduction in sloppy systems
+	      <br /><br />
+	      <ul>
+		<li>Need to find (nonlinear) combinations of parameters.</li>
+		<li>How to remove a parameter combination from the model?</li>
+		<ul>
+		  <li>Fixing parameters to predetermined values does not simplify the model (e.g., does not reduce the dynamical order)</li>
+		</ul>
+	      </ul>
+	    </div>
+	  </section>
+	</section>
+
+	<!------------------------------------------------------------------------------------------------>
+	<section>
+	  <section>
+	    <h2 style="position:absolute; top:0px">MBAM</h2>
+	    <div align=left>
+	      <ol>
+		<li>Choose an initial direction: eigenvector of $\mathcal{I}$ with smallest eigenvalue</li>
+		<ul>
+		  <li>Choose the orientation so that the parameter space norm will grow when following the geodesic.</li>
+		  <li>This direction is usually involves a complicated combination of most parameters.</li>
+		</ul>
+		<li>Solve the geodesic equation numerically</li>
+		<li>Monitor the behavior of the parameters in the geodesic to identify a limiting approximation.</li>
+		<ul>
+		  <li>Requires some human intervention/insight.</li>
+		  <li>Evaluate the limit to remove one parameter combination.</li>
+		</ul>
+		<li>Fit the behavior of the new model to original behavior.</li>
+
+	      </ol>
+	    </div>
+	  </section>
+
+	  <!------------------------------------------------------------------------------------------------>
+	  <section>
+	    <h2 style="position:absolute; top:0px">Geodesics near the boundaries</h2>
+	    <div align=left style="position:absolute; top:15%; left:0; width:55%; height:;">
+	      <ul>
+		<li>The initial direction can be a complicated combination of parameters.</li>
+		<li>Near the boundary, the geodesic rotates to reveal a limiting approximation.</li>
+		<li>The smallest eigenvalues approach zero at the boundary.</li>
+	      </ul>
+	    </div>
+	    <img src="Figures/Transtrum2014/Components.png" alt="" style="position:absolute; top:20%; left:60%; width:40%; height:;" />
+	  </section>
+	</section>
+
+	<!------------------------------------------------------------------------------------------------>
+	<section>
+	  <section>
+	    <h2 style="position:absolute; top:0px">Worked Example: Enzyme Reaction</h2>
+	    <div align=center >
+	      $$ E + S \rightleftarrows C \rightarrow E + P $$
+	      <br />
+	      \begin{align}
+	      \frac{d}{dt} [E] & = -k_f [E][S] + k_r [C] + k_c [C] \\
+	      \frac{d}{dt} [S] & = -k_f [E][S] + k_r [C] \\
+	      \frac{d}{dt} [C] & = k_f [E][S] - k_r [C] - k_c [C] \\
+	      \frac{d}{dt} [P] & = k_c [C]
+	      \end{align}
+	      <br />
+	      Three parameters: $k_f$, $k_r$, $k_c$.  
+	    </div>
+	  </section>
+
+	  <!------------------------------------------------------------------------------------------------>
+	  <section>
+	    <h2 style="position:absolute; top:0px">Model Manifold</h2>
+	    <div align=left style="position:absolute; top:35%; left:55%; width:50%; height:;">
+	      <ul>
+		<li>3 Dimensional Model Manifold</li>
+		<li>Two boundaries (red and green)</li>
+	      </ul>
+	    </div>
+	    <img src="Figures/Transtrum2016Bridging/ESRMM.png" alt="" style="position:absolute; top:10%; left:; width:50%; height:;"/>
+	  </section>
+
+	  <!------------------------------------------------------------------------------------------------>
+	  <section>
+	    <h2 style="position:absolute; top:0px">Geodesic</h2>
+	    <div align=left style="position:absolute; top:35%; left:55%; width:; height:;">
+	      <ul>
+		<li>Geodesic finds boundary at $\tau = 0.37$</li>
+		<li>Two parameters become infinite:</li>
+		$$ k_f, k_r \rightarrow \infty $$
+	      </ul>
+	    </div>
+	    <img src="Figures/Transtrum2016Bridging/ESRGeodesic1.jpg" alt="" style="position:absolute; top:15%; left:0; width:50%; height:;"/>
+	  </section>
+
+	  <!------------------------------------------------------------------------------------------------>
+	  <section>
+	    <h2 style="position:absolute; top:0px">Finding the reduced model</h2>
+	    <div align=left>
+	      Focus on the equation for $[S]$:
+	      <br />
+	      \begin{align}
+	      \frac{d}{dt} [S] & = -k_f [E][S] + k_r [C] \\
+	      \frac{1}{k_r} \frac{d}{dt} [S] & = -\frac{k_f}{k_r} [E][S] + [C] \\
+	      \rightarrow_{k_f, k_r \rightarrow \infty} 0 & = - \frac{1}{K_d} [E] [S] + [C]  \\
+	      \implies [C] & = \frac{1}{K_d} [E][S]
+	      \end{align}
+	    </div>
+	  </section>
+
+	  <!------------------------------------------------------------------------------------------------>
+	  <section>
+	    <h2 style="position:absolute; top:0px">Finding the Reduced model</h2>
+	    <div align=center>
+	      <div style="outline:1px solid black; width:50%" >
+		$$ K_d [C] = [E][S] $$
+	      </div>
+
+	      <br />
+	      \begin{align}
+	      E_0 & = [E] + [C] \\
+	      & = \frac{K_d [C]}{ [S]} + [C] \\
+	      \implies [C] & = \frac{E_0[S]}{K_d + [S]} \\
+	      \implies \frac{d}{dt} [P] & = k_c [C] = \frac{k_c E_0 [S]}{K_d + [S]}
+	      \end{align}
+	      <br />
+	      which is the famous Michalies-Menten equation.
+	    </div>
+	  </section>
+
+	  <!------------------------------------------------------------------------------------------------>
+	  <section>
+	    <h2 style="position:absolute; top:0px">Comments</h2>
+	    <div>
+	      <ul>
+		<li>Michaelis and Menten originally assumed an equilibrium approximation:. </li>
+		<ul>
+		  <li>$d[S]/dt = 0 \implies K_d [C]= [E][S]$ </li>
+		  <li>Formally valid if $k_f, k_r \gg k_c$</li>
+		  <li>Equivalent to the boundary.</li>
+		  <li>If $d[S]/dt = 0$, then $k_f$ and $k_r$ are structurally unidentifiable.  $K_d$ is the identifiable combination.</li>
+
+		</ul>
+		<li>Michaelis and Menten applied their deep physical insight into the system behavior.</li>
+		<li>MBAM extracts the physical insight from the identifiablility analysis.</li>
+
+
+	      </ul>
+	    </div>
+	  </section>
+	</section>
+
+	<!------------------------------------------------------------------------------------------------>
+	<section>
+	  <section>
+	    <h2 style="position:absolute; top:0px">EGFR Revisited</h2>
+	    <div align=left style="position:absolute; top:60%; left:55%; width:; height:;">
+	      <ul>
+		<li>48 Parameters</li>
+		<li>29 Differential Equations</li>
+		<li>68 data points</li>
+	      </ul>
+	    </div>
+	    <img src="Figures/Brown2004/Network.png" alt="" style="position:absolute; top:10%; left:0; width:50%; height:;"/>
+	    <img src="Figures/Brown2004/Data.png" alt="" style="position:absolute; top:10%; left:50%; width:50%; height:;"/>
+	  </section>
+
+	  <!------------------------------------------------------------------------------------------------>
+	  <section>
+	    <h2 style="position:absolute; top:0px">Reduced Network</h2>
+	    <div align=left style="position:absolute; top:15%; left:55%; width:; height:;">
+	      <ul>
+		<li>12 Parameters</li>
+		<li>6 Differential Equations</li>
+		<li>Equivalent fit to data</li>
+
+	      </ul>
+	    </div>
+	    <img src="Figures/Transtrum2014/ReducedNetwork.png" alt="" style="position:absolute; top:10%; left:0; width:50%; height:;"/>
+	    <img src="Figures/Transtrum2014/OriginalEigenvalues.png" alt="" style="position:absolute; top:35%; left:55%; width:20%; height:;"/>
+	    <img src="Figures/Transtrum2014/ReducedEigenvalues.png" alt="" style="position:absolute; top:35%; left:75%; width:20%; height:;"/>
+	  </section>
+
+	  <!------------------------------------------------------------------------------------------------>
+	  <section>
+	    <h2 style="position:absolute; top:0px">Interpreting the Reduced Model</h2>
+	    <div>
+	      <ul>
+		<li>Effective "renormalized" parameters</li>
+		$$ \phi_9 = \frac{[BRafI] (kRap1ToBRaf)(KmdBRaf)(kpBRaf)(KmdMek)}{[PP2AA][Raf1PPtas](kdBRaf)(KmRap1ToBRaf)(kdMek)} $$
+		<ul>
+		  <li>Interpretation: efective rate of information flow through the channel</li>
+		  <li>Emergent control knob</li>
+		  <li>No black box</li>
+		  <li>Effect of changes to microscopic parameters can be predicted</li>
+		</ul>
+		<li>Dynamical Variables: Functional, biological module</li>
+		<li>The character of the model has changed</li>
+		<ul>
+		  <li>Proteins $\rightarrow$ Signaling</li>
+		  <li>Chemistry $\rightarrow$ Biology</li>
+		</ul>
+	      </ul>
+	    </div>
+	  </section>
+	</section>
+
+	<!------------------------------------------------------------------------------------------------>
+	<section>
+	  <section>
+	    <h2 style="position:absolute; top:0px">Ising Model</h2>
+	    <div align=left>
+	      $$ \mathcal{H} = - \sum_{nn} J_{ij} s_i s_j  - h \sum s_i $$	      
+	      <ul>
+		<li>One parameter for each nearest-neighbor bond.</li>
+		<li>Boundaries: $J_{ij} \rightarrow \infty$</li>
+		<ul>
+		  <li>$P(s_i \neq s_j) = 0$</li>
+		  <li>Two spins cluster into a single, larger spin</li>		  
+		</ul>
+		<li>Iterating clusters more spins into effective "blocks" of spin</li>
+		<li>Result: model relating effective relationships among large-scale domains</li>
+	      </ul>
+	    </div>
+	  </section>
+	  
+	  <!------------------------------------------------------------------------------------------------>
+	  <section>
+	    <h2 style="position:absolute; top:0px">Ising Model</h2>
+	    <div align=left>
+	      $$ \mathcal{H} = - J_1 \sum_{nn} s_i s_j - J_2 \sum_{nnn} s_i s_j - \dots$$
+	      <ul>
+		<li>Boundaries: $\tilde{J}_i \rightarrow \infty$ (Fourier transform of $J$'s)</li>
+		<li>Spin configuration of the $i^{th}$ frequency has probability zero.</li>
+		<li>Iterating removes spin configuration of highest frequencies</li>
+		<li>Result: model relating the effective relationships among configuration with long-length scale correlations.</li>
+	      </ul>
+	    </div>
+	  </section>
+	</section>
+
+	<!------------------------------------------------------------------------------------------------>
+	<section>
+	  <h2 style="position:absolute; top:0px">Limitations of the MBAM</h2>
+	  <div align=left>
+	    <ul>
+	      <li>Not fully automatic</li>
+	      <li>Computational challenges</li>
+	      <ul>
+		<li>Ill-conditioned metric (not a problem in practice?)</li>
+		<li>Geodesics can be expensive</li>		
+		<li>Successfully applied on models with 100s of parameters and dynamical variables.</li>
+		<li>This is likely the limit with current techniques.</li>
+
+	      </ul>
+	      <li>Does not remove structural unidentifiabilities (more on that to come)</li>
+	      <li>Requires a hierarchy of boundaries (more on that to come)</li>
+	      <ul>
+		<li>Models without boundaries include linear least squares</li>
+		<li>Many models are unbounded in some direcions but included bounded cross sections.</li>
+		<li>MBAM works in these cases.</li>
+	      </ul>
+	    </ul>
+	  </div>
+	</section>
+
+	<!------------------------------------------------------------------------------------------------>
+	<section>
+	  <h2 style="position:absolute; top:0px">Where is it known to work</h2>
+	  <ul>
+	    <li>Chemical/Biochemical kinetics (Conservation of mass)</li>
+	    <li>Compartment models (Conservation of mass)</li>
+	    <li>Power system Transients (Singular Perturbation)</li>
+	    <li>Stable Linear Time Invariant Systems (Balanced Truncation)</li>
+	    <li>Composition of elementary functions (exponential, rational polynomial, etc.)</li>
+	    <li>Bayesian networks/Markov Chains/Markov Random Fields (Conservation of Probability)</li>
+	    <li>Molecular dynamic with harmonic potentials (Conservation of energy)</li>
+	    <li>Neural Networks</li>
+	    <li>Exponential Families (e.g., Ising Model)</li>
+	    <li>Models with discrete symmetries (Orbifolds)</li>
+	    <li>Hogdkin-Huxley Neurons</li>
+
+	  </ul>
+	</section>
+	
+      </div>
+    </div>
+    
+    <script src="lib/js/head.min.js"></script>
+    <script src="js/reveal.js"></script>
+    
+    <script>
+      // More info https://github.com/hakimel/reveal.js#configuration
+      Reveal.initialize({
+      center: false,  <!-- Center slide vertically -->
+      history: true,
+      progress: true,
+      width: 1024,
+      height: 768,
+      margin: 0.1,
+      minScale: 0.2,
+      maxScale: 1.5,
+      // More info https://github.com/hakimel/reveal.js#dependencies
+      dependencies: [
+      { src: 'plugin/markdown/marked.js' },
+      { src: 'plugin/markdown/markdown.js' },
+      { src: 'plugin/notes/notes.js', async: true },
+      { src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+      // MathJax
+      { src: 'plugin/math/math.js', async: true }
+      
+      ]
+      });
+    </script>
+  </body>
+</html>

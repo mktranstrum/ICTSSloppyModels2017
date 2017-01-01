@@ -1,0 +1,485 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    
+    <title>Parameter Identifiability and Sloppy Models</title>
+    
+    <link rel="stylesheet" href="css/reveal.css">
+    <link rel="stylesheet" href="css/theme/white.css">
+    
+    <!-- Theme used for syntax highlighting of code -->
+    <link rel="stylesheet" href="lib/css/zenburn.css">
+    
+    <!-- Printing and PDF exports -->
+    <script>
+      var link = document.createElement( 'link' );
+      link.rel = 'stylesheet';
+      link.type = 'text/css';
+      link.href = window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css' : 'css/print/paper.css';
+      document.getElementsByTagName( 'head' )[0].appendChild( link );
+    </script>
+  </head>
+  <body>
+    <div class="reveal">
+      <div class="slides">
+	<style>
+	  ol.clickerquiz {list-style-type: upper-alpha;}
+	</style>
+	<section>
+	  <H1>Parameter Identifiability and Sloppy Models</H1>
+	  <br>
+	  <H2></H2>
+	</section>
+
+	<!------------------------------------------------------------------------------------------------>
+	<section>
+	  <h2 style="position:absolute; top:0px">Parameter Identifiability</h2>
+	  <div align=left>
+	    <b>Identifiability Analysis</b> considers the question of whether or not it is possible to infer (i.e., identify) the parameters of a model from data.
+	  </div>
+	  <br /><br />
+	  <div align=left class="fragment" data-fragment-index="1">
+	    When parameters cannot be learned from data, we say they are <i>unidentifiable</i>.
+	  </div>
+	  <br /><br />
+	  <div align=left class="fragment" data-fragment-index="2">
+	    There are two broad types of unidentifiabilities:
+	    <ol>
+	      <li>Structural Unidentifability</li>
+	      <li>Practical Unidentifiability</li>
+	    </ol>
+	  </div>  
+	</section>
+
+	<!------------------------------------------------------------------------------------------------>
+	<section>
+	  <section>
+	    <h2 style="position:absolute; top:0px">Structural Identifiability</h2>
+	    <div align=left>
+	      If parameters cannot be inferred from an infinite amount of perfect data, the model is structurally unidentifiable.
+	    </div>
+	    <br />
+	    <div align=left>
+	      Structurally unidentifiablilities occur when the model makes the same predictions for more than one value of the parameters.
+	    </div>
+	    <br />
+	    <div align=left style="width:65%">
+	      <b>Example</b>: Consider the linear model $y = \left(m_1 m_2 \right) x$.
+	      <br />
+	      There are an infinite number of ways to choose $m_1$ and $m_2$ without altering the predictions of the model.
+	    </div>
+	    <img src="Figures/StructuralLinear/StructuralLinear.png" alt="" style="position:absolute; top:55%; left:67%; width:33%; height:;"/>
+	  </section>
+
+	  <!------------------------------------------------------------------------------------------------>
+	  <section>
+	    <h2 style="position:absolute; top:0px">Structural Identifiability</h2>
+	    <div align=left>
+	      <b>Example</b>: $y = \left(m_1 m_2 \right) x$.
+	      <br /><br />
+	      Although the parameter space is two-dimensional, the prediction space is one-dimensional.
+	      <br /><br />
+	      In this case, the identifiability is removed by finding an <i>identifiable combination</i>: $m = m_1 m_2.$
+	      <br /><br />
+	      This type of reparameterization is common in physics:
+	      <ul>
+		<li>Charge-mass ratio</li>
+		<li>Equivalent resistance, capacitance, etc.</li>
+		<li>Bohr radius</li>
+	      </ul>
+	    </div>
+	  </section>
+
+	  <!------------------------------------------------------------------------------------------------>
+	  <section>
+	    <h2 style="position:absolute; top:0px">Structural Identifiability</h2>
+	    <div align=left style="font-size:90%">
+	      <b>Example</b>: $y = e^{-\theta_1 t} + e^{-\theta_2 t}$
+
+	      <br /><br />
+
+	      This model is also structurally unidentifiable: the model predictions are invariant to permutation of the parameters.
+
+	      <br /><br />
+
+	      This structural unidentifiability is fundamentally different: both the parameter space and the prediction space are two dimensional.  There is no identifiable combination.
+
+	      <br /><br />
+	      The structural identifiability is removed by restricting the domain of the parameter space: $\theta_1 > \theta_2 > 0$.
+
+	      <br /><br />
+	      This model is <i>locally</i> structurally identifiable, but not globally.
+	    </div>
+	  </section>
+
+	  <!------------------------------------------------------------------------------------------------>
+	  <section>
+	    <h2 style="position:absolute; top:0px">Structural Identifiability</h2>
+	    <div align=left>
+	      <b>Example:</b> $y = A e^{-\theta_1 t}$
+	    </div>
+	    <br />
+	    <div align=left class="fragment" data-fragment-index="1">
+	      <b>Poll:</b> Is this model structurally identifiable?
+	    </div>
+	    <br />
+	    <div align=left class="fragment" data-fragment-index="2">
+	      For generic parameter values, this model is structurally identifiable.
+	      <br />
+	      However, there is a pathology when $A = 0$.
+	      <br />
+	      There is a breakdown of the manifold structure of the predictions.  
+	    </div>
+	  </section>
+
+	  <!------------------------------------------------------------------------------------------------>
+	  <section>
+	    <h2 style="position:absolute; top:0px">Structural Identifiability</h2>
+	    <div align=left>
+	      Although structural unidentifiabilities are caused by model pathologies, they are not always trivial to recognize.
+	      <br /><br />
+	      <b>Example</b>: Hodgkin-Huxley Model
+	      <br /><br />
+	      <div class="fragment" data-fragment-index="1">
+		The Hodgkin-Huxley model uses the following motif for each ion channel:
+		$ b_p e^{-(V - V_{bp})/K_{bp}}$
+		<br />
+		where $V$ is the voltage and $b_p$, $V_{bp}$ and $K_{bp}$ are parameters.
+	      </div>
+	      <br />
+	      <div class="fragment" data-fragment-index="2">
+		A little algebra reveals that there is an unidentifiable combinations:
+		\begin{align}
+		b_p e^{-(V - V_{bp})/K_{bp}} & = \left( b_p e^{V_{bp}/K_{bp}} \right) e^{-V/K_{bp}} \\
+		& = \tilde{b}_p e^{-V/K_{bp}}
+		\end{align}
+	      </div>
+	    </div>
+	  </section>
+
+	</section>
+	
+	<!------------------------------------------------------------------------------------------------>
+	<section>
+	  <h2 style="position:absolute; top:0px">Practical Identifiability</h2>
+	  <div align=left>
+	    A model may be structurally identifiable, i.e., it is possible <i>in principle</i> to learn all of the parameters from data.  But it may not be practical to do so.
+	    <br /><br />
+	    For example, it may require an unreasonable amount of data.
+	    <br /><br />
+	    To see how this comes about, we need to review statistics....
+	  </div>
+	</section>
+
+
+	<!------------------------------------------------------------------------------------------------>
+	<section>
+	  <h2 style="position:absolute; top:0px">Parameter Estimation</h2>
+	  <div style="position:absolute; top:15%; left:0; width:60%; height:;" align=left>
+	    <h4>Definitions:</h4>
+	    <table style="border-collapse: collapse; border: 0;">
+	      <tr>
+		<td> \(D\) </td><td> Random Variable (data) </td>
+	      </tr><tr>		
+		<td> \(\theta\) </td><td> Parameter(s) </td>
+	      </tr><tr>	      
+		<td> \(P(D|\theta)\) </td><td> Probability </td>		
+	      </tr><tr>
+		<td> \(\theta^*\) </td><td> "True" Parameters </td>
+	      </tr><tr>
+		<td> \( \hat{\theta} \) </td><td> Parameter Estimate </td>
+	      </tr>
+	    </table>
+	  </div>
+	  <div style="position:absolute; top:15%; left:60%; width:40%; height:;" align=left>
+	    <h4>Problem:</h4>
+	    Given observations of the data, \((d_1, d_2, d_3, \dots)\) infer from which values of the parameters, \( \theta^*\), they were generated, i.e., the "true" parameter values.
+	  </div>
+
+	  <div style="position:absolute; top:65%; left:; width:; height:;">
+	    <b>Estimator:</b> Rule for calcaulating an estimate \(\hat{\theta}\) of \(\theta^*\) from data.
+	    
+	  </div>
+	</section>
+
+	<!------------------------------------------------------------------------------------------------>
+	<section>
+	  <h3 style="position:absolute; top:0px">Example: Least Squares Regression</h3>
+	  <div style="position:absolute; top:10%; left:0; width:55%; height:;" align=left>
+	    Suppose you measure an observable at distinct times \(t_i\) with measurement uncertainty \(\sigma_i\).
+	    <br /><br />
+	    You also have a model of the time series that depends on several parameters:
+	    $ y(t, \theta) = e^{-\theta_1 t} + e^{-\theta_2 t} $
+	  </div>
+	  <img src="Figures/LSExample/yvst.png" alt="" style="position:absolute; top:8%; left:55%; width:45%; height:;"/>
+	  <div style="position:absolute; top:60%; left:; width:; height:;" align=left>
+	    Define a "cost":
+	    $ C(\theta) = \frac{1}{2} \sum_i \left( \frac{d_i - y(t_i, \theta)}{\sigma_i} \right)^2 = \frac{1}{2} \sum_i r_i^2 $
+	    <br /><br />
+	    The least squares estimator (i.e., the best fit) is the parameter value(s) that minimize the cost.
+	  </div>
+	</section>
+
+	<!------------------------------------------------------------------------------------------------>
+	<section>
+	  <h2 style="position:absolute; top:0px">Maximum Likelihood Estimation</h2>
+	  <div align=left style="font-size:90%">
+	    <ul>
+	      <li>The least squares estimator is an example of a <i>Maximum Likelihood Estimate</i> (MLE):</li>
+	      <li>	    Given observations of the data  \(d = (d_1, d_2, d_3, \dots)\), the <i>likelihood</i> of it having been generated from \(P(D|\theta)\) is
+		$$ \mathcal{L}(\theta; d) = P(d | \theta) $$
+		The MLE, $\theta^*$ maximizes $\mathcal{L}$.</li>
+	      <li>In practice, we usually minimize the negative log-likelihood: $l = \log \mathcal{L}.$</li>
+	      <li>If $d_i = y(t_i, \theta) + \sigma_i \xi_i$ where $\xi_i \in \mathcal{N}(0, 1)$, then the least squares estimator is the MLE.</li>
+	    </ul>
+	  </div>
+	</section>
+
+	<!------------------------------------------------------------------------------------------------>
+	<section>
+	  <section>
+	    <h2 style="position:absolute; top:0px">Confidence/Credible Regions</h2>
+	    <div align=left>
+	      <ul>
+		<li>The data $d_i$ carry <i>information</i> about the parameters $\theta$ that were used to generate them.  </li>
+		<li>This information is incomplete and corrupted by noise.</li>
+		<li>Goal: quantify this information.</li>
+		<li>How sensitive is our estimator to the data?</li>
+		<li>But the data came from the "true" parameter values.</li>
+		<li>How sensitive is the model to the parameter values?</li>
+	      </ul>
+	    </div>
+	  </section>
+
+	  <!------------------------------------------------------------------------------------------------>
+	  <section>
+	    <img src="Figures/Ellipses.png" alt="" style="position:absolute; top:0; left:12.5%; width:75%; height:;"/>
+	    <div style="position:absolute; top:90%; left:0; width:; height:; font-size:50%" align=left>
+	      Transtrum, Mark K., et al. "Perspective: Sloppiness and emergent theories in physics, biology, and beyond." The Journal of chemical physics 143.1 (2015): 010901.
+	    </div>
+	  </section>
+	</section>
+
+	<!------------------------------------------------------------------------------------------------>
+	<section>
+	  <h2 style="position:absolute; top:0px">Score</h2>
+	  <div align=left style="font-size:80%">
+	    <ul>
+	      <li>The score is a statistic that quantifies the sensitivity of the likelihood to changes in the parameters:</li>
+	      $$V = \frac{\partial \mathcal{L}}{\partial \theta}$$
+	      <li>The score is a random variable (it is a function of the data).</li>
+	      <li>Consider moments of the score.</li>
+	      <li> First moment:</li>
+	      \begin{align}
+	      \langle V \rangle & = \langle \partial \mathcal{L} / \partial \theta \rangle \\
+	      & = \sum_d P(d|\theta) \frac{\partial \log P(d|\theta)}{\partial \theta} \\
+	      & = \sum_d P(d|\theta) \left( \frac{1}{P(d|\theta)} \frac{\partial P(d|\theta)}{\partial \theta} \right) \\
+	      & = \frac{\partial}{\partial \theta} \sum_d P(d|\theta) = \frac{\partial}{\partial \theta} 1 \\
+	      & = 0
+	      \end{align}
+	    </ul>
+	  </div>
+	</section>
+	
+	<!------------------------------------------------------------------------------------------------>
+	<section>
+	  <section>
+	    <h2 style="position:absolute; top:0px">Fisher Information</h2>
+	    <div align=left>
+	      The second moment of the score is generally not zero.
+	      <br />
+	      It is known as the Fisher Information Matrix (FIM), $\mathcal{I}$:
+	      \begin{align}
+	      \mathcal{I}_{\mu\nu} & = \langle V^2 \rangle \\
+	      & = \left\langle \frac{\partial \mathcal{L}}{\partial \theta_\mu} \frac{\partial \mathcal{L}}{\partial \theta_\nu} \right\rangle \\
+	      & = - \left\langle \frac{\partial^2 \mathcal{L}}{\partial \theta_\mu \partial \theta_\nu} \right\rangle 	    
+	      \end{align}
+	      <br />
+	      <b>Exerise:</b> Prove the last equality.
+	    </div>
+	  </section>
+
+	  <!------------------------------------------------------------------------------------------------>
+	  <section>
+	    <h2 style="position:absolute; top:0px">FIM and Least Squares</h2>
+	    <div align=left style="position:absolute; top:10%; left:; width:; height:; font-size:90%">
+	      <ul>
+		<li>Recall the residuals $r_i(\theta) = \frac{d_i - y_i(\theta)}{\sigma_i}$, $ C(\theta) = \frac{1}{2} \sum_i r_i(\theta)^2$</li>		
+		<li>By construction, $r_i(\theta) \in \mathcal{N}(0,1)$</li>
+		<li>$l(\theta) = -C(\theta) + \textrm{constant}$</li>
+	      </ul>
+	      $$ \mathcal{I}_{\mu\nu} = \left\langle \frac{\partial l}{\partial \theta_\mu} \frac{\partial l}{\partial \theta_\nu}  \right\rangle = \sum_i J_{i\mu} J_{i\nu}  = \left( J^T J \right)_{\mu\nu}$$
+	      $$ \frac{\partial^2 C}{\partial \theta_\mu \partial \theta_\nu} = \sum_i \left( J_{i\mu} J_{i \nu} + r_i \frac{\partial^2 r_i}{\partial \theta_\mu \partial \theta_\nu} \right) \approx \mathcal{I}_{\mu\nu}$$
+	    </div>
+	    <div style="position:absolute; top:65%; left:0; width:50%; height:;" align=left class="fragment" data-fragment-index="1">
+	      Eigenvalues/Eigenvectors of $\mathcal{I}$ (Hessian) characterize the ellipses of the cost surface around the best fit:
+	    </div>
+	    <img src="Figures/Ellipses.png" alt="" style="position:absolute; top:55%; left:55%; width:; height:40%;" class="fragment" data-fragment-index="1"/>
+	  </section>
+
+	  <!------------------------------------------------------------------------------------------------>
+	  <section>
+	    <h2>FIM and Cramer-Rao Bound</h2>
+	    <div align=left>
+	      The Cramer-Rao bound places a lower bound on the covariance of the estimated parameter values.
+	      \begin{align}
+	      Cov \left(\hat{\theta} \right ) & = \frac{1}{n} \mathcal{I}^{-1}
+	      \end{align}
+	    </div>
+	    <br />
+	    <div class="fragment" data-fragment-index="1">
+	    <h2>FIM and Relative Entropy</h2>
+	    <div align=left>
+	      Given two probability distributions that are infinitesimally separated $Q(D|\theta) = P(D|\theta + d \theta)$, then the Kullback-Leibler divergence is (to lowest order) the Fisher Information:
+	      \begin{align}
+	      D_{KL}(P;Q) = d \theta^T \mathcal{I} \, d \theta
+	      \end{align}
+	    </div>
+	    </div>
+	    <br />
+	    <h2 class="fragment" data-fragment-index="2">Is the FIM fundamental?</h2>
+	  </section>
+
+	  <!------------------------------------------------------------------------------------------------>
+	  <section>
+	    <h2 style="position:absolute; top:0px">FIM and Structural Identifiability</h2>
+	    <div align=left>
+	      <b>Theorem:</b>* A model is locally structurally identifiable at $\theta_0$ if and only if $\mathcal{I}(\theta_0)$ is non-singular.
+	      <br /><br />
+	      In other words, if $\mathcal{I}$ is non-singular, then the manifold of predictions locally has the same dimensionality as the parameter space.
+	      <br /><br />
+	      More generally, the dimensionality of the null-space of $\mathcal{I}$ is the number of identifiable combinations that need to be constructed to give an identifiable model.
+	    </div>
+	    <div style="position:absolute; top:90%; left:0; width:; height:; font-size:50%" align=left>
+	      *Rothenberg, Thomas J. "Identification in parametric models." Econometrica: Journal of the Econometric Society (1971): 577-591.
+	    </div>
+	  </section>
+
+	  <!------------------------------------------------------------------------------------------------>
+	  <section>
+	    <h2 style="position:absolute; top:0px">FIM and Practical Identifiability</h2>
+	    <div align=left>
+	      If $\mathcal{I}$ has a zero eigenvalue, the the model is structurally unidentifiable.
+	      <br /><br />
+	      A natural (possible) extension: If $\mathcal{I}$ has small eigenvalues, then the model is practically unidentifiable.
+	      <br /><br />
+	      Cramer-Rao bound: it would take a lot of data to constrain the parameter combinations with projections along the smallest eigendirection.
+	      <br /><br />
+	      This way of thinking about practical identifiability is useful, but ultimately incorrect.
+	    </div>
+	  </section>
+	</section>
+
+	<!------------------------------------------------------------------------------------------------>
+	<section>
+	  <section>
+	    <h2 style="position:absolute; top:0px">Sloppiness</h2>
+	    <div style="position:absolute; top:15%; left:0; width:75%; height:;" align=left>
+	      What happens if you have lots of parameters?
+	      <br /><br />
+	      <b>Case study</b>: Epidermal Growth Factor Receptor (EGFR) Signaling*
+	    </div>
+	    <div align=left style="position:absolute; top:45%; left:0; width:50%; height:;">	      
+	      <ul>
+		<li>48 Parameters, 68 Data points</li>
+		<li>No parameters estimated accurately</li>
+		<li>Falsifiable predictions</li>
+		(Predictions without parameters!)
+	      </ul>
+	    </div>
+	    <img src="Figures/Brown2004/Network.png" alt="" style="position:absolute; top:0; left:75%; width:25%; height:;"/>
+	    <img src="Figures/Brown2004/Data.png" alt="" style="position:absolute; top:45%; left:55%; width:45%; height:;"/>
+	    <div style="position:absolute; top:90%; left:0; width:; height:; font-size:50%;" align=left>
+	      *Brown, Kevin S., et al. "The statistical mechanics of complex signaling networks: nerve growth factor signaling." Physical biology 1.3 (2004): 184.
+	    </div>
+	  </section>
+	  
+	  <!------------------------------------------------------------------------------------------------>
+	  <section>
+	    <h2 style="position:absolute; top:0px">Sloppiness and the FIM</h2>
+	    <div align=left style="position:absolute; top:10%; left:0; width:50%; height:; font-size:80%">
+	      The Eigenvalues of the FIM for the EGFR model showed an unusual structure: <br />
+	      <ul>
+		<li>Eigenvalues are uniformly distributed on a log-scale over many decades.</li>
+		<ul>
+		  <li>Usually many small eigenvalues</li>
+		  <li>No clear distinction between important/unimportant parameter combinations</li>
+		</ul>
+		<li>Eigenvectors skewed relative to bare parameters.</li>
+		<ul>
+		  <li>Most parameters have projections along sloppy directions.</li>
+		  <li>No bare parameters can be inferred accurately.</li>
+		</ul>
+		<li>This structure recurred universally in models from many fields.</li>
+	      </ul>
+	    </div>
+	    <img src="Figures/Machta2013/Eigenvalues.png" alt="" style="position:absolute; top:15%; left:55%; width:45%; height:;"/>
+	    <div style="position:absolute; top:90%; left:0; width:; height:; font-size:50%;" align=left>
+	      Machta, Benjamin B., et al. "Parameter space compression underlies emergent theories and predictive models." Science 342.6158 (2013): 604-607.
+	    </div>
+	  </section>
+
+	  <!------------------------------------------------------------------------------------------------>
+	  <section>
+	    <h2 style="position:absolute; top:0px">Defining Sloppiness?</h2>
+	    <div class="fragment" data-fragment-index="1" align=left style="position:absolute; top:15%; left:0; width:65%; height:;">
+	      Some common approaches:
+	      <br />
+	      <ul>
+		<li>Range of eigenvalues?</li>
+		<li>Distribution of eigenvalues?</li>
+		<li>Identifiability rediscovered?</li>				
+	      </ul>
+	    </div>
+	    <br /><br />
+	    <div class="fragment" data-fragment-index="3" align=left style="position:absolute; top:50%; left:; width:65%; height:;">
+	      The FIM eigenvalues are an indication of something deeper:
+	      <ul>
+		<li>Predictions without parameters</li>
+		<li>Effective theories</li>
+		<li>Universality</li>
+	      </ul>
+	    </div>
+	    <img src="Figures/White2016/SloppyvsIdentifiable.png" alt="" style="position:absolute; top:0%; left:70%; width:33%; height:;" class="fragment" data-fragment-index="2"/>
+	    <div style="position:absolute; top:90%; left:0; width:; height:; font-size:50%;" align=left class="fragment" data-fragment-index="2">
+	      White, Andrew, et al. "The Limitations of Model-Based Experimental Design and Parameter Estimation in Sloppy Systems." PLoS Computational Biology, l 12(12): e1005227 (2016).
+	    </div>
+
+	  </section>
+
+	</section>
+
+	
+      </div>
+    </div>
+    
+    <script src="lib/js/head.min.js"></script>
+    <script src="js/reveal.js"></script>
+    
+    <script>
+      // More info https://github.com/hakimel/reveal.js#configuration
+      Reveal.initialize({
+      center: false,  <!-- Center slide vertically -->
+      history: true,
+      progress: true,
+      width: 1024,
+      height: 768,
+      margin: 0.1,
+      minScale: 0.2,
+      maxScale: 1.5,
+      // More info https://github.com/hakimel/reveal.js#dependencies
+      dependencies: [
+      { src: 'plugin/markdown/marked.js' },
+      { src: 'plugin/markdown/markdown.js' },
+      { src: 'plugin/notes/notes.js', async: true },
+      { src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+      // MathJax
+      { src: 'plugin/math/math.js', async: true }
+      
+      ]
+      });
+    </script>
+  </body>
+</html>

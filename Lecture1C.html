@@ -1,0 +1,470 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    
+    <title>Optimal Experimental Design</title>
+    
+    <link rel="stylesheet" href="css/reveal.css">
+    <link rel="stylesheet" href="css/theme/white.css">
+    
+    <!-- Theme used for syntax highlighting of code -->
+    <link rel="stylesheet" href="lib/css/zenburn.css">
+    
+    <!-- Printing and PDF exports -->
+    <script>
+      var link = document.createElement( 'link' );
+      link.rel = 'stylesheet';
+      link.type = 'text/css';
+      link.href = window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css' : 'css/print/paper.css';
+      document.getElementsByTagName( 'head' )[0].appendChild( link );
+    </script>
+  </head>
+  <body>
+    <div class="reveal">
+      <div class="slides">
+	<style>
+	  ol.clickerquiz {list-style-type: upper-alpha;}
+	</style>
+	<section>
+	  <H1>Optimal Experimental Design</H1>
+	  <br>
+	  <H2></H2>
+	</section>
+
+	<!------------------------------------------------------------------------------------------------>
+	<section>
+	  <h2 style="position:absolute; top:0px">Problem Statement</h2>
+	  <div align=left>
+	    <ul>
+	      <li>Models are often practically unidentifiable.</li>
+	      <li>The data carry little information about the parameters.</li>
+	      <li>But the parameters are important!</li>
+	      <ul>
+		<li>At least we think they are.  That's why we put them in the model.</li>
+		<li>Sloppiness?</li>
+	      </ul>
+	      <li>Can we find new data (new experiments) that carry more information about parameters?</li>
+	    </ul>
+	  </div>
+	</section>
+
+	<!------------------------------------------------------------------------------------------------>
+	<section>
+	  <h2 style="position:absolute; top:0px">Complementary Experiments</h2>
+	  <img src="Figures/Apgar2010/ComplimentaryExpts.jpg" alt="" style="position:absolute; top:12%; left:10%; width:80%; height:;"/>
+	  <div align=left style="position:absolute; top:52%; left:; width:; height:;">
+	    <ul>
+	      <li>Models are often sloppy.</li>
+	      <li>Different data can carry different information.</li>
+	      <li>Predictions without parameters occur when the predicted experiments carry the same information as the existing data.</li>
+	      <li>If different experiments carry <i>complementary</i> information, perhaps we can learn all the parameters.</li>
+	    </ul>	    
+	  </div>
+	  <div style="position:absolute; top:90%; left:0; width:; height:; font-size:50%" align=left>
+	    Apgar, Joshua F., et al. "Sloppy models, parameter uncertainty, and the role of experimental design." Molecular BioSystems 6.10 (2010): 1890-1900.
+	  </div>
+
+	</section>
+	
+	<!------------------------------------------------------------------------------------------------>	
+	<section>
+	  <h2 style="position:absolute; top:0px">OED General Strategy (D-Optimal)</h2>
+	  <div align=left>
+	    <ol>
+	      <li>Choose an ensemble of potential experiments.</li>
+	      <li>Calculate the FIM for combinations of these experiments.</li>
+	      <li>Choose the subset of experiments that <i>maximize</i> $\vert \mathcal{I} \vert$. (Maximizes the determinant.)</li>
+	    </ol>
+	    <br /><br />
+	    <ul>
+	      <li>Long history of this practice</li>
+	      <li>Lots of variations</li>
+	      <li>Frequentist/Bayesian Methods</li>
+	      <li>Nonlocal methods (don't use FIM)</li>	      
+	    </ul>
+	  </div>
+	</section>
+	
+	<!------------------------------------------------------------------------------------------------>
+	<section>
+	  <section>
+	    <h2 style="position:absolute; top:0px">Predictions vs. Parameters</h2>
+	    <div align=left>
+	      <ul>
+		<li>One possible variation</li>
+		<li>Minimize the uncertainty in a particular prediction, rather than in parameters.</li>
+		<li>Does not require as many new experiments.</li>
+		<li>Get new predictions, often without constraining any parameters.</li>
+	      </ul>
+	    </div>
+	  <div style="position:absolute; top:90%; left:0; width:; height:; font-size:50%" align=left>
+	    Casey, Fergal P., et al. "Optimal experimental design in an epidermal growth factor receptor signalling and down-regulation model." IET systems biology 1.3 (2007): 190-202.
+	  </div>
+
+	  </section>
+
+	  <!-- <\!-----------------------------------------------------------------------------------------------\-> -->
+	  <!-- <section> -->
+	  <!--   <h2 style="position:absolute; top:0px">Casey</h2> -->
+
+	  <!-- </section> -->
+
+	  <!-- <\!-----------------------------------------------------------------------------------------------\-> -->
+	  <!-- <section> -->
+	  <!--   <h2 style="position:absolute; top:0px">Transtrum \& Qiu</h2> -->
+
+	  <!-- </section> -->
+
+	  <!-- <\!-----------------------------------------------------------------------------------------------\-> -->
+	  <!-- <section> -->
+	  <!--   <h2 style="position:absolute; top:0px">Local vs. Nonlocal</h2> -->
+
+	  <!-- </section> -->
+	</section>
+
+	<!------------------------------------------------------------------------------------------------>
+	<section>
+	  <section>
+	    <h2 style="position:absolute; top:0px">Sloppiness and the Role of Experimental Design</h2>
+	    <div>
+	      <ul>
+		<li>Apgar et al. use OED to estimate parameters in the signaling model of Brown et al.</li>
+		<li>Considered a pool of 164,500 experiments</li>
+		<li>Results:</li>
+		<ol>
+		  <li>All parameters can be estimated to high accuracy.</li>
+		  <li>The optimal experiments are biochemically interesting.</li>
+		  <li>No fundamental limits to how accurately parameters can be estimated (with enough experimental effort)</li>
+
+		</ol>
+	      </ul>
+	    </div>
+	  <div style="position:absolute; top:90%; left:0; width:; height:; font-size:50%" align=left>
+	    Apgar, Joshua F., et al. "Sloppy models, parameter uncertainty, and the role of experimental design." Molecular BioSystems 6.10 (2010): 1890-1900.
+	  </div>
+
+	  </section>
+
+	  <!------------------------------------------------------------------------------------------------>
+	  <section>
+	    <h2 style="position:absolute; top:0px">Estimating Parameters of Brown et al.</h2>
+	    <img src="Figures/Apgar2010/BrownExpts.jpg" alt="" style="position:absolute; top:20%; left:0%; width:48%; height:;"/>
+	    <div style="position:absolute; top:30%; left:50%; width:; height:;">
+	      <ul>
+		<li>5 Experiments could constrain parameters to 10%.</li>
+		<li>These experiments had to be chosen carefully.</li>
+		<li>Original data constrained parameters (best case) to within a factor of 50.</li>
+	      </ul>
+	    </div>
+	  <div style="position:absolute; top:90%; left:0; width:; height:; font-size:50%" align=left>
+	    Apgar, Joshua F., et al. "Sloppy models, parameter uncertainty, and the role of experimental design." Molecular BioSystems 6.10 (2010): 1890-1900.
+	  </div>
+
+	  </section>
+	  <!------------------------------------------------------------------------------------------------>
+	  <section>
+	    <h2 style="position:absolute; top:0px">How much data is necessary?</h2>
+	    <div align=left style="position:absolute; top:15%; left:0; width:50%; height:;">
+	      <u>Original Experiments</u>
+	      <br />
+	      <ul>
+		<li>68 Data points</li>
+		<li>No error bars (assumed 20%)</li>
+		<li>Only observed a few of the species in the network</li>
+	      </ul>
+	    </div>
+	    <div align=left style="position:absolute; top:15%; left:50%; width:50%; height:;">
+	      <u>Optimal Experiments</u>
+	      <br />
+	      <ul>
+		<li>5 Experiments</li>
+		<ul>
+		  <li>Measured all species</li>
+		  <li>100 time points</li>
+		  <li>10% errror bars</li>
+		</ul>
+		<li>200 times as many <i>measurements</i></li>
+		<li>Eigenvalues span 5 orders of magnitude (still sloppy)</li>
+	      </ul>
+	    </div>
+	    <div style="position:absolute; top:75%; left:0; width:100%; height:;" align=center class="fragment" data-fragment-index="1">
+	      The three primary conclusions remain unchanged.
+	    </div>
+
+	    <div style="position:absolute; top:90%; left:0; width:; height:; font-size:50%" align=left>
+	      Chachra, Ricky, Mark K. Transtrum, and James P. Sethna. "Comment on “Sloppy models, parameter uncertainty, and the role of experimental design”." Molecular BioSystems 7.8 (2011): 2522-2522.
+	    </div>
+	  </section>
+
+	  <!------------------------------------------------------------------------------------------------>
+	  <section>
+	    <h2 style="position:absolute; top:0px">The Cause and Cure of Sloppiness</h2>
+	    <div>
+	      <ul>
+		<li>Random Matrix Theory</li>
+		<li>Cause of Sloppiness:</li>
+		<ul>
+		  <li>Systematic Correlations in the affect of parameters on predictions</li>		  
+		</ul>
+		<li>Cure of Sloppiness</li>
+		<ul>
+		  <li>Choose experiments that reduce horizontal structure in $J$.</li>
+		  <li>Biologically motivated experiments</li>
+		  <li>Generally more dense time points are not effective</li>
+		</ul>
+		<li>Possible to choose experiments to</li>
+		<ol>
+		  <li>Minimize parameter errors.</li>
+		  <li>Minimize range of eigenvalues.</li>
+		</ol>
+	      </ul>
+	    </div>
+	    <div style="position:absolute; top:90%; left:0; width:; height:; font-size:50%" align=left>
+	      Tönsing, Christian, Jens Timmer, and Clemens Kreutz. "Cause and cure of sloppiness in ordinary differential equation models." Physical Review E 90.2 (2014): 023303.
+	    </div>
+
+	  </section>
+	</section>
+
+	<!------------------------------------------------------------------------------------------------>
+	<section>
+	  <!------------------------------------------------------------------------------------------------>
+	  <section>
+	    <h2 style="position:absolute; top:0px">The Limitations of OED</h2>
+	    <div align=left style="position:absolute; top:15%; left:0; width:50%; height:;">
+	      <ul>
+		<li>"All models are wrong."</li>
+		<li>Hypothesis: Predictions are possible <i>because</i> of sloppiness.</li>
+		<ul>
+		  <li>It is not necessary to model every little detail in the system.</li>
+		  <li>As long your models in the same "universality class" as the physical system, you will have a good "effective theory".</li>		  
+		</ul>		
+	      </ul>
+	    </div>
+	    <img src="Figures/White2016/Outcomes.jpg" alt="" style="position:absolute; top:10%; left:55%; width:45%; height:;"/>
+	    <div style="position:absolute; top:90%; left:0; width:; height:; font-size:50%" align=left>
+	      White, Andrew, et al. "The Limitations of Model-Based Experimental Design and Parameter Estimation in Sloppy Systems." PLoS Computational Biology, l 12(12): e1005227 (2016).
+	    </div>
+	  </section>
+
+	  <!------------------------------------------------------------------------------------------------>
+	  <section>
+	    <h2 style="position:absolute; top:0px">DNA Repair</h2>
+	    <div>
+	      <ul>
+		<li>Modeling the dynamics of DNA after radiation.</li>
+		<li>Dual dose experiments, asymmetric response</li>
+		<ul>
+		  <li>Itensity of each dose</li>
+		  <li>Duration of each dose</li>
+		  <li>Length of rest time</li>
+		</ul>
+		<li>Six parameter model</li>
+		<li>Selected 19 new optimal experiments from a pool of 21,870</li>
+		<li>Anticipated an accuracy of about 10% in parameter estimates</li>
+	      </ul>	      
+	    </div>
+	    <br />
+	    <div>
+	      <span class="fragment" data-fragment-index="1"><b>Result</b>:</span> <span class="fragment" data-fragment-index="2">Model could not give a good fit to all experiments simultaneously</span>	      
+	    </div>
+	  </section>
+	  
+	</section>
+
+	<!------------------------------------------------------------------------------------------------>
+	<section>
+	  <section>
+	    <h2 style="position:absolute; top:0px">Uncertainty Quantification</h2>
+	    <div align=left>
+	      <div>
+		Modify the model assumptions:<br />
+		<ul>
+		  <li>$ d_i = y_i(\theta) + \sigma_i \xi_i + \delta_i$</li>
+		  <li>Measurements error: $ \sigma_i \xi_i$</li>
+		  <li>Model error: $ \delta_i$</li>
+		</ul>
+	      </div>
+	      <br />
+	      </div>
+	    <img src="Figures/White2016/UQManifold.jpg" alt="" style="position:absolute; top:30%; left:50%; width:50%; height:;" />
+	    <div style="position:absolute; top:90%; left:0; width:; height:; font-size:50%" align=left>
+	      White, Andrew, et al. "The Limitations of Model-Based Experimental Design and Parameter Estimation in Sloppy Systems." PLoS Computational Biology, l 12(12): e1005227 (2016).
+	    </div>
+	  </section>
+
+	  <!------------------------------------------------------------------------------------------------>
+	  <section>
+	    <h2 style="position:absolute; top:0px">Modeling Model Error</h2>
+	    <div align=left>
+	      Hyper-model ansatz: $ \delta_i = f \sigma_i \xi'_i$
+	      <br />
+	      Estimate $f$ by fitting to data:
+	      $$ \hat{f} = \sqrt{ \frac{2 C(\theta)}{M-N} - 1}$$
+	      $$ \delta f = \frac{1 + \hat{f}^2}{\hat{f}\sqrt{2 (M-N)}} $$
+	      If $\hat{f} \approx \delta f$, then the model error is small.
+	      <br /><br />
+	      Modified estimator variance on original parameters:
+	      $$ Cov(\theta) = \frac{2 C(\theta)}{M-N} \mathcal{I}^{-1}$$
+	    </div>
+
+	  </section>
+
+	  <!------------------------------------------------------------------------------------------------>
+	  <section>
+	    <h2 style="position:absolute; top:0px">EGFR Signaling Revisited</h2>
+	    <div align=left>
+	      One approach to exploring model error: Use multiple models<br /><br />
+	      <ol>
+		<li>Replace Brown model (Michaelis Menten) with more detailed reactions (Mass action)</li>
+		<li>Calibrate mass-action model to Brown's original experiments (Sloppy)</li>
+		<li>Create data to the 5 Apgar experiments using the mass-action model</li>
+		<li>Fit this data with original Brown (Michaelis-Menten) model</li>
+	      </ol>
+	    </div>
+	  </section>
+
+	  <!------------------------------------------------------------------------------------------------>
+	  <section>
+	    <h2 style="position:absolute; top:0px">EGFR Signaling Revisited</h2>
+	    <img src="Figures/White2016/ApgarFit.jpg" alt="" style="position:absolute; top:10%; left:0; width:75%; height:;"/>
+	  </section>
+
+	  <!------------------------------------------------------------------------------------------------>
+	  <section>
+	    <h2 style="position:absolute; top:0px">Parameters without Predictions</h2>
+	    <div style="position:absolute; top:25; left:; width:; height:;" align=left>
+	      Hyper-model for Brown model fit to Apgar Experiments:
+	      <ul>
+		<li>$\hat{f} = 3.7$, $\delta f = 0.03$</li>
+		<li>Parameter estimates: 10% $\rightarrow$ 40%.</li>
+		<ul>
+		  <li>Not Bad!</li>		  
+		</ul>
+		<li>Uncertainty in predictions?</li>
+		<ul>
+		  <li>Huge.  Full range of physically allowed values.</li>
+		  <li>Dominated by model error.</li>		  
+		</ul>
+	      </ul>
+	    </div>
+	    
+	  </section>
+
+	</section>
+
+	<!------------------------------------------------------------------------------------------------>
+	<section>
+	  <section>
+	    <h2 style="position:absolute; top:0px">Fundamental Limits to Parameter Estimation</h2>	    
+	    <div align=left style="position:absolute; top:25%; left:; width:; height:;">
+	      Introduce a useful concept: <i>Sloppy System:</i>
+	      <br /><br />
+	      <div>
+		A physical system and a set of experimental protocols that can be approximated by a hierarchy of mechanistic, mathematical models of growing complexity that become sloppy in the limit of
+microscopic accuracy
+	      </div>
+	      <img src="Figures/White2016/SloppySystem.jpg" alt="" style="position:absolute; top:77%; left:60%; width:40%; height:;"/>
+	    </div>
+	  </section>
+
+	  <!------------------------------------------------------------------------------------------------>
+	  <section>
+	    <h2 style="position:absolute; top:0px">Estimating Model Error in Sloppy System</h2>
+	    <div align=left style="font-size:90%">
+	      <ul>
+		<li>Approximate the eigenvalues as a geometric series with ratio $r$.</li>
+		<li>Let $\lambda_0$ be the smallest eigenvalue in the model</li>
+		<li>Cost due to the model error: $\lambda_0 r/(1 - r)$</li>
+		<li>Expected Cost: $\frac{1}{2}(M-N) + \lambda_0 r/(1-r)$</li>
+		<li>Requiring $\hat{f} < 1$ gives:</li>
+					 $$ \lambda_0 < \frac{1-r}{r} \left(M - N\right) $$ 
+							</ul>
+	      <br /><br />
+	      <div class="fragment" data-fragment-index="1">
+		Key Result: If a system is sloppy, then a model cannot be both predictive and have arbitrarily large eigenvalues.
+		<br />
+		There is a fundamental limit to the accuracy of estimated parameters.
+	      </div>
+
+	      
+	    </div>
+	  </section>
+
+
+	</section>
+	
+	<!------------------------------------------------------------------------------------------------>
+	<section>
+	  <!------------------------------------------------------------------------------------------------>
+	  <section>
+	    <h2 style="position:absolute; top:0px">Outlook</h2>
+
+	  </section>
+
+	  <!------------------------------------------------------------------------------------------------>
+	  <section>
+	    <h2 style="position:absolute; top:0px">Reductionism, Modeling, and OED</h2>
+	    <div>
+	      <ul>
+		<li>All models are wrong</li>
+		<li>The model selection problem cannot be divorced from the model calibration problem.</li>
+		<li>"Every good model starts from a question."</li>
+		<li>OED assumes that it can ask as many other (non-target) questions as it needs to calibrate the model.</li>
+		<li>If the model was not designed to be able to answer these additional questions, it may break.</li>
+	      </ul>
+	    </div>
+
+	  </section>
+
+	  <!------------------------------------------------------------------------------------------------>
+	  <section>
+	    <h2 style="position:absolute; top:0px">Relevant vs. Irrelevant Parameters</h2>
+	    <div>
+	      <ul>
+		<li>There is no theory of complex systems.</li>
+		<li>Given a scientific objective and a reasonably complete microscpic model (up to unknown parameters), there is no way to know what is the right simple model to use.</li>
+		<li>Given a simple model, there is also no way to known which questions it can answer.</li>
+		<li>There is no effective bridge between mechanism and phenomenology that is scalable.</li>
+		
+
+	      </ul>
+	    </div>
+	  </section>
+
+	</section>
+
+	
+      </div>
+    </div>
+    
+    <script src="lib/js/head.min.js"></script>
+    <script src="js/reveal.js"></script>
+    
+    <script>
+      // More info https://github.com/hakimel/reveal.js#configuration
+      Reveal.initialize({
+      center: false,  <!-- Center slide vertically -->
+      history: true,
+      progress: true,
+      width: 1024,
+      height: 768,
+      margin: 0.1,
+      minScale: 0.2,
+      maxScale: 1.5,
+      // More info https://github.com/hakimel/reveal.js#dependencies
+      dependencies: [
+      { src: 'plugin/markdown/marked.js' },
+      { src: 'plugin/markdown/markdown.js' },
+      { src: 'plugin/notes/notes.js', async: true },
+      { src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+      // MathJax
+      { src: 'plugin/math/math.js', async: true }
+      
+      ]
+      });
+    </script>
+  </body>
+</html>

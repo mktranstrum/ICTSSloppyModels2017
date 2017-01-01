@@ -1,0 +1,389 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    
+    <title>Information Geometry and Sloppy Models</title>
+    
+    <link rel="stylesheet" href="css/reveal.css">
+    <link rel="stylesheet" href="css/theme/white.css">
+    
+    <!-- Theme used for syntax highlighting of code -->
+    <link rel="stylesheet" href="lib/css/zenburn.css">
+    
+    <!-- Printing and PDF exports -->
+    <script>
+      var link = document.createElement( 'link' );
+      link.rel = 'stylesheet';
+      link.type = 'text/css';
+      link.href = window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css' : 'css/print/paper.css';
+      document.getElementsByTagName( 'head' )[0].appendChild( link );
+    </script>
+  </head>
+  <body>
+    <div class="reveal">
+      <div class="slides">
+	<style>
+	  ol.clickerquiz {list-style-type: upper-alpha;}
+	</style>
+	<section>
+	  <H1>Information Geometry and Sloppy Models</H1>	  
+	  <br>
+	  <H2>Mark K. Transtrum</H2>
+	  <br />
+	  <p><a href="https://github.com/mktranstrum/ICTSSloppyModels2017">https://github.com/mktranstrum/ICTSSloppyModels2017</a></p>
+	</section>
+	
+	<!------------------------------------------------------------------------------------------------>
+	<section>
+	  <h2 style="position:absolute; top:0px">About Me</h2>
+	  <div align="left">
+	    Brigham Young University, Department of Physics & Astronomy
+	    <br />
+	    Background: Theoretical/Computational Condensed Matter Physics (Statistical Mechanics)
+	    <br /><br />
+	    Research Interest: Modeling Complex Systems
+	    <br />
+	    <ul>
+	      <li>Systems Biology</li>
+	      <li>Power Systems</li>
+	      <li>Materials Science</li>
+	      <li>Neuroscience</li>
+	      <li>Particle Accelerators/Superconductivity</li>
+	      <li>Theoretical and Numerical Analysis Methods</li>
+	    </ul>
+	  </div>
+	</section>
+	<!------------------------------------------------------------------------------------------------>
+	<section>
+	  <h2>Outline</h2>
+	  <ul>
+	    <li>Lecture 1:</li>
+	    <ul>
+	      <li><a target="_blank" href="./Lecture1A.html">Parameter Identifiability & Sloppy Models</a></li>
+	      <li><a target="_blank" href="./Lecture1B.html">Information Geometry</a></li>
+	      <li><a target="_blank" href="./Lecture1C.html">Optimal Experimental Design (OED)</a></li>
+	    </ul>
+	    <li>Lecture 2:</li>
+	    <ul>
+	      <li><a target="_blank" href="./Lecture2A.html">Computational Differential Geometry</a></li>
+	      <li><a target="_blank" href="./Lecture2B.html">Information Geometry and Numerical Methods</a></li>
+	      <li><a target="_blank" href="./Lecture2C.html">Manifold Boundary Approximation Method (MBAM)</a></li>	      
+	    </ul>
+	    <li>Lecture 3:</li>
+	    <ul>
+	      <li>Applications of MBAM</li>
+	      <li>MBAM and other dimensionality reduction methods</li>
+	      <li>Information Topology and Parameter Identification</li>
+	    </ul>
+	  </ul>
+	</section>
+	
+	<!------------------------------------------------------------------------------------------------>
+	<section>
+	  <section>
+	    <h2 style="position:absolute; top:0px">The Big Picture:<br /> Mathematical Modeling in Science</h2>
+	    <div style="position:absolute; top:25%; left:; width:; height:;" align=left>
+	      (Mathematical) Models have many roles in scientific inquiry:
+	      <ul>
+		<li>Summarize and share information</li>
+		<li>Make quantitative (falsifiable) predictions</li>
+		<li>Formulate hypotheses</li>	      
+	      </ul>
+	      <br /><br />
+	      Question: Which model do you use?
+	    </div>
+	  </section>
+
+	  <!------------------------------------------------------------------------------------------------>
+	  <section>
+
+	    <img src="Figures/BigPicture/BigPicture1.png" alt="" style="position:absolute; top:0; left:0; width:100%; height:100%;"/>
+	    <img src="Figures/BigPicture/BigPicture2.png" alt="" style="position:absolute; top:0; left:0; width:100%; height:100%;" class="fragment" data-fragment-index="1"/>
+	    <img src="Figures/BigPicture/BigPicture3.png" alt="" style="position:absolute; top:0; left:0; width:100%; height:100%;" class="fragment" data-fragment-index="2"/>
+	    <img src="Figures/BigPicture/BigPicture4.png" alt="" style="position:absolute; top:0; left:0; width:100%; height:100%;" class="fragment" data-fragment-index="3"/>
+	    <img src="Figures/BigPicture/BigPicture5.png" alt="" style="position:absolute; top:0; left:0; width:100%; height:100%;" class="fragment" data-fragment-index="4"/>
+	    <img src="Figures/BigPicture/BigPicture6.png" alt="" style="position:absolute; top:0; left:0; width:100%; height:100%;" class="fragment" data-fragment-index="5"/>
+	  </section>
+
+	  <!------------------------------------------------------------------------------------------------>
+	  <section>
+	    <div>
+	      <h4>Key Observation: The map from mechanism to phenomenon is not injective</h4>
+	      <ul>
+		<li>Mechanism is a type of a-priori information about the system</li>
+		<li>It is generally not possible to infer mechanism from phenomenology</li>
+	      </ul>
+	    </div>
+	    <br /><br />
+	    <div>
+	      <h4>Two general modeling Philosophies:</h4>
+	      <ol>
+		<li>Top-down:</li>
+		Start from simple, phenomenological description (toy models) and work toward mechanistic refinements as necessary.
+		<li>Bottom-up:</li>
+		Start from complicated, mechanistic desciption and derive phenomenology.
+	      </ol>
+	    </div>
+	  </section>
+
+	  <!------------------------------------------------------------------------------------------------>
+	  <section>
+	    <h2 style="position:absolute; top:0px">Goldenfeld and Kadanoff*</h2>
+	    <div align=left, style="font-size:85%">
+	      <ul>
+		<li>Use the right level of description to catch the phenomena of interest. Don't model bulldozers with quarks.</li>
+		<li>Every good model starts from a question. The modeler should aways pick the right level of detail to answer the question.</li>		
+	      </ul>
+	      <br />
+	      <p align=left>
+		"This lesson applies with equal strength to theoretical work aimed at understanding complex systems. Modeling complex systems by tractable closure schemes or complicated free-field theories in disguise does not work. These may yield a successful description of the small-scale structure, but this description is likely to be irrelevant for the large-scale features. To get these gross features, one should most often use a more phenomenological and aggregated description, aimed specifically at the higher level. "
+		</p>
+	    </div>
+	    <div style="position:absolute; top:90%; left:0; width:; height:; font-size:50%" align=left>
+	      *Goldenfeld, Nigel, and Leo P. Kadanoff. "Simple lessons from complexity." Science 284.5411 (1999): 87-89.
+	    </div>
+	  </section>
+
+	  <!------------------------------------------------------------------------------------------------>
+	  <section>
+	    <h2 style="position:absolute; top:0px">Reductionism and Emergence</h2>
+	    <div >
+	      <h4>The modus operandi in statistical physics:</h4>
+	      <ol>
+		<li>Map observations onto one of a small set of universality classes.</li>
+		<li>Model the system with a toy model in the same universality class (e.g., Ising model)</li>
+	      </ol>
+	      <br /><br />
+	      <h4>Challenges in Complexity Science</h4>
+	      <ol>
+		<li>What if the "experimental hooks" operate at the microscopic, mechanistic level?</li>
+		<li>What if we already have considerable mechanistic information?  Can we use it in a useful way?</li>
+	      </ol>
+	    </div>
+	  </section>
+
+	</section>
+
+	<!------------------------------------------------------------------------------------------------>
+	<section>
+	  <!------------------------------------------------------------------------------------------------>
+	  <section>
+	    <h2 style="position:absolute; top:0;">References</h2>
+	  </section>
+	  
+	  <!------------------------------------------------------------------------------------------------>
+	  <section>
+	    <h2 style="position:absolute; top:0;">References: Big Picture</h2>
+	    <div style="position:absolute; top:15%; left:0; width:100%; height:; font-size:85%" align=left>
+	      <ul>
+		<li>Goldenfeld, Nigel, and Leo P. Kadanoff. "Simple lessons from complexity." Science 284.5411 (1999): 87-89.</li>
+		<li>Anderson, Philip W. "More is different." Science 177.4047 (1972): 393-396.</li>
+		<li>Wigner, Eugene P. "The unreasonable effectiveness of mathematics in the natural sciences. Richard courant lecture in mathematical sciences delivered at New York University, May 11, 1959." Communications on pure and applied mathematics 13.1 (1960): 1-14.
+		</li>
+		<li>Machta, Benjamin B., et al. "Parameter space compression underlies emergent theories and predictive models." Science 342.6158 (2013): 604-607.</li>
+		<li>Transtrum, Mark K., et al. "Perspective: Sloppiness and emergent theories in physics, biology, and beyond." The Journal of chemical physics 143.1 (2015): 010901.</li>
+	      </ul>
+	    </div>
+	  </section>
+
+	  <!------------------------------------------------------------------------------------------------>
+	  <section>
+	    <h2 style="position:absolute; top:0;">References: Parameter Identifiability</h2>
+	    <div align=left>
+	      <ul>
+		<li>Rothenberg, Thomas J. "Identification in parametric models." Econometrica: Journal of the Econometric Society (1971): 577-591.</li>
+		<li>Cobelli, Claudio, and J. J. DiStefano. "Parameter and structural identifiability concepts and ambiguities: a critical review and analysis." American Journal of Physiology-Regulatory, Integrative and Comparative Physiology 239.1 (1980): R7-R24.
+</li>
+		<li>Raue, Andreas, et al. "Structural and practical identifiability analysis of partially observed dynamical models by exploiting the profile likelihood." Bioinformatics 25.15 (2009): 1923-1929.
+</li>
+	      </ul>
+	    </div>
+	  </section>
+
+	  <!------------------------------------------------------------------------------------------------>
+	  <section>
+	    <h2 style="position:absolute; top:0">References: Sloppy Models</h2>
+	    <div align=left style="font-size:75%">
+	      <ul>
+		<li>Brown, Kevin S., et al. "The statistical mechanics of complex signaling networks: nerve growth factor signaling." Physical biology 1.3 (2004): 184.
+</li>
+		<li>Waterfall, Joshua J., et al. "Sloppy-model universality class and the Vandermonde matrix." Physical review letters 97.15 (2006): 150601.
+</li>
+		<li>Gutenkunst, Ryan N., et al. "Universally sloppy parameter sensitivities in systems biology models." PLoS Comput Biol 3.10 (2007): e189.
+		</li>
+		<li>Daniels, Bryan C., et al. "Sloppiness, robustness, and evolvability in systems biology." Current opinion in biotechnology 19.4 (2008): 389-395.
+		</li>
+		<li>Chachra, Ricky, Mark K. Transtrum, and James P. Sethna. "Structural susceptibility and separation of time scales in the van der Pol oscillator." Physical Review E 86.2 (2012): 026712.
+		</li>
+		<li>Machta, Benjamin B., et al. "Parameter space compression underlies emergent theories and predictive models." Science 342.6158 (2013): 604-607.
+		</li>
+		<li>Transtrum, Mark K., et al. "Perspective: Sloppiness and emergent theories in physics, biology, and beyond." The Journal of chemical physics 143.1 (2015): 010901.
+</li>
+	      </ul>
+	    </div>
+	  </section>
+
+	  <!------------------------------------------------------------------------------------------------>
+	  <section>
+	    <h2 style="position:absolute; top:0">References: Information Geometry</h2>
+	    <div align=left style="font-size:65%">
+	      <ul>
+		<li>Bates, Douglas M., and Donald G. Watts. "Relative curvature measures of nonlinearity." Journal of the Royal Statistical Society. Series B (Methodological) (1980): 1-25.
+		</li>
+		<li>Campbell, L. Lore. "The relation between information theory and the differential geometry approach to statistics." Information Sciences 35.3 (1985): 199-210.
+		</li>
+		<li>Bates, Douglas M. Watts, Donald G. Douglas M. Bates, and Donald G. Watts. Nonlinear regression analysis and lts applications. No. 519.536 B3. 1988.
+</li>
+		<li>Murray, Michael K., and John W. Rice. Differential geometry and statistics. Vol. 48. CRC Press, 1993.
+		</li>
+		<li>Amari, Shun-ichi, and Hiroshi Nagaoka. Methods of information geometry. Vol. 191. American Mathematical Soc., 2007.
+		</li>
+		<li>Transtrum, Mark K., Benjamin B. Machta, and James P. Sethna. "Why are nonlinear fits to data so challenging?." Physical review letters 104.6 (2010): 060201.
+		</li>
+		<li>Transtrum, Mark K., Benjamin B. Machta, and James P. Sethna. "Geometry of nonlinear least squares with applications to sloppy models and optimization." Physical Review E 83.3 (2011): 036701.
+		</li>
+		<li>Mannakee, Brian K., et al. "Sloppiness and the geometry of parameter space." Uncertainty in Biology. Springer International Publishing, 2016. 271-299.
+</li>
+		
+	      </ul>
+	    </div>
+	  </section>
+
+	  <!------------------------------------------------------------------------------------------------>
+	  <section>
+	    <h2 style="position:absolute; top:0">References: Optimal Experimental Design (OED)</h2>
+	    <div align=left style="font-size:70%">
+	      <ul>
+		<li>Casey, Fergal P., et al. "Optimal experimental design in an epidermal growth factor receptor signalling and down-regulation model." IET systems biology 1.3 (2007): 190-202.
+		</li>
+		<li>Apgar, Joshua F., et al. "Sloppy models, parameter uncertainty, and the role of experimental design." Molecular BioSystems 6.10 (2010): 1890-1900.
+		</li>
+		<li>Chachra, Ricky, Mark K. Transtrum, and James P. Sethna. "Comment on “Sloppy models, parameter uncertainty, and vthe role of experimental design”." Molecular BioSystems 7.8 (2011): 2522-2522.
+		</li>
+		<li>Transtrum, Mark K., and Peng Qiu. "Optimal experiment selection for parameter estimation in biological differential equation models." BMC bioinformatics 13.1 (2012): 1.
+		</li>
+		<li>Tönsing, Christian, Jens Timmer, and Clemens Kreutz. "Cause and cure of sloppiness in ordinary differential equation models." Physical Review E 90.2 (2014): 023303.
+		</li>
+		<li> White, Andrew, et al. "The Limitations of Model-Based Experimental Design and Parameter Estimation in Sloppy Systems." PLoS Computational Biology, l 12(12): e1005227 (2016).
+		</li>
+	      </ul>
+	    </div>
+	  </section>
+
+	  <!------------------------------------------------------------------------------------------------>
+	  <section>
+	    <h2 style="position:absolute; top:0px">References: Computational Differential Geometry</h2>
+	    <div align=left>
+	      <ul>
+		<li>Transtrum, Mark K., Benjamin B. Machta, and James P. Sethna. "Geometry of nonlinear least squares with applications to sloppy models and optimization." Physical Review E 83.3 (2011): 036701.
+		</li>
+	      </ul>
+
+	    </div>
+
+	  </section>
+
+	  <!------------------------------------------------------------------------------------------------>
+	  <section>
+	    <h2 style="position:absolute; top:0px">References: Numerical Methods</h2>
+	    <div align=left style="font-size:75%">
+	      <ul>
+		<li>Bates, Douglas M., and Donald G. Watts. "A Relative Off set Orthogonality Convergence Criterion for Nonlinear least Squares." Technometrics 23.2 (1981): 179-183.
+		</li>
+		<li>Amari, Shun-Ichi. "Natural gradient works efficiently in learning." Neural computation 10.2 (1998): 251-276.
+		</li>
+		<li>Gutenkunst, Ryan Nicholas. Sloppiness, modeling, and evolution in biochemical networks. Diss. Cornell University, 2008.
+		</li>
+		<li>Girolami, Mark, and Ben Calderhead. "Riemann manifold langevin and hamiltonian monte carlo methods." Journal of the Royal Statistical Society: Series B (Statistical Methodology) 73.2 (2011): 123-214.
+		</li>
+		<li>Transtrum, Mark K., Benjamin B. Machta, and James P. Sethna. "Why are nonlinear fits to data so challenging?." Physical review letters 104.6 (2010): 060201.
+		</li>
+		<li>Transtrum, Mark K., Benjamin B. Machta, and James P. Sethna. "Geometry of nonlinear least squares with applications to sloppy models and optimization." Physical Review E 83.3 (2011): 036701.
+		</li>
+		<li>Transtrum, Mark K., and James P. Sethna. "Improvements to the Levenberg-Marquardt algorithm for nonlinear least-squares minimization." arXiv preprint arXiv:1201.5885 (2012).
+		</li>		
+	      </ul>
+	    </div>
+	  </section>
+
+	  <!------------------------------------------------------------------------------------------------>
+	  <section>
+	    <h2 style="position:absolute; top:0px">References: MBAM</h2>
+	    <div align=left>
+	      <ul>
+		<li>Transtrum, Mark K., and Peng Qiu. "Model reduction by manifold boundaries." Physical review letters 113.9 (2014): 098701.
+</li>
+		<li>Transtrum, Mark K., and Peng Qiu. "Bridging Mechanistic and Phenomenological Models of Complex Biological Systems." PLoS Comput Biol 12.5 (2016): e1004915.
+</li>
+	      </ul>
+	    </div>
+	  </section>
+
+	  <!------------------------------------------------------------------------------------------------>
+	  <section>
+	    <h2 style="position:absolute; top:0px">References: Applications of MBAM</h2>
+	    <div align=left style="font-size:80%">
+	      <ul>
+		<li>Paré, Philip E., et al. "A Unified View of Balanced Truncation and Singular Perturbation Approximations." 2015 American Control Conference (ACC). IEEE, 2015.
+		</li>
+		<li>Transtrum, Mark K., and Peng Qiu. "Bridging Mechanistic and Phenomenological Models of Complex Biological Systems." PLoS Comput Biol 12.5 (2016): e1004915.
+		</li>
+		<li>Nikšić, Tamara, and Dario Vretenar. "“Sloppy” nuclear energy density functionals: Effective model reduction." Physical Review C 94.2 (2016): 024333.
+		</li>
+		<li>Transtrum, Mark K., Andrija T. Saric, and A. M. Stankovic. "Measurement-Directed Reduction of Dynamic Models in Power Systems." IEEE Transactions on Power Systems.
+		</li>
+		<li>Maiwald, Tim, et al. "Driving the Model to Its Limit: Profile Likelihood Based Model Reduction." PloS one 11.9 (2016): e0162366.
+		</li>
+		<li>Raman, Dhruva V., James Anderson, and Antonis Papachristodoulou. "Delineating Parameter Unidentifiabilities in Complex Models." arXiv preprint arXiv:1607.07705 (2016).
+		</li>
+	      </ul>
+	    </div>
+	  </section>
+
+	  <!------------------------------------------------------------------------------------------------>
+	  <section>
+	    <h2 style="position:absolute; top:0px">References: Information Topology</h2>
+	    <div align=left>
+	      <ul>
+		<li>Transtrum, Mark K., Gus Hart, and Peng Qiu. "Information topology identifies emergent model classes." arXiv preprint arXiv:1409.6203 (2014).
+		</li>
+		<li>Transtrum, Mark K. "Manifold boundaries give" gray-box" approximations of complex models." arXiv preprint arXiv:1605.08705 (2016).
+		</li>
+	      </ul>
+	    </div>
+	  </section>
+	</section>
+
+      </div>
+    </div>
+    
+    <script src="lib/js/head.min.js"></script>
+    <script src="js/reveal.js"></script>
+    
+    <script>
+      // More info https://github.com/hakimel/reveal.js#configuration
+      Reveal.initialize({
+      center: false,  <!-- Center slide vertically -->
+      history: true,
+      progress: true,
+      width: 1024,
+      height: 768,
+      margin: 0.1,
+      minScale: 0.2,
+      maxScale: 1.5,
+      // More info https://github.com/hakimel/reveal.js#dependencies
+      dependencies: [
+      { src: 'plugin/markdown/marked.js' },
+      { src: 'plugin/markdown/markdown.js' },
+      { src: 'plugin/notes/notes.js', async: true },
+      { src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+      // MathJax
+      { src: 'plugin/math/math.js', async: true }
+      
+      ]
+      });
+    </script>
+  </body>
+</html>

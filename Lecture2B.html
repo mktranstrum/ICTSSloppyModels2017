@@ -1,0 +1,518 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    
+    <title>Numerical Methods motivated by Information Geometry</title>
+    
+    <link rel="stylesheet" href="css/reveal.css">
+    <link rel="stylesheet" href="css/theme/white.css">
+    
+    <!-- Theme used for syntax highlighting of code -->
+    <link rel="stylesheet" href="lib/css/zenburn.css">
+    
+    <!-- Printing and PDF exports -->
+    <script>
+      var link = document.createElement( 'link' );
+      link.rel = 'stylesheet';
+      link.type = 'text/css';
+      link.href = window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css' : 'css/print/paper.css';
+      document.getElementsByTagName( 'head' )[0].appendChild( link );
+    </script>
+  </head>
+  <body>
+    <div class="reveal">
+      <div class="slides">
+	<style>
+	  ol.clickerquiz {list-style-type: upper-alpha;}
+	</style>
+	<section>
+	  <H1>Numerical Methods motivated by Information Geometry</H1>
+	  <br>
+	  <H2></H2>
+	</section>
+
+	<!------------------------------------------------------------------------------------------------>
+	<section>
+	  <section>
+	    <h2 style="position:absolute; top:0px">Relative Off-Set Orthogonality</h2>
+	    <div align=left>
+	      <b>Context</b>: Iterative optimization algorithms.
+	      <br />
+	      <b>Problem</b>: What is a good stopping criterion?
+	      <br /><br />
+	      <div class="fragment" data-fragment-index="1">
+		<b>Previous Criterion</b>:
+		<br />
+		<ul>
+		  <li>Objective function stops decreasing (absolute/relative)</li>
+		  <li>Gradient is small</li>
+		  <li>Too many function evaluations</li>
+		  <li>Parameters stop changing (absolute/relative)</li>
+		  <li>Residual $\perp$ gradient vectors</li>
+		</ul>
+	      </div>
+	      <br />
+	      <div class="fragment" data-fragment-index="2"><b>Key Concept</b>: Stopping criterion vs. Convergence criterion</div>
+	    </div>
+	    <div style="position:absolute; top:90%; left:0; width:; height:; font-size:50%;" align=left>
+	      Bates, Douglas M., and Donald G. Watts. "A Relative Off set Orthogonality Convergence Criterion for Nonlinear least Squares." Technometrics 23.2 (1981): 179-183.	      
+	    </div>
+	  </section>
+
+	  <!------------------------------------------------------------------------------------------------>
+	  <section>
+	    <h2 style="position:absolute; top:0px">Residual Angle</h2>
+	    <div align=left style="position:absolute; top:15%; left:0; width:50%; height:;">
+	      <ul>
+		<li>Confidence Regions correspond (approximately) to disks on the model manifold.</li>
+		<li>The angle between the residual vector and the best fit residual vector is a scale free indication of how near the best fit the algorithm is.</li>
+		<li>Stop the algorithm when the $\cos$ of the angle is small (~0.001)</li>
+		
+	      </ul>
+	    </div>
+	    <img src="Figures/Bates1981/Angle.png" alt="" style="position:absolute; top:10%; left:60%; width:40%; height:;"/>
+	  </section>
+
+	  <!------------------------------------------------------------------------------------------------>
+	  <section>
+	    <h2 style="position:absolute; top:0px">Advantages:</h2>
+	    <div align=left>
+	      The relative-offset orthogonality criterion has a number of advantages over other methods.
+	      <br />
+	      <ul>
+		<li>An absolute measure of convergence</li>
+		<li>Independent of scaling in the data</li>
+		<li>Independent of parameterizations (parameter-effects nonlinaerities)</li>
+		<li>Relates directly to statistical quality of the best fit</li>
+	      </ul>
+	    </div>
+	  </section>
+
+	  <!------------------------------------------------------------------------------------------------>
+	  <section>
+	    <h2 style="position:absolute; top:0px">Problems</h2>
+	    <div align=left>
+	      There are two important cases in which this method will fail.
+	      <br />
+	      <ol>
+		<li>When the best fit residual is zero</li>
+		<li>When the best fit is on a boundary</li>
+	      </ol>
+	      <br /><br />
+	      <div class="fragment" data-fragment-index="1">The first can happen frequenty for optimization problems that are not fitting random data.</div>
+	      <br />
+	      <div class="fragment" data-fragment-index="2">
+		The second can happen frequently when fitting sloppy models.
+	      </div>
+	    </div>
+	  </section>
+
+	  <!------------------------------------------------------------------------------------------------>
+	  <section>
+	    <h2 style="position:absolute; top:0px">Best Fit at the Boundary?</h2>
+	    <div align=left style="position:absolute; top:15%; left:0; width:50%; height:;">
+	      If a manifold has many narrow widths, then the noise in the data can push the best fit to the boundary.
+	      <br />
+	      The probability of this happening depends on several factors:
+	      <br />
+	      <ul>
+		<li>Distribution of Manifold Widths</li>
+		<li>Curvature along cross-sections</li>
+		<li>Scale of noise</li>
+	      </ul>
+	    </div>
+	    <img src="Figures/Transtrum2011/EvaporatedParams.png" alt="" style="position:absolute; top:15%; left:50%; width:50%; height:;" class="fragment" data-fragment-index="1"/>
+	    <img src="Figures/Transtrum2011/EvaporatedParamsTable.png" alt="" style="position:absolute; top:60%; left:50%; width:50%; height:;" class="fragment" data-fragment-index="2"/>
+	  </section>
+
+	  <!------------------------------------------------------------------------------------------------>
+	  <section>
+	    <h2 style="position:absolute; top:0px">Modified Convergence Criterion</h2>
+	    <div align=left>
+	      <ul>
+		<li>At a regular point of the manifold, the tangent plane is defined by the columns of the Jacobian matrix: $J_{m\mu} = \partial_\mu y_m(\theta)$.</li>
+
+		<li>The relevant quantity is the projection operator onto the tangent plane:</li>
+		$$ P^T = J \left( J^T J \right)^{-1} J^T = U U^T$$
+		where $U$ are the left singular vectors of $J = U \Sigma V^T$
+		<li>At a manifold boundary, the tangent plane is not well-defined, but it is for the submanifold defined by the boundary.</li>
+		$$ \tilde{P}^T = \tilde{U} \tilde{U}^T $$
+		where $U$ are singular vectors with singular values above some tolerance.
+	      </ul>
+	    </div>
+	    <div style="position:absolute; top:90%; left:0; width:; height:; font-size:50%;" align=left>
+Transtrum, Mark K., and James P. Sethna. "Improvements to the Levenberg-Marquardt algorithm for nonlinear least-squares minimization." arXiv preprint arXiv:1201.5885 (2012).
+	    </div>
+
+	  </section>
+	</section>
+
+	<!------------------------------------------------------------------------------------------------>
+	<section>
+	  <section>
+	    <h2 style="position:absolute; top:0px">Natural Gradient</h2>
+	    <div align=left>
+	      <b>Context</b>: Iterative optimization algorithms.
+	      <br />
+	      <b>Problem</b>: Slow convergence; Plateau problem.
+	      <br /><br />
+	      <div class="fragment" data-fragment-index="1">
+		Many cost surfaces have a common structure:
+		<br />
+		<ul>
+		  <li>Near the best fit, narrow canyons long aspect ratio (given by square root of ratio of eigenvalues)</li>
+		  <li>Farther from the best fit, the cost function plateaus.</li>
+		  (Imagine finding the hole in a golf course using only local information.)
+		</ul>
+	      </div>
+	    </div>
+	    <div style="position:absolute; top:90%; left:0; width:; height:; font-size:50%;" align=left>
+	      Amari, Shun-Ichi. "Natural gradient works efficiently in learning." Neural computation 10.2 (1998): 251-276.
+	    </div>
+	  </section>
+
+	  <!------------------------------------------------------------------------------------------------>
+	  <section>
+	    <h2 style="position:absolute; top:0px">Stepping toward the minimum</h2>
+	    <div align=left>
+	      <ul>
+		<li>(negative) Gradient: Direction of steepest descent (in parameter space):</li>
+		$$ dx = - \tau \nabla C$$
+		The parameter $\tau$ is tuned by the algorithm control step size.
+		<li>The gradient direction is famously bad:</li>
+		<ul>
+		  <li>Oscillations in the bottom of the canyon (conjugate gradient)</li>
+		</ul>
+		<li>(negative) Natural Gradient: Direction of steepest descent in data space (in parameter space)</li>
+		$$ dx = - \tau g^{-1} \nabla C$$
+		<ul>
+		  <li>For least squares equivalent to Gauss-Newton</li>
+		  <li>Fisher Efficient (technical) $\implies$ could remove the plateau problem.</li>
+
+		</ul>
+	      </ul>
+	    </div>
+	  </section>
+
+	  <!------------------------------------------------------------------------------------------------>
+	  <section>
+	    <h2 style="position:absolute; top:0px">Extended Geodesic Coordinates Removes Plateaus</h2>
+	    <img src="Figures/Transtrum2012/Plateau.jpg" alt="" style="position:absolute; top:25%; left:0; width:49%; height:;"/>
+	    <img src="Figures/Transtrum2011/RNC.jpg" alt="" style="position:absolute; top:25%; left:51%; width:49%; height:;"/>
+	    <div style="position:absolute; top:90%; left:0; width:; height:; font-size:50%;" align=left>
+	      Transtrum, Mark K., Benjamin B. Machta, and James P. Sethna. "Geometry of nonlinear least squares with applications to sloppy models and optimization." Physical Review E 83.3 (2011): 036701.
+	    </div>
+	  </section>
+
+	  <!------------------------------------------------------------------------------------------------>
+	  <section>
+	    <h2 style="position:absolute; top:0px">Natural Gradient and Boundaries</h2>
+	    <img src="Figures/Transtrum2012/Plateau.jpg" alt="" style="position:absolute; top:12%; left:0; width:49%; height:;"/>
+	    <img src="Figures/Transtrum2011/GNDirections.png" alt="" style="position:absolute; top:15%; left:51%; width:49%; height:;"/>
+	    <div align=center style="position:absolute; top:80%; left:0; width:100%; height:;">
+	      The natural gradient direction is very likely to encounter a boundary before finding the best fit.
+	    </div>
+	  </section>
+	</section>
+	
+	<!------------------------------------------------------------------------------------------------>
+	<section>
+	  <section>
+	    <h2 style="position:absolute; top:0px">Riemannian MCMC</h2>
+	    <div align=left>
+	      <b>Context</b>: Markov Chain Monte Carlo Sampling of Bayesian Posterior Distributions.
+	      <br />
+	      <b>Problem</b>: Slow convergence
+	      <br /><br />
+	      <div class="fragment" data-fragment-index="1">
+		<ul>
+		  <li>Random walk through parameter space weighted by the cost</li>
+		  <li>Extreme aspect ratios</li>
+		  <li>Preferentially step in the sloppy directions</li>
+		  <li>Gaussian steps with correlations given by FIM.</li>
+		  <li>Modified acceptance criterion (Detailed Balance, see Numerical Recipes)</li>
+		</ul>
+	      </div>
+	    </div>
+	    <div style="position:absolute; top:90%; left:0; width:; height:; font-size:50%;" align=left>
+	      Girolami, Mark, and Ben Calderhead. "Riemann manifold langevin and hamiltonian monte carlo methods." Journal of the Royal Statistical Society: Series B (Statistical Methodology) 73.2 (2011): 123-214.
+	      <br />
+	      Gutenkunst, Ryan Nicholas. Sloppiness, modeling, and evolution in biochemical networks. Diss. Cornell University, 2008.
+	    </div>
+	  </section>
+
+	  <!------------------------------------------------------------------------------------------------>
+	  <section>
+	    <h2 style="position:absolute; top:0px">Some Results</h2>
+	    <img src="Figures/Gutenkunst2008/Sampling1.png" alt="" style="position:absolute; top:10%; left:0; width:50%; height:;"/>
+	    <img src="Figures/Gutenkunst2008/Sampling2.png" alt="" style="position:absolute; top:10%; left:50%; width:50%; height:;"/>
+	  </section>
+
+	  <!------------------------------------------------------------------------------------------------>
+	  <section>
+	    <h2 style="position:absolute; top:0px">Computational Tradeoffs</h2>
+	    <div>
+	      <ul>
+		<li>Riemannian MCMC is much more efficient in terms of steps.</li>
+		<li>Each Riemannian MCMC step is much more computationally intensive.</li>
+		<li>In practice, it appears to be effective.</li>
+		<li>Other MCMC methods are also effective (e.g., https://arxiv.org/abs/1202.3665)</li>
+	      </ul>
+	    </div>
+	  </section>
+
+	</section>
+
+	<!------------------------------------------------------------------------------------------------>
+	<section>
+	  <section>
+	    <h2 style="position:absolute; top:0px">Levenberg-Marquardt</h2>
+	    <div align=left>
+	      <b>Context</b>: Data Fitting
+	      <br />
+	      <b>Problem</b>: Slow convergence, getting lost on the plateau	      
+	      <br /><br />
+	      <div class="fragment" data-fragment-index="1">
+		<ul>
+		  <li>The Natural gradient is preferred near the best fit</li>
+		  <li>Far from the best fit, the natural gradient becomes stuck at the boundary</li>
+		  <li>Not originally motivated by information geometry.</li>
+		  <li>Information geometry helps explain why it is effective</li>
+		</ul>
+	      </div>
+	    </div>
+	    <div style="position:absolute; top:90%; left:0; width:; height:; font-size:50%;" align=left>
+	      Transtrum, Mark K., Benjamin B. Machta, and James P. Sethna. "Geometry of nonlinear least squares with applications to sloppy models and optimization." Physical Review E 83.3 (2011): 036701.
+	    </div>
+	  </section>
+
+	  <!------------------------------------------------------------------------------------------------>
+	  <section>
+	    <h2 style="position:absolute; top:0px">Original Derivation: Trust Region</h2>
+	    <div align=left>
+	      Approximate the cost near the current guess:
+	      $$ C(\theta) = \frac{1}{2} \sum_m r_m(\theta)^2 \approx \frac{1}{2} \sum_m \left( r_{m0} + J_{m\mu} (\theta^\mu - \theta^\mu_0\right)^2 $$
+	      Minimize the approximate $C(\theta)$ subject to the constraint:
+	      $$ \delta \theta^T \left( D^T D \right) \theta &lt; \Delta $$
+	      Leads to the step:
+	      $$ \delta \theta = -\left(J^T J + \lambda D^T D\right)^{-1} \nabla C $$
+	      where $\lambda$ is a Lagrange Multiplier (damping parameter).
+	      <br />
+	      $D^TD$ is usually taken to be the identity.
+	    </div>
+	  </section>
+	  
+	  <!------------------------------------------------------------------------------------------------>
+	  <section>
+	    <h2 style="position:absolute; top:0px">Understanding LM</h2>
+	    <div align=left>
+	      <b>Large $\lambda$:</b>
+	      $$ \delta \theta \rightarrow -\frac{1}{\lambda} \left( D^TD \right)^{-1} \nabla C $$
+	      <ul>
+		<li>Steps become arbitrarily small</li>
+		<li>Directed in the parameter space gradient</li>
+		<li>For sufficiently large $\lambda$, there will always be a step that moves downhill</li>
+	      </ul>
+	      <br /><br />
+	      <b>Small $\lambda$:</b>
+	      $$ \delta \theta \rightarrow -\left( J^TJ \right)^{-1} \nabla C $$
+	      <ul>
+		<li>Steps become the Natural Gradient</li>		
+	      </ul>
+	    </div>
+	  </section>
+
+	  <!------------------------------------------------------------------------------------------------>
+	  <section>
+	    <h2 style="position:absolute; top:0px">Understanding LM</h2>
+	    <div align=left>
+	      A typical optimization procedure:
+	      <br />
+	      <ol>
+		<li>Far from best fit, large $\lambda$</li>
+		<li>Algorithm moves downhill into a canyon and near the best fit.</li>
+		<li>$\lambda$ is slowly decreased, rotating the step in the natural gradient</li>
+		<li>Rapid convergence near the best fit</li>
+	      </ol>
+	    </div>
+	  </section>
+
+	  <!------------------------------------------------------------------------------------------------>
+	  <section>
+	    <h2 style="position:absolute; top:0px">Model Graph</h2>
+	    <div align=left style="position:absolute; top:15%; left:0; width:60%; height:;">
+	      <ul>
+		<li>The term $J^TJ + \lambda D^TD$ looks like a modified metric.</li>
+		<li>It is the metric on the <i>model graph</i></li>
+		<ul>
+		  <li>Plot model output against parameters</li>
+		  <li>$N$ dimensional manifold embedded in an $M+N$ dimensional space</li>
+		</ul>
+		<li>The model graph stretches the model manifold so that there are no more boundaries.</li>
+	      </ul>
+	    </div>
+	    <img src="Figures/Transtrum2011/ModelGraph.jpg" alt="" style="position:absolute; top:0%; left:60%; width:40%; height:;"/>
+	    <div style="position:absolute; top:90%; left:0; width:; height:; font-size:50%;" align=left>
+	      Transtrum, Mark K., Benjamin B. Machta, and James P. Sethna. "Geometry of nonlinear least squares with applications to sloppy models and optimization." Physical Review E 83.3 (2011): 036701.
+	    </div>
+	  </section>
+
+	  <!------------------------------------------------------------------------------------------------>
+	  <section>
+	    <h2 style="position:absolute; top:0px">Natural Gradient of Model Graph</h2>
+	    <img src="Figures/Transtrum2011/NaturalGradientMG.jpg" alt="" style="position:absolute; top:6%; left:15%; width:70%; height:;"/>
+	  <div style="position:absolute; top:90%; left:0; width:; height:; font-size:50%;" align=left>
+	    Transtrum, Mark K., Benjamin B. Machta, and James P. Sethna. "Geometry of nonlinear least squares with applications to sloppy models and optimization." Physical Review E 83.3 (2011): 036701.
+	  </div>
+	  </section>
+
+	  <!------------------------------------------------------------------------------------------------>
+	  <section>
+	    <h2 style="position:absolute; top:0px">Geodesic Coordinates on Model Graph</h2>
+	    <img src="Figures/Transtrum2011/RNCModelGraph.jpg" alt="" style="position:absolute; top:15%; left:5%; width:90%; height:;"/>
+	  <div style="position:absolute; top:90%; left:0; width:; height:; font-size:50%;" align=left>
+	    Transtrum, Mark K., Benjamin B. Machta, and James P. Sethna. "Geometry of nonlinear least squares with applications to sloppy models and optimization." Physical Review E 83.3 (2011): 036701.
+	  </div>
+	  </section>
+
+	</section>
+
+	<!------------------------------------------------------------------------------------------------>
+	<section>
+	  <!------------------------------------------------------------------------------------------------>
+	  <section>
+	    <h2 style="position:absolute; top:0px">Geodesic Levenberg-Marquardt</h2>
+	    <div align=left>
+	      <b>Context</b>: Data Fitting
+	      <br />
+	      <b>Problem</b>: Slow convergence, getting lost on the plateau	      
+	      <br /><br />
+	      <div class="fragment" data-fragment-index="1">
+		<ul>
+		  <li>Levenberg-Marquardt is generally effective, but can become slow when the canyon is narrow and curves.</li>
+		  <li>Geodesic coordinates suggest a way of straightening out the canyon.</li>
+		  <li>Sometimes $\lambda$ is decreased too quickly, LM becomes lost.</li>
+		</ul>
+	      </div>
+	    </div>
+	    <div style="position:absolute; top:90%; left:0; width:; height:; font-size:50%;" align=left>
+	      Transtrum, Mark K., Benjamin B. Machta, and James P. Sethna. "Why are nonlinear fits to data so challenging?." Physical review letters 104.6 (2010): 060201.
+	    </div>
+	  </section>
+
+	  <!------------------------------------------------------------------------------------------------>
+	  <section>
+	    <h2 style="position:absolute; top:0px">Optimziation and Geometry</h2>
+	    <div align=left>
+	      <ul>
+		<li>A recurring theme: Algorithms should exploit the natural geometric structure of the problem.</li>
+		<li>Rather than stepping in straight lines in parameter space, take straight lines in data space: <b>Geodesics</b></li>
+		$$ \delta \theta = v \tau + \frac{1}{2} a \tau^2 + \dots $$
+		<li>The first order term is the traditional LM step.</li>
+		<li>The second order term is the geodesic acceleration on the model graph:</li>
+		$$ \frac{1}{2}a \tau^2 = \frac{1}{2} \left( J^TJ + \lambda D^TD \right)^{-1} J^T \left( v^\mu v^\nu \partial_\mu \partial_\nu \mathbf{y}
+		\right)$$
+	      </ul>
+	    </div>
+	  </section>
+
+	  <!------------------------------------------------------------------------------------------------>
+	  <section>
+	    <h2 style="position:absolute; top:0px">Geodesic Acceleration</h2>
+	    <img src="Figures/Transtrum2011/GeodesicAcceleration.jpg" alt="" style="position:absolute; top:10%; left:20%; width:60%; height:;"/>
+	    <div style="position:absolute; top:90%; left:0; width:; height:; font-size:50%;" align=left>
+	    Transtrum, Mark K., Benjamin B. Machta, and James P. Sethna. "Geometry of nonlinear least squares with applications to sloppy models and optimization." Physical Review E 83.3 (2011): 036701.
+	    </div>
+
+	  </section>
+
+	  <!------------------------------------------------------------------------------------------------>
+	  <section>
+	    <h2 style="position:absolute; top:0px">Comparing Algorithms</h2>
+	    <div>
+	      <ul>
+		<li>Derivatives are generally expensive to calculate.</li>
+		<li>Each Jacobian is equal to roughly $N$ function evaluations.</li>
+		<ul>
+		  <li>For large models, calculating Jacobian is the botleneck.</li>		  
+		</ul>
+		<li>Calculating all second derivatives would be $N^2$ function evaluations.</li>
+		<ul>
+		  <li>The geodesic acceleration requires a direction second derivative, estimable with <b>1 extra function evaluation.</b></li>
+		</ul>
+		<li>Comparison Strategy:</li>
+		<ul>
+		  <li>Test on small problems</li>
+		  <li>Count number of Jacobian Evaluations</li>
+		  <li>Extrapolate performance to large problems where Jacobian evaluations dominate.</li>		  
+		</ul>
+	      </ul>
+	    </div>
+	  </section>
+
+	  <!------------------------------------------------------------------------------------------------>
+	  <section>
+	    <h2 style="position:absolute; top:0px">Results</h2>
+	    <img src="Figures/Transtrum2011/Comparisons.jpg" alt="" style="position:absolute; top:10%; left:25%; width:50%; height:;"/>
+	    <div style="position:absolute; top:90%; left:0; width:; height:; font-size:50%;" align=left>
+	    Transtrum, Mark K., Benjamin B. Machta, and James P. Sethna. "Geometry of nonlinear least squares with applications to sloppy models and optimization." Physical Review E 83.3 (2011): 036701.
+	    </div>
+	  </section>
+
+	  <!------------------------------------------------------------------------------------------------>
+	  <section>
+	    <h2 style="position:absolute; top:0px">Improving the trust region</h2>
+	    <div align=left>
+	      Levenberg-Marquardt adjusts $\lambda$ by gauging the cost at the proposed step.
+	      <br />
+	      <ul>
+		<li>If $C_{new} &lt; C$, decrease $\lambda$ and accept step</li>
+		<li>If $C_{new} &gt; C$, increase $\lambda$ and reject step</li>
+		<li>Generally effective, but not always.</li>
+	      </ul>
+	      <br /><br />
+	      Geodesic Acceleration suggests an additional check:
+	      <ul>
+		<li>Only accept steps if $|a| &lt; |v|$</li>
+	      </ul>
+	      <br /><br />
+	      In practice, geodesic acceleration is much more adept at avoiding manifold boundaries with this criterion.
+	    </div>
+	  </section>
+
+	</section>
+
+	
+      </div>
+    </div>
+    
+    <script src="lib/js/head.min.js"></script>
+    <script src="js/reveal.js"></script>
+    
+    <script>
+      // More info https://github.com/hakimel/reveal.js#configuration
+      Reveal.initialize({
+      center: false,  <!-- Center slide vertically -->
+      history: true,
+      progress: true,
+      width: 1024,
+      height: 768,
+      margin: 0.1,
+      minScale: 0.2,
+      maxScale: 1.5,
+      // More info https://github.com/hakimel/reveal.js#dependencies
+      dependencies: [
+      { src: 'plugin/markdown/marked.js' },
+      { src: 'plugin/markdown/markdown.js' },
+      { src: 'plugin/notes/notes.js', async: true },
+      { src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+      // MathJax
+      { src: 'plugin/math/math.js', async: true }
+      
+      ]
+      });
+    </script>
+  </body>
+</html>
