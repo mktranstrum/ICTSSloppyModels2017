@@ -232,6 +232,22 @@
 
 	  <!------------------------------------------------------------------------------------------------>
 	  <section>
+	    <h2 style="position:absolute; top:0px">Relation Between Embeddings*</h2>
+	    <div align=left>
+	      <b>Exercise:</b> Show that the distance function:
+		$$ D(\theta_i, \theta_j) = -2 \log \left( \langle z(\theta_i), z(\theta_j) \rangle \right) $$
+	      gives gives the Fisher Information Metric for infinitesimal distances.
+	      <br /><br />
+	      Show that for the case of least-squares data fitting, this distance implies the least squares embedding.
+	    </div>
+	    <div style="position:absolute; top:90%; left:0; width:; height:; font-size:50%" align=left>
+	      *Katherine Quinn, unpublished.
+	    </div>
+
+	  </section>
+
+	  <!------------------------------------------------------------------------------------------------>
+	  <section>
 	    <h2 style="position:absolute; top:0px">Intrinsic vs. Extrinsic</h2>
 	    <div>
 	      <ul>
@@ -260,26 +276,45 @@
 
 	<!------------------------------------------------------------------------------------------------>
 	<section>
-	  <h2 style="position:absolute; top:0px">Visualizations</h2>
-	  <div align=left style="font-size:90%">
-	    The high dimensionality of $\mathcal{D}$ and $\mathcal{M}$ make visualizations difficult.
-	    <br />
-	    One approach:
-	    <ul>
-	      <li>Generate a sampling of points in parameter space.</li>
+	  <section>
+	    <h2 style="position:absolute; top:0px">Visualizations</h2>
+	    <div align=left style="font-size:90%">
+	      The high dimensionality of $\mathcal{D}$ and $\mathcal{M}$ make visualizations difficult.
+	      <br />
+	      One approach:
 	      <ul>
-		<li>Grid in parameter space</li>
-		<li>Sample geometrically motivated distributions (Ben Machta)</li>
+		<li>Generate a sampling of points in parameter space.</li>
+		<ul>
+		  <li>Grid in parameter space</li>
+		  <li>Sample geometrically motivated distributions (Ben Machta)</li>
+		</ul>
+		<li>Find the model predictions (vector) for each point and arrange them (mean shifted) in a matrix</li>
+		$$ \tilde{\mathbf{y}}_i = \mathbf{y}_i - \frac{1}{P} \sum_j \mathbf{y}_j $$
+		$$ Y = \left[ \tilde{\mathbf{y}}_1 \tilde{\mathbf{y}}_2 \dots \tilde{\mathbf{y}}_P \right] $$
+		<li>Perform a PCA of these points:</li>
+		$$ Y = U \Sigma V^T$$
+		<li>Plot the first several PCA directions:</li>
+		$$ U \Sigma = Y V $$
 	      </ul>
-	      <li>Find the model predictions (vector) for each point and arrange them (mean shifted) in a matrix</li>
-	      $$ \tilde{\mathbf{y}}_i = \mathbf{y}_i - \frac{1}{P} \sum_j \mathbf{y}_j $$
-	      $$ M = \left[ \tilde{\mathbf{y}}_1 \tilde{\mathbf{y}}_2 \dots \tilde{\mathbf{y}}_P \right] $$
-	      <li>Perform a PCA of these points:</li>
-	      $$ M = U \Sigma V^T$$
-	      <li>Plot the first several PCA directions:</li>
-	      $$ U \Sigma = M V $$
-	    </ul>
-	  </div>
+	    </div>
+	  </section>
+
+	  <!------------------------------------------------------------------------------------------------>
+	  <section>
+	    <h2 style="position:absolute; top:0px">Visualization</h2>
+	    <div align=left>
+	      Given the matrix of mean-shifted matrix of points:
+	      $$ Y = \left[ \tilde{\mathbf{y}}_1 \tilde{\mathbf{y}}_2 \dots \tilde{\mathbf{y}}_P \right] $$
+	      we can also construct a projection matrix:
+	      \begin{align}
+	      M & = YY^T = U \Sigma^2 U^T \\
+	      M_{ij} &= \tilde{\mathbf{y}}_i \cdot \tilde{\mathbf{y}}_j 
+	      \end{align}
+	      <br /><br />
+	      An eigenvalue decomposition of $M$ is sufficient to produce an isometric embedding/visualization: $U \Sigma$.
+	    </div>
+	  </section>
+
 	</section>
 
 	<!------------------------------------------------------------------------------------------------>
