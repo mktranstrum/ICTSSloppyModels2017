@@ -261,7 +261,7 @@
 	<!------------------------------------------------------------------------------------------------>
 	<section>
 	  <h2 style="position:absolute; top:0px">Visualizations</h2>
-	  <div align=left>
+	  <div align=left style="font-size:90%">
 	    The high dimensionality of $\mathcal{D}$ and $\mathcal{M}$ make visualizations difficult.
 	    <br />
 	    One approach:
@@ -271,8 +271,9 @@
 		<li>Grid in parameter space</li>
 		<li>Sample geometrically motivated distributions (Ben Machta)</li>
 	      </ul>
-	      <li>Find the model predictions (vector) for each point and arrange them in a matrix</li>
-	      $$ M = \left[ \mathbf{y}_1 \mathbf{y}_2 \dots \mathbf{y}_P \right] $$
+	      <li>Find the model predictions (vector) for each point and arrange them (mean shifted) in a matrix</li>
+	      $$ \tilde{\mathbf{y}}_i = \mathbf{y}_i - \frac{1}{P} \sum_j \mathbf{y}_j $$
+	      $$ M = \left[ \tilde{\mathbf{y}}_1 \tilde{\mathbf{y}}_2 \dots \tilde{\mathbf{y}}_P \right] $$
 	      <li>Perform a PCA of these points:</li>
 	      $$ M = U \Sigma V^T$$
 	      <li>Plot the first several PCA directions:</li>
