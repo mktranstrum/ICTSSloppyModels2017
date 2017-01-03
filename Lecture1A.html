@@ -267,13 +267,13 @@
 	  <h2 style="position:absolute; top:0px">Score</h2>
 	  <div align=left style="font-size:80%">
 	    <ul>
-	      <li>The score is a statistic that quantifies the sensitivity of the likelihood to changes in the parameters:</li>
-	      $$V = \frac{\partial \mathcal{L}}{\partial \theta}$$
+	      <li>The score is a statistic that quantifies the sensitivity of the (log) likelihood to changes in the parameters:</li>
+	      $$V = \frac{\partial \mathcal{l}}{\partial \theta}$$
 	      <li>The score is a random variable (it is a function of the data).</li>
 	      <li>Consider moments of the score.</li>
 	      <li> First moment:</li>
 	      \begin{align}
-	      \langle V \rangle & = \langle \partial \mathcal{L} / \partial \theta \rangle \\
+	      \langle V \rangle & = \langle \partial \mathcal{l} / \partial \theta \rangle \\
 	      & = \sum_d P(d|\theta) \frac{\partial \log P(d|\theta)}{\partial \theta} \\
 	      & = \sum_d P(d|\theta) \left( \frac{1}{P(d|\theta)} \frac{\partial P(d|\theta)}{\partial \theta} \right) \\
 	      & = \frac{\partial}{\partial \theta} \sum_d P(d|\theta) = \frac{\partial}{\partial \theta} 1 \\
@@ -293,8 +293,8 @@
 	      It is known as the Fisher Information Matrix (FIM), $\mathcal{I}$:
 	      \begin{align}
 	      \mathcal{I}_{\mu\nu} & = \langle V^2 \rangle \\
-	      & = \left\langle \frac{\partial \mathcal{L}}{\partial \theta_\mu} \frac{\partial \mathcal{L}}{\partial \theta_\nu} \right\rangle \\
-	      & = - \left\langle \frac{\partial^2 \mathcal{L}}{\partial \theta_\mu \partial \theta_\nu} \right\rangle 	    
+	      & = \left\langle \frac{\partial \mathcal{l}}{\partial \theta_\mu} \frac{\partial \mathcal{l}}{\partial \theta_\nu} \right\rangle \\
+	      & = - \left\langle \frac{\partial^2 \mathcal{l}}{\partial \theta_\mu \partial \theta_\nu} \right\rangle 	    
 	      \end{align}
 	      <br />
 	      <b>Exerise:</b> Prove the last equality.
