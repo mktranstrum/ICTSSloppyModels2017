@@ -1,0 +1,82 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    
+    <title>Tutorial</title>
+    
+    <link rel="stylesheet" href="css/reveal.css">
+    <link rel="stylesheet" href="css/theme/white.css">
+    
+    <!-- Theme used for syntax highlighting of code -->
+    <link rel="stylesheet" href="lib/css/zenburn.css">
+    
+    <!-- Printing and PDF exports -->
+    <script>
+      var link = document.createElement( 'link' );
+      link.rel = 'stylesheet';
+      link.type = 'text/css';
+      link.href = window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css' : 'css/print/paper.css';
+      document.getElementsByTagName( 'head' )[0].appendChild( link );
+    </script>
+  </head>
+  <body>
+    <div class="reveal">
+      <div class="slides">
+	<style>
+	  ol.clickerquiz {list-style-type: upper-alpha;}
+	</style>
+	<section>
+	  <H1>Tutorial</H1>
+	  <br>
+	  <H2></H2>
+	</section>
+
+
+	<!------------------------------------------------------------------------------------------------>
+	<section>
+	  <div align=left>
+	    Consider the least-squares model:
+	    $$ y(t, \theta) = e^{-\theta_1 t} + e^{-\theta_2 t} $$
+	    To enforce $\theta_1 > 0$, switch to log parameters: $\theta_i = e^{\phi_i}$, $\phi_i = \log \theta_i$.
+	    <br /><br />
+	    Find an expression for both the first and second directional derivatives in the direction $v^\alpha = (v^1, v^2)$ in $\phi$ coordinates.
+	  </div>
+	  <div>
+	    <b>Solution:</b>
+	  </div>
+
+	</section>
+	
+      </div>
+    </div>
+    
+    <script src="lib/js/head.min.js"></script>
+    <script src="js/reveal.js"></script>
+    
+    <script>
+      // More info https://github.com/hakimel/reveal.js#configuration
+      Reveal.initialize({
+      center: false,  <!-- Center slide vertically -->
+      history: true,
+      progress: true,
+      width: 1024,
+      height: 768,
+      margin: 0.1,
+      minScale: 0.2,
+      maxScale: 1.5,
+      // More info https://github.com/hakimel/reveal.js#dependencies
+      dependencies: [
+      { src: 'plugin/markdown/marked.js' },
+      { src: 'plugin/markdown/markdown.js' },
+      { src: 'plugin/notes/notes.js', async: true },
+      { src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+      // MathJax
+      { src: 'plugin/math/math.js', async: true }
+      
+      ]
+      });
+    </script>
+  </body>
+</html>
