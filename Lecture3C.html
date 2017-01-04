@@ -1,0 +1,550 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    
+    <title>Information Topology</title>
+    
+    <link rel="stylesheet" href="css/reveal.css">
+    <link rel="stylesheet" href="css/theme/white.css">
+    
+    <!-- Theme used for syntax highlighting of code -->
+    <link rel="stylesheet" href="lib/css/zenburn.css">
+    
+    <!-- Printing and PDF exports -->
+    <script>
+      var link = document.createElement( 'link' );
+      link.rel = 'stylesheet';
+      link.type = 'text/css';
+      link.href = window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css' : 'css/print/paper.css';
+      document.getElementsByTagName( 'head' )[0].appendChild( link );
+    </script>
+  </head>
+  <body>
+    <div class="reveal">
+      <div class="slides">
+	<style>
+	  ol.clickerquiz {list-style-type: upper-alpha;}
+	</style>
+	<section>
+	  <H1>Information Topology</H1>
+	  <br>
+	  <H2></H2>
+	</section>
+
+	<!------------------------------------------------------------------------------------------------>
+	<section>
+	  <section>
+	    <h2 style="position:absolute; top:0px">What is a manifold?</h2>
+	    <div>
+	      <ul>
+		<li>A manifold is a kind of topological space.</li>
+		<ul>
+		  <li>No sense of distance or angles</li>
+		  <li>Manifold vs. Manifold with boundary vs. Manifold with corner and different topological spaces</li>
+		</ul>
+		<li>Adding a metric to the manifold induces a topology, but adds additional structure (distance).</li>
+		<li>MBAM does not operate on the geometric object.</li>
+		<ul>
+		  <li>MBAM uses the geometry, to find a topological feature: the boundary.</li>		
+		</ul>
+	      </ul>
+	    </div>
+	  </section>
+
+	  <!------------------------------------------------------------------------------------------------>
+	  <section>
+	    <h2 style="position:absolute; top:0px">To Illustrate</h2>
+	    <div align=left>
+	      Consider the question: <br /><br />
+	      What is the FIM for the enzyme-substrate model?
+	      \begin{align}
+	      \frac{d}{dt} [E] & = -k_f [E][S] + k_r [C] + k_c [C] \\
+	      \frac{d}{dt} [S] & = -k_f [E][S] + k_r [C] \\
+	      \frac{d}{dt} [C] & = k_f [E][S] - k_r [C] - k_c [C] \\
+	      \frac{d}{dt} [P] & = k_c [C]
+	      \end{align}
+	      <span class="fragment" data-fragment-index="1">This question makes no sense.	      </span>
+	    </div>
+	  </section>
+
+	  <!------------------------------------------------------------------------------------------------>
+	  <section>
+	    <h2 style="position:absolute; top:0px">On the other hand</h2>
+	    <div align=left>
+	      What are the boundaries of the enzyme-substrate model?:
+	      \begin{align}
+	      \frac{d}{dt} [E] & = -k_f [E][S] + k_r [C] + k_c [C] \\
+	      \frac{d}{dt} [S] & = -k_f [E][S] + k_r [C] \\
+	      \frac{d}{dt} [C] & = k_f [E][S] - k_r [C] - k_c [C] \\
+	      \frac{d}{dt} [P] & = k_c [C]
+	      \end{align}
+	      This question is well-posed.
+	      <br />
+	      The equilibrium approximation (Michaelis-Menten reaction) is one of the boundaries of this model.
+	    </div>
+	  </section>
+
+	  <!------------------------------------------------------------------------------------------------>
+	  <section>
+	    <h2 style="position:absolute; top:0px">Modeling</h2>
+	    <div align=left style="position:absolute; top:10%; left:0; width:60%; height:; font-size:90%">
+	      <ul>
+		<li>$\Theta$: Parameter Space</li>
+		<li>$Y$: Model mapping</li>
+		<li>$\mathcal{B}$: Behavior Space</li>
+		<ul>
+		  <li>All possible behaviors/measurements (large)</li>		  
+		  <li>Induced by the mapping from parameter space $Y$.</li>
+		</ul>
+		<li>$X$: A real experiment</li>
+		<li>$\mathcal{D}$: Data space induced by $X$.</li>
+		<li>$y$: The model mapping from parameter space to data space.</li>
+		<ul>
+		  <li>What we have studied so far.</li>		  
+		</ul>
+		<li>$y^{-1}$: Parameter Inference from experimental data.</li>
+
+	      </ul>
+	    </div>
+	    <img src="Figures/Transtrum2016Information/LeiFig.png" alt="" style="position:absolute; top:10%; left:60%; width:50%; height:;"/>
+	      <div style="position:absolute; top:90%; left:0; width:; height:; font-size:50%;" align=left>
+		Transtrum, Mark K., Gus Hart, and Peng Qiu. "Information topology identifies emergent model classes." arXiv preprint arXiv:1409.6203 (2014).
+	      </div>	    
+	  </section>
+
+	  <!------------------------------------------------------------------------------------------------>
+	  <section>
+	    <h2 style="position:absolute; top:0px">Statistical vs. Abstract Models</h2>
+	    <div align=left, style="position:absolute; top:15%; left:0; width:60%; height:; font-size:85%">
+	      <ul>
+		<li>Parameter space and potential behaviors exist independently of real experiments.</li>
+		<ul>
+		  <li>No natural metric.</li>
+		  <li>Manifold in the topological sense.</li>
+		</ul>
+		<li>Statistical inference on real data adds a metric to the manifold.</li>
+		<ul>
+		  <li>Natural Metric</li>
+		  <li>Manifold in the geometric sense.</li>
+		</ul>
+	      </ul>
+	    </div>
+	    <div align=left style="position:absolute; top:60%; left:0; width:100%; height:; font-size:85%">
+	      <ul>
+		<li>Statistical Model: a model for which the Fisher Information <i>is</i> defined.</li>
+		<ul>
+		  <li>Requires data/predictions</li>
+		  <li>Information Geometry</li>
+		</ul>
+		<li>Abstract Model: A parameter space and model mapping for which potential Fisher Informations <i>could be</i> defined.</li>
+		<ul>
+		  <li>Information Topology</li>		  
+		</ul>
+	      </ul>
+	    </div>
+	    <img src="Figures/Transtrum2016Information/TopologyGeometry.png" alt="" style="position:absolute; top:15%; left:60%; width:50%; height:;"/> 
+	  </section>	  
+	</section>	
+
+	<section>
+	  <!------------------------------------------------------------------------------------------------>
+	  <section>
+	    <h2 style="position:absolute; top:0px">Example:</h2>
+	    <div align=left style="position:absolute; top:15%; left:0; width:50%; height:;">
+	      \begin{align}
+	      y_1 & = e^{-\theta_1 t} + e^{-\theta_2 t} \\
+	      y_2 & = e^{-\theta_1 t} - e^{-\theta_2 t}
+	      \end{align}
+	      <ul>
+		<li>Different measurements of $y_1$ and $y_2$ can lead to different geometries (e.g., curvatures).</li>
+		<li>In either case, the boundary complex is the same (i.e., square like)</li>
+		<li>The "square-likeness" is a property of the abstract model.</li>
+		<li>We say the manifold is a "topological square"</li>
+	      </ul>
+	    </div>
+	    <img src="Figures/Transtrum2016Information/Exps.png" alt="" style="position:absolute; top:30%; left:50%; width:50%; height:;"/>
+	  </section>
+
+	  <!------------------------------------------------------------------------------------------------>
+	  <section>
+	    <h2 style="position:absolute; top:0px">Topology</h2>
+	    <div align=left style="font-size:90%">
+	      <b>Information Topology:</b> Study of the boundary complex of the abstract model compared to the boundary structure of the statistical model induced by the Fisher Information Matrix.
+	      <br /><br />
+	      <ul>
+		<li>Non-standard (Not counting "holes" in the manifold, although that could be done.)</li>
+		<li>This analysis is topological in several ways:</li>
+		<ul>
+		  <li>Global (not local)</li>
+		  <li>Invariance to classes of transformations (diffeomorphisms rather than homeomorphisms)</li>
+		  <li>Studies properties of a topological space (in most cases, abstract models are CW complexes)</li>
+		  <li>Related to the origin of topology (Euler's polyhedra formula)</li>
+		  <li>Is independent of the Fisher Information Matrix.</li>
+		</ul>
+	      </ul>
+	    </div>
+	  </section>	  
+	</section>
+
+	<!------------------------------------------------------------------------------------------------>
+	<section>
+	  <section>
+	    <h2 style="position:absolute; top:0px">Manifold Collapse</h2>
+	    <div>
+	      <ul>
+		<li>The Fisher Information Metric <i>induces</i> a topology on the parameter space.</li>
+		<li>This topology need not be the same as that of the abstract model.</li>
+		<li>When the FIM topology is different from the abstract topology, we say there was <i>Manifold Collapse</i>.</li>
+
+	      </ul>
+	      
+	    </div>
+	  </section>
+
+	  <!------------------------------------------------------------------------------------------------>
+	  <section>
+	    <h2 style="position:absolute; top:0px">Example:</h2>
+	    <div align=left style="position:absolute; top:10%; left:0; width:50%; height:;">
+	      \begin{align}
+	      y_1 & = e^{-\theta_1 t} + e^{-\theta_2 t} \\
+	      y_2 & = e^{-\theta_1 t} - e^{-\theta_2 t}
+	      \end{align}
+	      <ul>
+		<li>But suppose I only observe $y_1$.</li>
+		<li>The manifold is "folded" in half.</li>
+		<li>It is now "triangle-like".</li>
+		<li>The collapse reflects a qualitative change in the information content of the data and results in a structural nonidentifiability.</li>
+
+	      </ul>	      
+	    </div>
+	    <img src="Figures/Transtrum2016Information/Exps_CG.png" alt="" style="position:absolute; top:10%; left:50%; width:50%; height:;"/>
+	  </section>
+
+	  <!------------------------------------------------------------------------------------------------>
+	  <section>
+	    <h2 style="position:absolute; top:0px">Collapse of the Boundaries</h2>
+	    <div align=left style="position:absolute; top:10%; left:0; width:50%; height:; font-size:90%">
+	      <ul>
+		<li>Sometimes the boundary structure changes without a structural nonidentifiability.</li>
+		<li>The abstract enzyme-substrate model is three dimensional with five faces.</li>
+		<li>The statistical enzyme-substrate model when observing only the product $[P]$ is three dimensional with two faces.</li>
+		<li>The boundary collapse leads to a practical nonidentifiability.</li>
+		<li>The success of the Michaelis-Menten approximation is a consequence of this boundary collapse.</li>
+	      </ul>
+	    </div>
+	    <img src="Figures/Transtrum2016Information/ESR_1.png" alt="" style="position:absolute; top:10%; left:50%; width:50%; height:;"/>
+
+
+	    <img src="Figures/Transtrum2016Information/ESR_CG.png" alt="" style="position:absolute; top:50%; left:50%; width:50%; height:;"/>
+	    
+	  </section>
+	</section>
+	<!------------------------------------------------------------------------------------------------>
+	<section>	
+	  <section>
+	    <h2 style="position:absolute; top:0px">Hasse Diagrams</h2>
+	    <div align=left style="position:absolute; top:10%; left:0; width:50%; height:; font-size:90%" >
+	      <ul>	      
+		<li>The hierarchy of boundaries forms a graded partially ordered set (poset)</li>
+		<li>Posets are graphically represented by Hasse diagrams.</li>
+		<li>Nodes represent boundary structures.</li>
+		<ul>
+		  <li>Rows indicate dimension.</li>
+		  <li>Arrows indicate adjacency relationships.</li>
+		</ul>
+		<li>It is customary to include a single "Least Face" (LF) corresponding to dimension -1.</li>
+
+	      </ul>
+	    </div>
+	    <img src="Figures/Transtrum2016Information/TreeCartoon.png" alt="" style="position:absolute; top:10%; left:50%; width:50%; height:;"/>
+	  </section>
+
+	  <!------------------------------------------------------------------------------------------------>
+	  <section>
+	    <h2 style="position:absolute; top:0px">Examples</h2>
+	    <img src="Figures/Transtrum2016Information/HasseDiagrams.png" alt="" style="position:absolute; top:10%; left:0; width:50%; height:;"/>
+	    <div align=left style="position:absolute; top:25%; left:55%; width:45%; height:;">
+	      Hasse Diagrams for:
+	      <ul>
+		<li>Line Segment</li>
+		<li>Triangle</li>
+		<li>Square</li>
+		<li>Abstract enzyme-substrate model</li>
+		<li>Statistical enzyme-substrate model</li>
+	      </ul>
+	    </div>
+	  </section>
+
+	  <!------------------------------------------------------------------------------------------------>
+	  <section>
+	    <h2 style="position:absolute; top:0px">Meaning of Nodes</h2>
+	    <div align=left style="position:absolute; top:15%; left:0%; width:50%; height:;">
+	      Nodes in the Hasse diagram:
+	      <br />
+	      <ul>
+		<li>Simplified Models</li>
+		<li>Approximate a portion of the abstract model.</li>
+		<li>Distinct Behavioral regimes</li>
+	      </ul>
+	    </div>
+	    <div style="position:absolute; top:65%; left:; width:; height:;" class="fragment" data-fragment-index="1">
+	      The Hasse diagram is a road map from the intricate and fully parameterized description of a complex system through various types of approximations to the set of distinct behavior regimes the model enables. 
+	    </div>
+	    <img src="Figures/Transtrum2016Information/ESRCG_Hasse.png" alt="" style="position:absolute; top:15%; left:50%; width:50%; height:;"/>
+	  </section>
+	</section>
+	<!------------------------------------------------------------------------------------------------>
+	<section>
+	  <section>	  
+	    <h2 style="position:absolute; top:0px">Manifold Collapse Revisited</h2>
+	    <div>
+	      <ul>
+		<li>A statistical manifold has a topology (boundary complex) induced by the metric.</li>
+		<li>This boundary complex may or may not be the same as that of the abstract model.</li>
+		<li>Families of statistical models with the same boundary complex are related by diffeomorphisms.</li>
+		<ul>
+		  <li>Result of differential topology: Diffeomorphisms form a group.</li>
+		  <li>Groups of statistical models with the same Hasse diagram.</li>
+		</ul>
+	      </ul>
+	    </div>
+	  </section>
+
+	  <!------------------------------------------------------------------------------------------------>
+	  <section>
+	    <h2 style="position:absolute; top:0px">Observation Semi-group</h2>
+	    <div>
+	      <ul>
+		<li>When the manifold "collapses" information is lost--the operation has no inverse.</li>
+		<ul>
+		  <li>The group structure relating statistical manifolds is broken.</li>
+		</ul>
+		<li>The collection of all possible statistical manifolds forms a semi-group. (Like a group, but with no inverse.)</li>
+		<li>Within the semi-group are proper subgroups of statistical manifolds characterized by their common Hasse diagram.</li>
+		<li>There is a partial ordering of these subgroups.</li>
+		Let $G_1$ and $G_2$ are two sub-groups.  If there exist statistical manifolds $\mathcal{M}_1 \in G_1$ and $\mathcal{M}_2 \in G_2$ such that the observations for $\mathcal{M}_1 \subset \mathcal{M}_2$ then $G_1 \prec G_2$
+		
+		</ul>
+	    </div>
+	  </section>
+
+	  <!------------------------------------------------------------------------------------------------>
+	  <section>
+	    <h2 style="position:absolute; top:0px">The Observation Semi-Group</h2>
+	    <div align=left>
+	      Very little is known about the observation semi-group and the relationship among its subgroups.
+	      <br /><br />
+	      <ul>
+		<li>There exists a maximal subgroup $G_{max}$</li>
+		<li>It's Hasse diagram is that of the abstract model.</li>		
+		<li>We speculate that parameter nonidentifiability (both structural and practical) can be defined in terms of the observation subgroups.</li>
+	      </ul>
+	    </div>
+	  </section>
+	</section>
+
+	<section>
+	  <!------------------------------------------------------------------------------------------------>
+	  <section>
+	    <h2 style="position:absolute; top:0px">Abstract Model Manifold</h2>
+	    <div align=center>
+	      Many statistical manifolds have a common structure:
+	      <br />
+	      <ul>
+		<li>A few long directions</li>
+		<li>Many narrow directions</li>
+		<li>Hyper-ribbon, low effective dimensionality</li>
+		<li>Universality, effective theories, sloppiness</li>
+	      </ul>
+	      <br /><br />
+	      What is the structure of a typical abstract model manifold?
+	    </div>
+	  </section>
+
+	  <!------------------------------------------------------------------------------------------------>
+	  <section>
+	    <h2 style="position:absolute; top:0px">Abstract Model Manifold</h2>
+	    <div style="position:absolute; top:15%; left:0; width:50%; height:;">
+	      For a complex system, the Hasse diagram of the abstract manifold is combinatorially complex:
+	    </div>
+	    <img src="Figures/Transtrum2016Information/HasseDiagramsESR.png" alt="" style="position:absolute; top:50%; left:0%; width:49%; height:;"/>	    
+	    <img src="Figures/Transtrum2016Information/ESR_1.png" alt="" style="position:absolute; top:15%; left:50%; width:50%; height:;"/>
+	    <img src="Figures/Transtrum2016Information/ESR_CG.png" alt="" style="position:absolute; top:50%; left:50%; width:50%; height:;"/>
+	  </section>
+
+	  <!------------------------------------------------------------------------------------------------>
+	  <section>
+	    <h2 style="position:absolute; top:0px">Example: Multiple Exponentials</h2>
+	    <img src="Figures/Gallery/ExpCDataSpace.png" alt="" />	    
+	  </section>
+
+	  <!------------------------------------------------------------------------------------------------>
+	  <section>
+	    <h2 style="position:absolute; top:0px">Example: Cluster Expansion</h2>
+	    <img src="Figures/8Simplex.png" alt="" />
+	  </section>
+
+	</section>
+
+	<!------------------------------------------------------------------------------------------------>
+	<section>
+	  <section>
+	    <h2 style="position:absolute; top:0px">Example: Exponential Families</h2>
+	    <div align=left>
+	      Probability distribution for a discrete set of outcomes:
+	      $$ P_i = \frac{1}{Z} e^{-\sum_\mu \Pi_{i\mu} \theta^\mu} $$
+	      Completely characterized by the $\Pi$ matrix.
+	      <br />
+	      $\Pi$ is an $M$x$N$ matrix
+	      <ul>
+		<li>$M$ outcomes</li>
+		<li>$N$ parameters</li>
+
+	      </ul>
+	      <br /><br />
+	      Examples:
+	      <br />
+	      <ul>
+		<li>Ising Model</li>
+		<li>Markov Random Field</li>
+		<li>Cluster Expansion (alloys crystal structure)</li>
+
+	      </ul>
+	    </div>
+	  </section>
+
+	  <!------------------------------------------------------------------------------------------------>
+	  <section>
+	    <h2 style="position:absolute; top:0px">Topology of Exponential Families</h2>
+	    <div align=left style="position:absolute; top:15%; left:0; width:50%; height:;">
+	      <ul>
+		<li>Each row of $\Pi$ corresponds to a particular outcome (e.g., crystal structure)</li>
+		<li>Each row of $\Pi$ is a vector in parameter space.</li>
+		<li>Plot the rows of $\Pi$ as points in parameter space.</li>
+		<li>The convex hull of these points has the same boundary structure as the abstract model.</li>
+	      </ul>
+	    </div>
+	    <img src="Figures/Transtrum2016Manifold/ConvexHull.png" alt="" style="position:absolute; top:15%; left:50%; width:50%; height:;"/>
+	      <div style="position:absolute; top:90%; left:0; width:; height:; font-size:50%;" align=left>
+		Transtrum, Mark K. "Manifold boundaries give" gray-box" approximations of complex models." arXiv preprint arXiv:1605.08705 (2016).
+	      </div>
+	    
+	  </section>
+
+	  <!------------------------------------------------------------------------------------------------>
+	  <section>
+	    <h2 style="position:absolute; top:0px">Reduced Models of Exponential Families</h2>
+	    <div align=left>
+	      The boundary models of the exponential families:
+	      <br />
+	      <ul>
+		<li>Several outcomes have zero probability.</li>
+		<li>Fewer parameters to describe the relative probabilities among these reduced set of outcomes.</li>
+	      </ul>
+	      <br /><br />
+	      For the case of cluster expansion and crystal structures:
+	      <ul>
+		<li>Zero parameter boundaries have one outcome: the ground state, i.e., stable crystal structure.</li>
+		<li>One parameter boundaries describe the control parameter for the phase transition between the two ground states.</li>
+	      </ul>
+	    </div>
+	  </section>
+
+	  <!------------------------------------------------------------------------------------------------>
+	  <section>
+	    <h2 style="position:absolute; top:0px">Example: Binary Alloy on 2D 4x4 unit cell</h2>
+	    <img src="Figures/Transtrum2016Information/IsingSquareTree.png" alt="" style="position:absolute; top:25%; left:0%; width:60%; height:;"/>
+	    <div style="position:absolute; top:35%; left:65%; width:; height:;">
+	      <ul>
+		<li class="fragment" data-fragment-index="1">Complete information about the phase diagram of this model.</li>
+		<li class="fragment" data-fragment-index="12">Which simple models are appropriate for which regimes.</li>
+
+	      </ul>
+	    </div>
+	  </section>
+
+	</section>	
+
+	<section>
+	  <!------------------------------------------------------------------------------------------------>
+	  <section>
+	    <h2 style="position:absolute; top:0px">Final Thoughts About Modeling Complex Systems</h2>
+	    <div>
+	      <ul>
+		<li>There is no theory of complex systems.</li>
+		<li>What would a theory look like?</li>
+		A theory of using models to confidently make predictions about any scientific question.
+		<ul>
+		  <li>What model to use?</li>
+		  <li>Where is the model valid?</li>
+		  <li>Akin to universality classes, RG.</li>
+		</ul>
+	      </ul>
+	    </div>
+	  </section>
+
+	  <!------------------------------------------------------------------------------------------------>
+	  <section>
+	    <h2 style="position:absolute; top:0px">Lessons from Information Topology</h2>
+	    <div align=left style="position:absolute; top:20%; left:0; width:50%; height:; font-size:90%" class="fragment" data-fragment-index="1">
+	      <ul>
+		<li>Hasse diagrams are exponentially complex</li>
+		<li>Physical systems can exhibit a combinatorially large number of behaviors.</li>
+		<li>Most real observations only probe a small set of these behaviors.</li>
+		<li>Manifold collapse leads to good approximate models for these limited behaviors.</li>
+		<li>Reduced models are only valid for a limited range of behaviors.</li>		
+	      </ul>
+	    </div>
+
+	    <div align=left style="position:absolute; top:20%; left:50%; width:50%; height:; font-size:90%" class="fragment" data-fragment-index="2">
+	      <ul>
+		<li>The <b>Abstract Model Hasse Diagram</b> relates the intricate description of a complex system through various types of approximations to the set of distinct behavior regimes the model enables. 
+		</li>
+		<li>The <b>Observation Semi-Group</b> relates how different types of coarse-graining lead to systematic compression of the underlying parameter space. </li>
+
+		
+	      </ul>
+	    </div>
+
+	  </section>
+
+	  <!------------------------------------------------------------------------------------------------>
+	  <section>
+	    <h2 style="position:absolute; top:0px">A Complex Model Manifold</h2>
+	    <img src="Figures/AbravanalHallSculpture.JPG" alt="" style="position:absolute; top:10%; left:; width:; height:85%;"/>
+	  </section>
+	</section>
+
+      </div>
+    </div>
+    
+    <script src="lib/js/head.min.js"></script>
+    <script src="js/reveal.js"></script>
+    
+    <script>
+      // More info https://github.com/hakimel/reveal.js#configuration
+      Reveal.initialize({
+      center: false,  <!-- Center slide vertically -->
+      history: true,
+      progress: true,
+      width: 1024,
+      height: 768,
+      margin: 0.1,
+      minScale: 0.2,
+      maxScale: 1.5,
+      // More info https://github.com/hakimel/reveal.js#dependencies
+      dependencies: [
+      { src: 'plugin/markdown/marked.js' },
+      { src: 'plugin/markdown/markdown.js' },
+      { src: 'plugin/notes/notes.js', async: true },
+      { src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+      // MathJax
+      { src: 'plugin/math/math.js', async: true }
+      
+      ]
+      });
+    </script>
+  </body>
+</html>

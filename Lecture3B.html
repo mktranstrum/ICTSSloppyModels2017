@@ -1,0 +1,211 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    
+    <title>Other Reduction Methods</title>
+    
+    <link rel="stylesheet" href="css/reveal.css">
+    <link rel="stylesheet" href="css/theme/white.css">
+    
+    <!-- Theme used for syntax highlighting of code -->
+    <link rel="stylesheet" href="lib/css/zenburn.css">
+    
+    <!-- Printing and PDF exports -->
+    <script>
+      var link = document.createElement( 'link' );
+      link.rel = 'stylesheet';
+      link.type = 'text/css';
+      link.href = window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css' : 'css/print/paper.css';
+      document.getElementsByTagName( 'head' )[0].appendChild( link );
+    </script>
+  </head>
+  <body>
+    <div class="reveal">
+      <div class="slides">
+	<style>
+	  ol.clickerquiz {list-style-type: upper-alpha;}
+	</style>
+	<section>
+	  <H1>Other Reduction Methods</H1>
+	  <br>
+	  <H2></H2>
+	</section>
+
+	<!------------------------------------------------------------------------------------------------>
+	<section>
+	  <h2 style="position:absolute; top:0px">Previously...</h2>
+	  <div align=left>
+	    We have seen previously that MBAM is closely related to several model reduction methods.
+	    <br />
+	    <ul>
+	      <li>Renormalization Group (Ising Model)</li>
+	      <li>Singular Perturbation (Power Systems)</li>
+	      <li>Equilibrium/Steady State Approximations (Chemical Kinetics)</li>
+	    </ul>
+	    <br /><br />
+	    Other cases that we haven't shown explicitly here (although elsewhere), that are plausible:
+	    <br />
+	    <ul>
+	      <li>Thermodynamic limit $(N \rightarrow \infty)$</li>
+	      <li>Continuum limit $(a \rightarrow 0)$</li>
+	      <li>Classical limits $(\hbar \rightarrow 0, c \rightarrow \infty)$</li>
+	    </ul>
+	  </div>
+	</section>
+	
+	<!------------------------------------------------------------------------------------------------>
+	<section>
+	  <section>
+	    <h2 style="position:absolute; top:0px">Control Theory: Balanced Truncation</h2>
+	    <div align=left>
+	      <b>Background:</b> Linear Time Invariant (LTI) systems:
+	      \begin{align}
+	      \frac{dx}{dt} & = Ax + Bu \\
+	      y & = Cx + Du
+	      \end{align}
+	      States, $x$, are not observed directly, but through the observation function $y$, and controlled through $u(t)$.
+	      <br /><br />
+	      States have different levels of controllability (how easily they can be pushed to a particular state through $u(t)$) and observability (how easily they can be inferred through $y$).
+	    </div>
+	  </section>
+
+	  <!------------------------------------------------------------------------------------------------>
+	  <section>
+	    <h2 style="position:absolute; top:0px">Transformations</h2>
+	    <div align=left style="font-size:90%">
+	      Observations $y$ are invariant to the following transformation:
+	      \begin{align}
+	      x & \rightarrow Tx \\
+	      A & \rightarrow T A T^{-1} \\
+	      B & \rightarrow T B \\
+	      C & \rightarrow C T^{-1}
+	      \end{align}
+	      <br />
+	      There exists a transformation $T$ that makes the new states $Tx$ equally observable as controllable, known as the <i>Balanced Realization</i>.
+	      <br /><br />
+	      <b>Balanced Truncation:</b> Ignoring the least controllable/observable states in the balanced realization.
+	      <br />
+	      <b>Balanced Singular Perturbation:</b> Algebraically slaving the least controllable/observable state to the others.
+	    </div>
+	  </section>
+
+	  <!------------------------------------------------------------------------------------------------>
+	  <section>
+	    <h2 style="position:absolute; top:0px">MBAM Approach</h2>
+	    <div align=left>
+	      <ul>
+		<li>Construct a complete parameterization of the LTI system.</li>
+		<li>Construct geodesics on the corresponding model manifold.</li>
+	      </ul>
+	      <br /><br />
+	      <b>Result:</b>
+	      <ul>
+		<li>Balanced Singular Perturbation is a boundary of the LTI system.</li>
+		<li>Balanced Truncation is a boundary of the Balanced Singular Perturbation approximation (i.e., a corner of the LTI manifold)</li>
+	      </ul>
+	    </div>
+	    <div style="position:absolute; top:90%; left:0; width:; height:; font-size:50%;" align=left>
+	      Pare, Philip et al., "A unified view of balanced truncation and singular perturbation approximations". American Control Conference, Chicago, 2015.
+	    </div>
+
+	  </section>
+	</section>
+
+	<!------------------------------------------------------------------------------------------------>	
+	<section>	  
+	  <h2 style="position:absolute; top:0px">More Recent Developments</h2>	  
+	</section>
+
+	<section>
+	  <!------------------------------------------------------------------------------------------------>
+	  <section>
+	    <h2 style="position:absolute; top:0px">Likelihood profile based approach</h2>
+	    <img src="Figures/Maiwald2016/LikelihoodApproach.jpg" alt="" style="position:absolute; top:15%; left:10%; width:80%; height:;"/>
+	    <div style="position:absolute; top:90%; left:0; width:; height:; font-size:50%;" align=left>
+	      Maiwald, Tim, et al. "Driving the Model to Its Limit: Profile Likelihood Based Model Reduction." PloS one 11.9 (2016): e0162366.	      
+	    </div>
+	    
+	  </section>
+
+	  <!------------------------------------------------------------------------------------------------>
+	  <section>
+	    <h2 style="position:absolute; top:0px">Comparison to Likelihood Approach</h2>
+	    <div>
+	      <ul>
+		<li>MBAM will also identify limiting approximations</li>
+		<li>In most cases, these methods are effectively equivalent.</li>
+
+		<li>The technical details of how they are found differ.</li>
+		<ul>
+		  <li>Geodesics vs. Constructing Likelihood Profiles</li>
+		  <li>Computational Efficiency?</li>
+		  <li>MBAM = Approximation by boundary (however that boundary is found)</li>
+		</ul>
+		<li>Not all boundaries are extreme parameter values</li>
+		<ul>
+		  <li>Fold line and other symmetries</li>
+		  <li>Restrictions of the domain</li>
+		</ul>
+	      </ul>
+	    </div>
+	  </section>
+	</section>
+
+	<section>
+	  <!------------------------------------------------------------------------------------------------>
+	  <section>
+	    <h2 style="position:absolute; top:0px">Minimally Disruptive Curves</h2>
+	    <div align=left style="position:absolute; top:12%; left:0; width:50%; height:;">
+	      <ul>
+		<li>Multiscale Sloppiness:</li>
+		<li>Generalize sloppiness beyond infinitesimal parameter fluctuations.</li>		
+		<li>Path through parameter space that gives least change in model behavior.</li>
+		<li>Infer functional form of "practical unidentifiability"</li>
+		<li>Can identify structural unidentifiabilities.</li>
+
+
+	      </ul>
+	      </div>
+	      <img src="./Figures/Raman2016/MinimallyDisruptiveCurve.jpg" alt="" style="position:absolute; top:25%; left:50%; width:50%; height:;"/>
+
+
+	      <div style="position:absolute; top:90%; left:0; width:; height:; font-size:50%;" align=left>
+		Raman, Dhruva V., James Anderson, and Antonis Papachristodoulou. "Delineating Parameter Unidentifiabilities in Complex Models." arXiv preprint arXiv:1607.07705 (2016).
+	      </div>
+	  </section>
+
+	</section>	  
+
+      </div>
+    </div>
+    
+    <script src="lib/js/head.min.js"></script>
+    <script src="js/reveal.js"></script>
+    
+    <script>
+      // More info https://github.com/hakimel/reveal.js#configuration
+      Reveal.initialize({
+      center: false,  <!-- Center slide vertically -->
+      history: true,
+      progress: true,
+      width: 1024,
+      height: 768,
+      margin: 0.1,
+      minScale: 0.2,
+      maxScale: 1.5,
+      // More info https://github.com/hakimel/reveal.js#dependencies
+      dependencies: [
+      { src: 'plugin/markdown/marked.js' },
+      { src: 'plugin/markdown/markdown.js' },
+      { src: 'plugin/notes/notes.js', async: true },
+      { src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+      // MathJax
+      { src: 'plugin/math/math.js', async: true }
+      
+      ]
+      });
+    </script>
+  </body>
+</html>

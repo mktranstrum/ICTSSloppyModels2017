@@ -1,0 +1,437 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    
+    <title>Applications of MBAM</title>
+    
+    <link rel="stylesheet" href="css/reveal.css">
+    <link rel="stylesheet" href="css/theme/white.css">
+    
+    <!-- Theme used for syntax highlighting of code -->
+    <link rel="stylesheet" href="lib/css/zenburn.css">
+    
+    <!-- Printing and PDF exports -->
+    <script>
+      var link = document.createElement( 'link' );
+      link.rel = 'stylesheet';
+      link.type = 'text/css';
+      link.href = window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css' : 'css/print/paper.css';
+      document.getElementsByTagName( 'head' )[0].appendChild( link );
+    </script>
+  </head>
+  <body>
+    <div class="reveal">
+      <div class="slides">
+	<style>
+	  ol.clickerquiz {list-style-type: upper-alpha;}
+	</style>
+	<section>
+	  <H1>Applications of MBAM</H1>
+	  <br>
+	  <H2></H2>
+	</section>
+
+	<!------------------------------------------------------------------------------------------------>
+	<section>
+	  <h2 style="position:absolute; top:0px">MBAM</h2>
+	  <div align=left>
+	    <ol>
+	      <li>Choose an initial direction: eigenvector of $\mathcal{I}$ with smallest eigenvalue</li>
+	      <ul>
+		<li>Choose the orientation so that the parameter space norm will grow when following the geodesic.</li>
+		<li>This direction is usually involves a complicated combination of most parameters.</li>
+	      </ul>
+	      <li>Solve the geodesic equation numerically</li>
+	      <li>Monitor the behavior of the parameters in the geodesic to identify a limiting approximation.</li>
+	      <ul>
+		<li>Requires some human intervention/insight.</li>
+		<li>Evaluate the limit to remove one parameter combination.</li>
+	      </ul>
+	      <li>Fit the behavior of the new model to original behavior.</li>
+
+	    </ol>
+	  </div>
+	</section>
+	
+	<!------------------------------------------------------------------------------------------------>
+	<section>	
+	  <section>
+	    <h2 style="position:absolute; top:0px">Systems Biology: Adaptation</h2>
+	    <div align=left style="position:absolute; top:10%; left:0; width:; height:;">
+	      <b>Adaptation:</b> The ability of a system to reset itself after responding to a stimulus.
+	      <br />
+	      Characterized by four phenomenological parameters, $\phi$.
+	    </div>
+	    <img src="Figures/Transtrum2016Bridging/Adaptation.jpg" alt="" style="position:absolute; top:30%; left:15%; width:70%; height:;"/>
+	    <div style="position:absolute; top:90%; left:0; width:; height:; font-size:50%;" align=left>
+	      Transtrum, Mark K., and Peng Qiu. "Bridging Mechanistic and Phenomenological Models of Complex Biological Systems." PLoS Comput Biol 12.5 (2016): e1004915.
+	    </div>
+	  </section>
+
+	  <!------------------------------------------------------------------------------------------------>
+	  <section>
+	    <h2 style="position:absolute; top:0px">Mechanisms of Adaptation</h2>
+	    <div align=left style="position:absolute; top:10%; left:; width:; height:;">
+	      An exhaustive search* of all possible 3-node enzyme network topologies revealed all adaptive networks fall into two broad categories:
+	      <br />
+	      <ol>
+		<li>Incoherent Feed Forward Loop (IFFLP)</li>
+		<li>Negative Feedback Loop (NFBL)</li>
+	      </ol>
+	    </div>
+	    <img src="Figures/Transtrum2016Bridging/Topologies.jpg" alt="" style="position:absolute; top:40%; left:25%; width:50%; height:;"/>
+	    <div style="position:absolute; top:90%; left:0; width:; height:; font-size:50%;" align=left>
+	      Ma, Wenzhe, et al. "Defining network topologies that can achieve biochemical adaptation." Cell 138.4 (2009): 760-773.
+	    </div>
+	  </section>
+
+	  <!------------------------------------------------------------------------------------------------>
+	  <section>
+	    <h2 style="position:absolute; top:0px">Negative Feedback Loop</h2>
+	    <div align=center style="font-size:80%">
+	      \begin{align}
+	      \frac{dA}{dt} & = k_{IA} I \frac{ 1 - A}{1 - A + K_{IA}} - F_A k_{FA} \frac{A}{A + K_{FA}} \\
+	      \frac{dB}{dt} & = k_{CB} C \frac{ 1 - B}{1 - B + K_{CB}} - F_B k_{FB} \frac{B}{B + K_{FB}} \\
+	      \frac{dC}{dt} & = k_{AC} A \frac{ 1 - C}{1 - C + K_{AC}} - k_{BC} B \frac{C}{C + K_{BC}}
+	      \end{align}
+	      <br />
+	      The first three MBAM limits are
+	      <br />
+	      <ol>
+		<li>$k_{FA}, K_{FA} \rightarrow \infty$</li>		
+		<li>$k_{CB}, K_{CB} \rightarrow \infty$</li>
+		<li>$ (k_{CB}/K_{CB}), k_{FB}, K_{FB}, 1/k_{BC} \rightarrow 0$</li>
+	      </ol>
+	      <br /><br />
+	      <b>Exercise:</b> Find the model after evaluating these three limits.
+	    </div>
+	  </section>
+
+	  <!------------------------------------------------------------------------------------------------>
+	  <section>
+	    <h2 style="position:absolute; top:0px">Solution:</h2>
+	    <div>
+	      \begin{align}
+	      \frac{dA}{dt} & = k_{IA} I \frac{ 1 - A}{1 - A + K_{IA}} - \left( \frac{k_{FA}}{K_{FA}} \right) F_A A \\
+	      \frac{d \tilde{B}}{dt} & = \left( \frac{k_{CB} k_{BC}}{K_{BC}} \right) C - F_B \left( k_{FB} k_{BC} \right) \frac{ \tilde{B}}{\tilde{B} + \left( K_{FB}k_{BC} \right) } \\
+	      \frac{dC}{dt} & =  k_{AC} A \frac{ 1 - C}{1 - C + K_{AC}} - \tilde{B} \frac{C}{C + K_{BC}} \\
+	      \tilde{B} & = k_{BC} B
+	      \end{align}
+	    </div>
+	  </section>
+
+	  <!------------------------------------------------------------------------------------------------>
+	  <section>
+	    <h2 style="position:absolute; top:0px">Reduced NFBL</h2>
+	    <div align=left style="font-size:80%; position:absolute; top:15%; left:0; width:50%; height:;">
+	      \begin{align}
+	      \frac{dA}{dt} & =  k_{IA} \Theta(1 - A) \\
+	      \frac{d \tilde{B}}{dt} & = \left( \frac{k_{CB} k_{BC}}{K_{CB} K_{BC} } \right) C - F_B \left( \frac{k_{FB}}{K_{FB}} \right) \tilde{B} \\
+	      \frac{dC}{dt} & = k_{AC} A \Theta(1 - C) - \tilde{B} C
+	      \end{align}
+	    </div>
+	    <img src="Figures/Transtrum2016Bridging/NFBLSensitivities.jpg" alt="" style="position:absolute; top:0%; left:50%; width:50%; height:;"/>
+	    <div style="position:absolute; top:60%; left:; width:; height:;">
+	      Four parameters.  Their sensitivities span the same four phenomenological degrees of freedom as $\phi$.
+	    </div>
+	  </section>
+
+	  <!------------------------------------------------------------------------------------------------>
+	  <section>
+	    <h2 style="position:absolute; top:0px">Reduced IFFLP</h2>
+	    <div align=left style="font-size:80%; position:absolute; top:15%; left:0; width:50%; height:;">
+	      \begin{align}
+	      \frac{dA}{dt} & = k_{IA} \Theta(1- A) \\
+	      \frac{dB}{dt} & = k_{AB} A \Theta(1 - B) \\
+	      \frac{dC}{dt} & = k_{AC} A \Theta(1 - C) - \frac{k_{BC}}{K_{BC}} B C
+	      \end{align}
+	    </div>
+	    <div style="position:absolute; top:60%; left:; width:; height:;">
+	      Four parameters.  Their sensitivities span the same four phenomenological degrees of freedom as $\phi$ and as the reduced NFBL model.
+	    </div>
+	    <img src="Figures/Transtrum2016Bridging/IFFLPSensitivities.jpg" alt="" style="position:absolute; top:0%; left:50%; width:50%; height:;"/>
+	  </section>
+	</section>
+
+	<!------------------------------------------------------------------------------------------------>
+	<section>
+	  <section>
+	    <h2 style="position:absolute; top:0px">EGFR Revisited</h2>
+	    <div align=left style="position:absolute; top:15%; left:0; width:; height:;">
+	      <ul>
+		<li>MBAM reduces a model while trying to preserve a set of predictions.</li>
+		<li>Different choices of predictions could lead to different models.</li>
+		<li>The original EGFR simplification (12 parameters) fit the data of Brown et al..</li>
+		<li>Other possibilities</li>
+		<ul>
+		  <li>All species (19 parameters)</li>
+		  <li>Brown et al., Experiments (12 Parameters)</li>
+		  <li>Input/Output behavior in response to EGF and NGF, (6 Parameters) </li>
+		  <li>Input/Output behavior in response to EGF (4 parameters=NFBL Adaptation)</li>
+
+		  
+		</ul>
+	      </ul>
+	    </div>
+	  </section>
+
+	  <!------------------------------------------------------------------------------------------------>
+	  <section>
+	    <div style="position:absolute; top:0%; left:0; width:48%; height:;" align=left>
+	      Reducing the number of parameters systematically condenses the network topology to reveal the negative feedback loop controlling the adaptive response to EGF.
+	    </div>
+
+	    <img src="Figures/Transtrum2016Bridging/EGFREigenvalues.jpg" alt="" style="position:absolute; top:40%; left:0; width:49%; height:;"/>
+	    <img src="Figures/Transtrum2016Bridging/EGFRNetworks.jpg" alt="" style="position:absolute; top:0; left:50%; width:50%; height:;"/>
+	  </section>
+
+	</section>
+
+	<!------------------------------------------------------------------------------------------------>
+	<section>
+	  <section>
+	    <h2 style="position:absolute; top:0px">Adaptation: Why stop at 4 parameters?</h2>
+	    <div>
+	      <ul>
+		<li>Although four phenomenological parameters define an adaptation curve, we can remove more parameters from the model</li>
+		<li>The chemical control knobs cannot tune the phenomenological parameters arbitrarily.</li>
+		<ul>
+		  <li>Boundaries limit ranges of behavior.</li>
+		  <li>Example: Perfect adaptation, $\phi_4 = 0$, is difficult.</li>		
+		</ul>
+		<li>What is the minimal number of parameters that still give an adaptation-like curve?</li>
+
+	      </ul>
+	    </div>
+	  </section>
+
+	  <!------------------------------------------------------------------------------------------------>
+	  <section>
+	    <h2 style="position:absolute; top:0px">Minimal Models of Adapatation</h2>
+	    <div style="position:absolute; top:15%; left:0; width:50%; height:;">
+	      <b>NFBLB</b>
+	      \begin{align}
+	      \frac{dC}{dt} & = k_AC I \Theta(1 - C) - \tilde{B} C \\
+	      \frac{d\tilde{B}}{dt} & = \frac{k_{CB} k_{BC}}{K_{CB} K_{BC}} C 
+	      \end{align}
+	    </div>
+	    <div style="position:absolute; top:15%; left:50%; width:50%; height:;">
+	      <b>IFFLP</b>
+	      \begin{align}
+	      \frac{dC}{dt} & = k_{AC} I \Theta(1 - C) - \tilde{B} C \\
+	      \frac{d\tilde{B}}{dt} & = \frac{k_{AB} k_{BC}}{K_{BC}} I
+	      \end{align}
+	    </div>
+	    <div style="position:absolute; top:50%; left:0; width:; height:;">
+	      <ul>
+		<li>Both models involve two parameters.</li>
+		<li>Two characteristic time-scales:</li>
+		<ul>
+		  <li>Time to respond</li>
+		  <li>Time to reset</li>
+		</ul>
+		<li>Adaptation curves universally characterized by the ratio of these two times: $\tau$.</li>
+	      </ul>
+	    </div>
+	  </section>
+
+	  <!------------------------------------------------------------------------------------------------>
+	  <section>
+	    <h2 style="position:absolute; top:0px">Trade-offs in Adaptation</h2>
+	    <img src="Figures/Transtrum2016Bridging/UniversalCurves.jpg" alt="" style="position:absolute; top:10%; left:0; width:60%; height:;"/>
+	    <div style="position:absolute; top:15%; left:65%; width:; height:;" align=left>
+	      Universal Adaptation curves for different values of $\tau$.
+	    </div>
+	    <img src="Figures/Transtrum2016Bridging/Tradeoffs.jpg" alt="" style="position:absolute; top:50%; left:40%; width:60%; height:;"/>
+	    <div style="position:absolute; top:45%; left:0; width:40%; height:; font-size:80%">
+	      <ul>
+		<li>$\tau$ controls both maximal response size and time.</li>
+		<li><b>Hypothesis:</b> Biological adaptation evolved to maximize something subject to this constraint.</li>
+		<li>This prediction only possible by considering the relationship between mechanism and phenomenology.</li>
+	      </ul>
+	    </div>
+	  </section>
+	</section>
+
+	<!------------------------------------------------------------------------------------------------>
+	<section>
+	  <!------------------------------------------------------------------------------------------------>
+	  <section>
+	    <h2 style="position:absolute; top:0px">Nuclear Energy Density Functional</h2>
+	    <div>
+	      <b>Model:</b> Semiempirical functionals that start from a microscopically motivated
+ansatz for the density dependence of the energy of a system of protons and neutrons
+	    </div>
+	    
+	    <div style="position:absolute; top:90%; left:0; width:; height:; font-size:50%;" align=left>
+	      Nikšić, Tamara, and Dario Vretenar. "“Sloppy” nuclear energy density functionals: Effective model reduction." Physical Review C 94.2 (2016): 024333.
+	    </div>
+	  </section>
+
+
+	  <!------------------------------------------------------------------------------------------------>
+	  <section>
+	    <h2 style="position:absolute; top:0px">FIM Eigenvectors and Manifold Widths</h2>
+	    <img src="Figures/Niksic2016/Eigenvectors.png" alt="" style="position:absolute; top:15%; left:20%; width:60%; height:;"/>
+	  </section>
+
+	  <!------------------------------------------------------------------------------------------------>
+	  <section>
+	    <h2 style="position:absolute; top:0px">Geodesics and Boundaries</h2>
+	    <img src="Figures/Niksic2016/Geodesic.png" alt="" style="position:absolute; top:10%; left:0; width:100%; height:;"/>
+	  </section>
+
+	  <!------------------------------------------------------------------------------------------------>
+	  <section>
+	    <h2 style="position:absolute; top:0px">Conclusions</h2>
+	    <div align=left>
+	      "...a viable strategy is to start with a very general
+	      ansatz for the functional form of the density dependence,
+	      derived or motivated by a microscopic many-body calculation,
+	      even if the resulting functional is manifestly sloppy....
+
+	      The important
+	      result is that, instead of a priori deciding on the form of the
+	      functional density dependence to be used in calculations of
+	      finite nuclei, and then optimizing the given set of parameters,
+	      by using the MBAM it becomes possible that the data that one
+	      wishes to describe determine the form of the functional. Ideally
+	      the final result should be a nonsloppy functional that contains
+	      only stiff combinations of parameters and can, therefore, be
+	      reliably extrapolated to regions where no data are available."
+	    </div>
+	  </section>
+
+	</section>
+
+	<!------------------------------------------------------------------------------------------------>
+	<section>
+	  <h2 style="position:absolute; top:0px">Power Systems Engineering</h2>
+
+	</section>
+
+	<!------------------------------------------------------------------------------------------------>
+	<section>
+	  <section>
+	    <h2 style="position:absolute; top:0px">Inferring Mechanisms: Adaptation Revisited</h2>
+	    <div style="position:absolute; top:20%; left:0; width:50%; height:;" align=left>
+	      Ma et al. conducted an exhaustive search of all 3-node enzyme networks (&gt; 16,000) in search of mechanisms that can achieve adaptation.
+	      <br /><br />
+	      <b>Results:</b>
+	    </div>
+	    <div style="position:absolute; top:65%; left:0; width:100%; height:;">
+	      <ul>
+		<li>395 distinct could achieve adaptation</li>
+		<li>All networks contained either a incoherent feed forward or a negative feedback motif.</li>
+	      </ul>
+	    </div>
+	    <img src="Figures/Ma2009/AllNetworks.jpg" alt="" style="position:absolute; top:15%; left:50%; width:50%; height:;"/>
+	    <div style="position:absolute; top:90%; left:0; width:; height:; font-size:50%;" align=left>
+	      Ma, Wenzhe, et al. "Defining network topologies that can achieve biochemical adaptation." Cell 138.4 (2009): 760-773.
+	    </div>
+	  </section>
+
+	  <!------------------------------------------------------------------------------------------------>
+	  <section>
+	    <h2 style="position:absolute; top:0px">MBAM Approach</h2>
+	    <div style="position:absolute; top:15%; left:0; width:50%; height:;">
+	      <ul>
+		<li>We considered the "Fully Connected" 3-node Network (FCN)</li>
+		<li>Physically unrealistic</li>
+		<li>All real networks can be achieved by limiting approximations</li>
+		<li>Use MBAM to remove unnecessary edges.</li>
+		
+	      </ul>
+	    </div>
+	    <img src="Figures/Asp2016/FCN.png" alt="" style="position:absolute; top:15%; left:50%; width:50%; height:;"/>
+	    <div style="position:absolute; top:90%; left:0; width:; height:; font-size:50%;" align=left>
+	      Asp, Merrill. "Adaptation in Enzyme Networks: Searching for Minimal Mechanisms." Senior Thesis. Brigham Young University. (2016)
+	    </div>
+
+	  </section>
+
+	  <!------------------------------------------------------------------------------------------------>
+	  <section>
+	    <h2 style="position:absolute; top:0px">Discovered Mechanism</h2>
+	    <div style="position:absolute; top:15%; left:0; width:50%; height:;">
+	      <ul>
+		<li>Minimal Network Recovered by MBAM</li>
+		<li>Not present in the list of Ma et al.</li>
+		<li>Presumably other mechanisms could be recovered by repeating from other starting points?</li>
+		<li>Is there anyway to recover all mechanisms?</li>
+		<li>Can this approach be scaled to larger networks?</li>
+
+	      </ul>
+	    </div>
+	    <img src="Figures/Asp2016/DiscoveredNetwork.png" alt="" style="position:absolute; top:15%; left:55%; width:45%; height:;"/>
+	  </section>
+
+	</section>
+
+	<section>
+	  <!------------------------------------------------------------------------------------------------>
+	  <section>
+	    <h2 style="position:absolute; top:0px">Neuroscience: Hodgkin-Huxley</h2>
+	    
+	    <div style="position:absolute; top:25%; left:0; width:50%; height:;" align=left>
+	      <ul>
+	    	<li>Single Hodgkin-Huxley neuron in response to varying input current</li>
+	    	<li>Explores transition from non-spiking to spiking and back to non-spiking</li>
+	      </ul>
+	    </div>
+
+	    <div style="position:absolute; top:60%; left:0; width:100%; height:;" align=left>
+	      <ul>
+	    	<li>25 parameter model (3 structurally unidentifiable)</li>
+	    	<li>Fit well with 15 parameter model (shown)</li>
+	    	<li>Spiking vanishes at 12 parameters</li>
+		<li>Which predictions are important?</li>
+
+	      </ul>
+	    </div>
+
+	    <img src="Figures/Neuroscience/hh15.png" alt="" style="position:absolute; top:15%; left:50%; width:50%; height:;"/>
+	    
+	    <div style="position:absolute; top:90%; left:0; width:; height:; font-size:50%;" align=left>
+	      Barh, Tyler et al., Unpublished.
+	    </div>
+
+
+	  </section>
+	  
+	</section>
+
+	
+      </div>
+    </div>
+    
+    <script src="lib/js/head.min.js"></script>
+    <script src="js/reveal.js"></script>
+    
+    <script>
+      // More info https://github.com/hakimel/reveal.js#configuration
+      Reveal.initialize({
+      center: false,  <!-- Center slide vertically -->
+      history: true,
+      progress: true,
+      width: 1024,
+      height: 768,
+      margin: 0.1,
+      minScale: 0.2,
+      maxScale: 1.5,
+      // More info https://github.com/hakimel/reveal.js#dependencies
+      dependencies: [
+      { src: 'plugin/markdown/marked.js' },
+      { src: 'plugin/markdown/markdown.js' },
+      { src: 'plugin/notes/notes.js', async: true },
+      { src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+      // MathJax
+      { src: 'plugin/math/math.js', async: true }
+      
+      ]
+      });
+    </script>
+  </body>
+</html>

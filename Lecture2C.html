@@ -253,6 +253,44 @@
 
 	<!------------------------------------------------------------------------------------------------>
 	<section>
+	  <!------------------------------------------------------------------------------------------------>
+	  <section>
+	    <h2 style="position:absolute; top:0px">Practice: Negative Feedback Adaptation</h2>
+	    <div align=center style="font-size:80%">
+	      \begin{align}
+	      \frac{dA}{dt} & = k_{IA} I \frac{ 1 - A}{1 - A + K_{IA}} - F_A k_{FA} \frac{A}{A + K_{FA}} \\
+	      \frac{dB}{dt} & = k_{CB} C \frac{ 1 - B}{1 - B + K_{CB}} - F_B k_{FB} \frac{B}{B + K_{FB}} \\
+	      \frac{dC}{dt} & = k_{AC} A \frac{ 1 - C}{1 - C + K_{AC}} - k_{BC} B \frac{C}{C + K_{BC}}
+	      \end{align}
+	      <br />
+	      The first three MBAM limits are
+	      <br />
+	      <ol>
+		<li>$k_{FA}, K_{FA} \rightarrow \infty$</li>		
+		<li>$k_{CB}, K_{CB} \rightarrow \infty$</li>
+		<li>$ (k_{CB}/K_{CB}), k_{FB}, K_{FB}, 1/k_{BC} \rightarrow 0$</li>
+	      </ol>
+	      <br /><br />
+	      <b>Exercise:</b> Find the model after evaluating these three limits.
+	    </div>
+	  </section>
+	  
+	  <!------------------------------------------------------------------------------------------------>
+	  <section>
+	    <h2 style="position:absolute; top:0px">Solution:</h2>
+	    <div>
+	      \begin{align}
+	      \frac{dA}{dt} & = k_{IA} I \frac{ 1 - A}{1 - A + K_{IA}} - \left( \frac{k_{FA}}{K_{FA}} \right) F_A A \\
+	      \frac{d \tilde{B}}{dt} & = \left( \frac{k_{CB} k_{BC}}{K_{BC}} \right) C - F_B \left( k_{FB} k_{BC} \right) \frac{ \tilde{B}}{\tilde{B} + \left( K_{FB}k_{BC} \right) } \\
+	      \frac{dC}{dt} & =  k_{AC} A \frac{ 1 - C}{1 - C + K_{AC}} - \tilde{B} \frac{C}{C + K_{BC}} \\
+	      \tilde{B} & = k_{BC} B
+	      \end{align}
+	    </div>
+	  </section>
+	</section>
+
+	<!------------------------------------------------------------------------------------------------>
+	<section>
 	  <section>
 	    <h2 style="position:absolute; top:0px">EGFR Revisited</h2>
 	    <div align=left style="position:absolute; top:60%; left:55%; width:; height:;">
@@ -290,7 +328,7 @@
 		<li>Effective "renormalized" parameters</li>
 		$$ \phi_9 = \frac{[BRafI] (kRap1ToBRaf)(KmdBRaf)(kpBRaf)(KmdMek)}{[PP2AA][Raf1PPtas](kdBRaf)(KmRap1ToBRaf)(kdMek)} $$
 		<ul>
-		  <li>Interpretation: efective rate of information flow through the channel</li>
+		  <li>Interpretation: effective rate of information flow through the channel</li>
 		  <li>Emergent control knob</li>
 		  <li>No black box</li>
 		  <li>Effect of changes to microscopic parameters can be predicted</li>
@@ -317,7 +355,9 @@
 		<li>Boundaries: $J_{ij} \rightarrow \infty$</li>
 		<ul>
 		  <li>$P(s_i \neq s_j) = 0$</li>
-		  <li>Two spins cluster into a single, larger spin</li>		  
+		  <li>Two spins cluster into a single, larger spin</li>
+		  <li>For each parameter reduction, there is an analogous coarse-graining (general result)</li>
+
 		</ul>
 		<li>Iterating clusters more spins into effective "blocks" of spin</li>
 		<li>Result: model relating effective relationships among large-scale domains</li>
